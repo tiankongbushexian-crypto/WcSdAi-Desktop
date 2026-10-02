@@ -88,6 +88,13 @@ when macOS `iconutil` is available, without overwriting the canonical source.
   `ELECTRON_RUN_AS_NODE=1` (no separate Node shipped).
 - `Resources/licenses/` — notices that must remain distributable when the
   corresponding dependency's build-only source tree is pruned.
+  The shared electron-builder `afterExtract` hook copies
+  `LICENSES.chromium.html` from the actual extracted target runtime into
+  `licenses/Electron-LICENSES.chromium.html` before macOS removes its original
+  root copy. `afterPack` requires the final resource's SHA256 to match before
+  signing and installer creation. Missing, empty or changed notices fail the
+  build on macOS, Windows and Linux. This does not depend on Electron's lazy
+  development installation or a pre-existing `node_modules/electron/dist`.
 - `Resources/app.asar` — Electron Main, preload, renderer output, and only the
   runtime-resolved production modules. Renderer libraries are already present
   in Vite output and are not copied again as raw package trees.

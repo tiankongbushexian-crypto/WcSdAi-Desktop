@@ -169,3 +169,53 @@ This footer-only source adjustment postdates the local package hashes above.
 Hosted packages use the final committed notices. It changes no executable code,
 entitlement or packaging parameter; server-side recognition remains a separate
 metadata check.
+
+## First hosted candidate: delivery checks found a missing notice
+
+[PR #1](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/pull/1)
+merged after all four checks passed for
+`9373158a6b82fea4dc21f51e92610aa89b4cf942`. Its merge commit is
+`0e31e45b25322c68b6b5dec4cf0622347ec9bca5`; local main was synchronized only
+after the remote merge. The repository About description and homepage now use
+WcSdAi / 量动科技 and https://wanchuangsd.cn. README, Chinese README,
+CONTRIBUTING, LICENSE and SECURITY on remote main matched their committed blobs.
+
+[The first native run](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37010853990)
+built all three installers successfully from that merge commit. Downloading
+each artifact and recomputing every `SHA256SUMS` entry passed. Their source
+archives matched the exact committed source and carried SHA-256
+`7472ba6650ba2511b8a51f0ecefbe4ea5e5e2e6120abe9b655cd4f17afaac07c`.
+These are historical build results, **not the accepted download candidate**:
+actual macOS bundle inspection found a missing Chromium notice.
+
+The downloaded arm64 app passed strict ad-hoc verification, native identity,
+icon and all eight tracked legal-file checks. Two isolated launches restored
+all 800 synthetic Sessions, with WcSdAi branding and zh-CN. Its DMG SHA-256 is
+`0f7d2e3b64ecbabb34dafc2552c8adb0893149851d707787c23ee9a8599727c0`.
+No live provider, installed app or real user profile was used. Owned processes,
+profiles and mount points were cleaned. The corresponding ignored evidence is
+`hosted-arm64-verification-37010853990.json`,
+`hosted-team-packaged-smoke-37010853990.json` and
+`download-verification.json` under `.artifacts/wcsdai/`.
+
+The actual package lacked `licenses/Electron-LICENSES.chromium.html` anywhere
+in the app or frameworks. Electron 43.6.0 installs its runtime on demand, not
+through `postinstall`; the clean runner had never started development Electron.
+electron-builder downloaded its own runtime, warned that the extra-resource
+source under `node_modules/electron/dist` did not exist, then continued. Its
+macOS packaging also removes the runtime's root Chromium notice. The local
+developer environment already had that extra-resource source, masking the
+clean-runner omission. This is a packaging defect introduced by relying on a
+local runtime path, not a session or data-compatibility failure. Delivery must
+use a rebuilt candidate whose notice preparation and final packaged copy are
+checked by the common packaging path.
+
+Static extraction of the first Windows NSIS package with the existing system
+archive tool confirmed that its payload root already contained Chromium and
+Electron notices; the missing notice defect was confirmed in macOS, not in the
+entire Windows payload. Its app and Host are unsigned AMD64 executables, the
+product/version/icon and all eight tracked legal resources matched, and its
+ASAR identifies the installed distribution. No Windows executable was run.
+The evidence is `.artifacts/wcsdai/windows-static-0e31/report.json`; actual
+Windows installation, startup, upgrades and OS-protected credentials remain
+device acceptance work.

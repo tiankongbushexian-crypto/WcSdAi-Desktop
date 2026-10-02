@@ -48,6 +48,11 @@ Windows x64, and the existing desktop build scripts. A clean runner installs
 locked dependencies and builds its native Rust Host. Locally, reuse the
 already provisioned toolchain and caches; do not reinstall just to test this
 lane. Packaging uses `--publish never`; signed release secrets are not consumed.
+The common packaging hooks preserve the Chromium notice from the actual target
+Electron runtime downloaded by the builder. Missing or empty source notices,
+or a missing, empty or changed final packaged copy, fail the build before
+signing and installer generation. This also applies to local and optional
+public-release packaging; a development Electron download is not required.
 The source/installer collection helper requires a clean committed candidate;
 an uncommitted local preview must not be labelled as matching an older commit's
 source archive. Ignored build outputs are not treated as source changes.

@@ -16165,10 +16165,18 @@ renderer's durable transcript reads. No real model or provider is contacted.
   corresponding committed source, legal notices and valid checksums. It is
   explicitly unsigned, needs no signing credentials, creates no GitHub Release
   or update feed, and never changes OS protections or app permission policy.
+  App resources include `licenses/Electron-LICENSES.chromium.html`, identical
+  to the actual target Electron runtime's notice. All packaging lanes fail
+  before signing or installer creation if that notice is missing, empty or
+  changed, including clean runners without a development Electron `dist`.
 - **Automation:** `node --test apps/desktop/test/team-installers.test.mjs`
   covers source → build-plan → collection with real temporary Git/archival
   fixtures and failure boundaries. Native macOS packaging plus read-only DMG
   inspection validates the actual package resources. The hosted download path
   and Windows/Intel installation remain pending until remote execution.
+  `node --test apps/desktop/test/electron-runtime-notices.test.mjs` drives the
+  real hook resolver and macOS/Windows/Linux extraction-to-package fixtures,
+  including macOS rename/cleanup, failed verification and repeated Windows
+  packaging; actual native package inspection verifies the runtime notice.
 - **Specs:** [team distribution](../../wcsdai/team-distribution.md), fork
   baseline amendment and release runbook.
