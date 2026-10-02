@@ -284,7 +284,7 @@ test("a slow server times out instead of hanging the load", { timeout: 10_000 },
 });
 
 /** Streamable-HTTP stub: JSON for the handshake, SSE for discovery. */
-async function startHttpServer(t, { slowToolDelayMs } = {}) {
+async function startHttpServer(t) {
   const requests = [];
   const server = createServer((req, res) => {
     const chunks = [];
@@ -318,7 +318,7 @@ async function startHttpServer(t, { slowToolDelayMs } = {}) {
           `event: message\ndata: ${JSON.stringify({
             jsonrpc: "2.0",
             id: message.id,
-            result: { tools: [{ name: "headers" }, ...(slowToolDelayMs ? [{ name: "slow" }] : [])] },
+            result: { tools: [{ name: "headers" }] },
           })}\n\n`,
         );
         return;
@@ -339,17 +339,6 @@ async function startHttpServer(t, { slowToolDelayMs } = {}) {
             },
           }),
         );
-        return;
-      }
-      if (message.params?.name === "slow" && slowToolDelayMs) {
-        setTimeout(() => {
-          res.writeHead(200, { "content-type": "application/json" });
-          res.end(JSON.stringify({
-            jsonrpc: "2.0",
-            id: message.id,
-            result: { content: [{ type: "text", text: "finished" }] },
-          }));
-        }, slowToolDelayMs);
         return;
       }
       res.writeHead(503).end("unavailable");
@@ -388,19 +377,55 @@ test("a remote mcp server negotiates over http and keeps its session", async (t)
 });
 
 test("a remote MCP tool can run longer than the connection timeout", async (t) => {
-  const { url } = await startHttpServer(t, { slowToolDelayMs: 80 });
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  let callStarted;
+  let finishCall;
+  const started = new Promise((resolve) => { callStarted = resolve; });
+  const finished = new Promise((resolve) => { finishCall = resolve; });
+  const fetchImpl = async (_url, options) => {
+    const message = JSON.parse(options.body);
+    if (message.method === "notifications/initialized") return new Response(null, { status: 202 });
+    let result;
+    if (message.method === "tools/call") {
+      assert.deepEqual(message.params, { name: "slow", arguments: {} });
+      callStarted(options.signal);
+      await finished;
+      result = { content: [{ type: "text", text: "finished" }] };
+    } else {
+      assert.ok(["initialize", "tools/list"].includes(message.method));
+      result = message.method === "initialize"
+        ? { protocolVersion: message.params.protocolVersion, capabilities: {} }
+        : { tools: [{ name: "slow" }] };
+    }
+    return new Response(JSON.stringify({ jsonrpc: "2.0", id: message.id, result }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    });
+  };
   const client = new McpServerClient({
     rootPath: mkdtempSync(join(tmpdir(), "pi-mcp-http-")),
-    server: { id: "remote", transport: "http", url },
+    server: { id: "remote", transport: "http", url: "https://slow.example/mcp" },
     values: {},
     connectTimeoutMs: 20,
     callTimeoutMs: 500,
+    fetchImpl,
   });
-  t.after(() => client.close());
+  t.after(() => {
+    finishCall();
+    client.close();
+  });
 
-  assert.deepEqual((await client.connect()).map((tool) => tool.name), ["headers", "slow"]);
-  const result = await client.callTool("slow", {});
-  assert.equal(describeMcpContent(result.content), "finished");
+  assert.deepEqual((await client.connect()).map((tool) => tool.name), ["slow"]);
+  const result = client.callTool("slow", {}).then((value) => ({ value }), (error) => ({ error }));
+  const signal = await started;
+  // Advance only after the real transport has sent tools/call. The handshake
+  // must not race a short wall-clock deadline under a loaded parallel suite.
+  t.mock.timers.tick(80);
+  assert.equal(signal.aborted, false, "tools/call must retain its own timeout budget");
+  finishCall();
+  const outcome = await result;
+  assert.ifError(outcome.error);
+  assert.equal(describeMcpContent(outcome.value.content), "finished");
 });
 test("an SSE reply is dispatched before the server closes the stream", async (t) => {
   // A streamable-HTTP server may answer immediately and still hold the body

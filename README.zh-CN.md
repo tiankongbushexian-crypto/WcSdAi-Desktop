@@ -43,14 +43,14 @@ WcSdAi — **让ai更简单** — 是面向团队使用的 AI 桌面工作台，
 
 | 平台 | 下载入口 | 1.0.1 版本的 Actions artifact | ZIP 内的安装包 |
 | --- | --- | --- | --- |
-| macOS Apple Silicon（arm64） | [打开团队构建](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml) | `WcSdAi-1.0.1-macos-arm64-unsigned` | `WcSdAi-1.0.1-macos-arm64-unsigned.dmg` |
-| macOS Intel（x64） | [打开团队构建](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml) | `WcSdAi-1.0.1-macos-x64-unsigned` | `WcSdAi-1.0.1-macos-x64-unsigned.dmg` |
-| Windows（x64） | [打开团队构建](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml) | `WcSdAi-1.0.1-windows-x64-unsigned` | `WcSdAi-1.0.1-windows-x64-unsigned.exe` |
+| macOS Apple Silicon（arm64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231618108) | `WcSdAi-1.0.1-macos-arm64-unsigned` | `WcSdAi-1.0.1-macos-arm64-unsigned.dmg` |
+| macOS Intel（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11232087687) | `WcSdAi-1.0.1-macos-x64-unsigned` | `WcSdAi-1.0.1-macos-x64-unsigned.dmg` |
+| Windows（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231329104) | `WcSdAi-1.0.1-windows-x64-unsigned` | `WcSdAi-1.0.1-windows-x64-unsigned.exe` |
 
-**构建与下载状态：**macOS Apple Silicon 安装包已经在本机构建、安装并验证。团队工作流在对应平台的原生 macOS 或 Windows runner 上构建安装包；实际可下载的版本和平台，以入口中成功运行的 **Artifacts** 为准。构建矩阵列出某个平台不代表其安装包已就绪，请以运行结果和可下载的 artifact 确认。
+**构建与下载状态：**三个安装包均已构建并可下载，来自成功的[原生构建运行 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778)，源码提交为 [`6dc7fc9ebc63`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/6dc7fc9ebc63448f15a65b78542abe9505aabca3)。三个原生构建任务及桌面端类型检查均已通过。下载的 Apple Silicon 应用已通过两次隔离启动，并在重启后恢复全部 800 个测试 Session。Intel 和 Windows 的实际安装、升级仍待验证，构建通过不代表这些验证已完成。产物检查和验证范围见[团队验证报告](docs/wcsdai/team-verification.md)。
 
 1. 登录 GitHub，使用对本仓库有读取权限的账号。
-2. 打开 **WcSdAi Team Installers**，选择一次成功的运行，在运行摘要底部找到 **Artifacts**。
+2. 点击上表对应平台的直接下载链接，或打开成功的运行，在运行摘要底部找到 **Artifacts**。
 3. 下载对应平台的 artifact ZIP，解压后打开其中的 `.dmg` 或 `.exe` 安装包。ZIP 同时包含校验值、构建信息、对应源码和许可证声明。工作流将 Artifacts 保留 30 天。
 
 团队安装包目前**未签名**：没有 macOS Developer ID 签名及公证，也没有 Windows 发布者签名。系统可能提示未知开发者或无法验证发布者；团队内部使用不会改变操作系统的安全要求。
