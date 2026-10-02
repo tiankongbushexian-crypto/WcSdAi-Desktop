@@ -76,6 +76,12 @@ Windows 可执行文件和原生窗口图标中使用 `build/icon.ico`。渲染�
   `ELECTRON_RUN_AS_NODE=1`（未发货单独的 Node）。
 - `Resources/licenses/` — 通知必须在以下情况下保持可分发：
   相应依赖项的仅构建源树被修剪。
+  公共 electron-builder `afterExtract` 钩子从实际解压的目标 runtime 中读取
+  `LICENSES.chromium.html`，在 macOS 删除原始根目录副本前保存到应用资源内的
+  `licenses/Electron-LICENSES.chromium.html`。`afterPack` 在签名和生成安装器前
+  验证最终副本的 SHA256 必须与源文件一致。macOS、Windows、Linux 上文件缺失、
+  为空或内容变化均使构建失败；该流程不依赖 Electron 开发环境的延迟安装，
+  也不要求预先存在 `node_modules/electron/dist`。
 - `Resources/app.asar` — Electron Main、preload、渲染器输出以及仅
   运行时解析的生产模块。 Renderer 库已存在
   在 Vite 输出中，并且不会再次复制为原始包树。

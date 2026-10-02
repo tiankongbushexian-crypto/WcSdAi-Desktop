@@ -68,7 +68,7 @@ jobs:
       - name: Install locked dependencies on the clean runner
         run: pnpm install --frozen-lockfile
       - name: Check team packaging workflow and collection
-        run: node --test apps/desktop/test/team-installers.test.mjs
+        run: node --test apps/desktop/test/team-installers.test.mjs apps/desktop/test/electron-runtime-notices.test.mjs
       - name: Check release version and documentation consistency
         run: pnpm --config.verify-deps-before-run=false check:release-docs
       - name: Build native unsigned installer without publishing

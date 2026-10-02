@@ -9230,7 +9230,13 @@ the latest destination. These assertions measure work counts, not device FPS.
 - **预期：** 下载包含具名 DMG 或 NSIS 安装器、对应提交的源码、许可证及有效校验码。
   产物明确标注未签名，不需要签名凭据，不创建 GitHub Release 或更新源，
   不修改操作系统防护或应用权限策略。
+  应用资源必须包含 `licenses/Electron-LICENSES.chromium.html`，且与实际目标
+  Electron runtime 的许可证逐字节一致。所有打包流程在文件缺失、为空或内容变化时，
+  必须在签名和生成安装器前失败，包括尚未下载开发环境 Electron `dist` 的全新运行器。
 - **自动化：** `node --test apps/desktop/test/team-installers.test.mjs` 使用真实临时
   Git/归档 fixture 验证源码 → 构建计划 → 收集及失败边界。本机 macOS 打包和只读
   DMG 检查验证实际包内容；线上下载链路及 Windows/Intel 安装待远程执行后验收。
+  `node --test apps/desktop/test/electron-runtime-notices.test.mjs` 通过真实钩子
+  解析器及 macOS/Windows/Linux 解压到打包的 fixture，覆盖 macOS 改名与清理、
+  校验失败和 Windows 重复打包；实际原生包检查进一步确认 runtime 许可证。
 - **规格：** [团队分发](/wcsdai/team-distribution)、fork 基线修订及发布手册。
