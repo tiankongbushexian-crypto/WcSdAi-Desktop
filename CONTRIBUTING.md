@@ -35,7 +35,7 @@ For a suspected security vulnerability, do not open a public issue. Follow
 
 ## Collaboration Rules
 
-- `main` is the protected integration branch. Do not develop on it or push to
+- `main` is the integration branch. Do not develop on it or push to
   it directly.
 - Every request uses one short-lived branch and one dedicated worktree,
   including documentation, chores, and small fixes.

@@ -23,7 +23,6 @@ disagrees, so a green `check:release-docs` is a precondition, not a substitute.
 | Script | Alias | Purpose |
 |---|---|---|
 | `team-installers.mjs` | `node scripts/team-installers.mjs source`, `build <macos\|windows> <arm64\|x64>`, `installer <macos\|windows> <arm64\|x64>` | Manual team workflow: archive a clean committed candidate, invoke native unsigned packaging, then collect only the named installer, matching source, notices and checksums; no publisher credentials or release upload |
-| `electron-runtime-notices.mjs` | electron-builder `afterExtract` / `afterPack` hooks | Preserve the actual target Electron runtime's Chromium notice in app resources before macOS cleanup, then require the final copy's SHA256 to match before signing or installer creation; shared by all platforms and packaging lanes |
 | `notarize-and-staple-macos-release-dmg.sh` | `scripts/notarize-and-staple-macos-release-dmg.sh [release-dir]` | Submit the single DMG a native macOS job produced to Apple's notary service (`xcrun notarytool submit --wait`), require `status: Accepted`, then attach and validate the ticket (`xcrun stapler staple` / `validate`); run by the Release workflow when `sign_macos` is set. electron-builder only notarizes the `.app`, so the DMG needs this separate submission |
 | `verify-macos-release.sh` | `scripts/verify-macos-release.sh [release-dir]` | Fail unless the one `WcSdAi.app` and DMG under the release directory are Developer ID-signed, notarized, and stapled; run by the Release workflow after stapling |
 | `macos-signing-diagnostics.sh` | `scripts/macos-signing-diagnostics.sh [--require-identity]` | Print the non-secret signing baseline before packaging (system, `codesign`, keychain identities/list/default, Xcode notary tools, Apple timestamp reachability). Informational by default, because the Developer ID identity is imported from `CSC_LINK` during packaging; `--require-identity` makes a missing Developer ID fatal |
@@ -35,6 +34,10 @@ disagrees, so a green `check:release-docs` is a precondition, not a substitute.
 | `check-linux-host-glibc.mjs` | `node scripts/check-linux-host-glibc.mjs [bin]` | Fail a Linux host-core binary whose needed glibc is above 2.35 |
 | `make-icon.py` | `python3 scripts/make-icon.py` | Render package/renderer/tray PNG, home motion/stills, ICO and ICNS from `build/wcsdai-symbol.svg`; reuse Pillow + Node sharp (`NODE_PATH` supported) |
 | `publish-screenshots.py` | `python3 scripts/publish-screenshots.py` | Publish documentation screenshots |
+
+The desktop package owns its electron-builder lifecycle hooks under
+[`apps/desktop/build`](../apps/desktop/build/README.md), inside the builder's
+workspace boundary even when a native release command launches it directly.
 
 ## Development
 

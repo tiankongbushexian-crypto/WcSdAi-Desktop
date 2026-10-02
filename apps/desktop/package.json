@@ -86,8 +86,8 @@
       "output": "release"
     },
     "publish": null,
-    "afterExtract": "../../scripts/electron-runtime-notices.mjs",
-    "afterPack": "../../scripts/electron-runtime-notices.mjs",
+    "afterExtract": "build/electron-runtime-notices.mjs",
+    "afterPack": "build/electron-runtime-notices.mjs",
     "extraMetadata": {
       "piDistribution": "installed"
     },

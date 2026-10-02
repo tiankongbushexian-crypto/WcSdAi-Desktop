@@ -216,8 +216,8 @@ test("packaging keeps only shipped locales and excludes non-runtime artifacts", 
   ]);
   // Chromium notices come from the actual target runtime during extraction;
   // clean Electron 43 installs do not have a development dist to copy from.
-  assert.equal(packageJson.build.afterExtract, "../../scripts/electron-runtime-notices.mjs");
-  assert.equal(packageJson.build.afterPack, "../../scripts/electron-runtime-notices.mjs");
+  assert.equal(packageJson.build.afterExtract, "build/electron-runtime-notices.mjs");
+  assert.equal(packageJson.build.afterPack, "build/electron-runtime-notices.mjs");
   assert.doesNotMatch(JSON.stringify(packageJson.build), /node-pty/);
 });
 

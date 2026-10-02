@@ -219,3 +219,51 @@ ASAR identifies the installed distribution. No Windows executable was run.
 The evidence is `.artifacts/wcsdai/windows-static-0e31/report.json`; actual
 Windows installation, startup, upgrades and OS-protected credentials remain
 device acceptance work.
+
+## Chromium notice repair candidate
+
+Commit `c92bac5995293592d7e1b6f83f0dc6dfc48407e1` contains the shared
+extraction/verification hooks. Its base is
+`0e31e45b25322c68b6b5dec4cf0622347ec9bca5`. The actual PR #2 integration
+candidate had the identical executable tree to the tested head. The 36
+packaging tests (13 runtime-notice, 9 footprint, 14 team-workflow) and five
+runtime-build contract tests passed; lint, release-doc, agent-policy,
+documentation and base-ancestry checks also passed.
+
+Actual arm64 directory packaging at the committed head preserved all eight
+tracked legal files and the 19,956,022-byte Chromium notice, with SHA-256
+`7ae82e97b8a60b9d97871e0e11a05285aea2d42bef665f93f6a4f415235839ed`.
+The builder log confirms the notice gate ran before ad-hoc signing. The app
+passed strict signature validation and two isolated launches restoring all
+800 synthetic Sessions. Processes and profiles were cleaned without touching
+the user's installation or data. Evidence under `.artifacts/wcsdai/`:
+`runtime-notices-c92bac599529-package-verification.json` and
+`runtime-notices-c92bac599529-smoke.json`.
+
+The first full JS CI attempt at this commit failed one pre-existing MCP timing
+test: `a remote MCP tool can run longer than the connection timeout` in
+`apps/desktop/test/plugin-mcp.test.mjs`. Its real loopback HTTP initialization
+exceeded the test's 20 ms connection budget at approximately 26 ms, before the
+tool call began. The test and production MCP module are unchanged from the
+base. All 30 tests in that file passed in the focused local run (the relevant
+tool call took 88 ms). The failure log remains
+`chromium-notices-ci-failure.log`; focused evidence is under `mcp-ci-c92/`.
+Only the failed JS job was rerun at the same commit; no timeout, permission,
+production code or test assertion was weakened. A green retry does not remove
+this underlying test timing sensitivity.
+
+All four PR #2 checks passed on that retry, and the fix merged as
+`0d7673eb9a7d3dbb4fd5d1e9fa7be0cd90ff22be`. Main CI also passed without a
+retry. The subsequent
+[native run](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37015957023)
+passed both macOS architectures but failed Windows before extraction: the Windows
+release launcher invokes the builder directly, which detected `apps/desktop`
+as its workspace root and correctly rejected a hook outside that boundary.
+The source archive downloaded from this run matched all 3,083 committed blobs;
+this partial run is not the accepted cross-platform delivery candidate.
+
+The follow-up places the same hook inside the desktop build directory and
+tests resolution with the desktop directory as the strictest workspace root.
+It preserves the builder's path restriction and changes no runtime code or
+notice verification logic. Failed native artifacts are not treated as passing
+Windows evidence.

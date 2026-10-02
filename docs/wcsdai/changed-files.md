@@ -13,7 +13,7 @@ changes are included.
 | Tests | Brand, profile/update compatibility, source contracts, E2E, and three baseline test-only timing/structure repairs |
 | Documentation / legal | Audit, mapping, policies, notices, exact-version license inventory and release/verification evidence |
 
-Total changed or added files: 194.
+Total changed or added files: 197.
 
 ## Full file list
 
@@ -39,9 +39,11 @@ Total changed or added files: 194.
 - `README.zh-CN.md`
 - `SECURITY.md`
 - `THIRD_PARTY_NOTICES.md`
+- `apps/desktop/build/README.md`
 - `apps/desktop/build/brand-assets.json`
 - `apps/desktop/build/dmg-background.png`
 - `apps/desktop/build/dmg-background@2x.png`
+- `apps/desktop/build/electron-runtime-notices.mjs`
 - `apps/desktop/build/entitlements.mac.plist`
 - `apps/desktop/build/icon.icns`
 - `apps/desktop/build/icon.ico`
@@ -88,6 +90,7 @@ Total changed or added files: 194.
 - `apps/desktop/test/ci-workflow.test.mjs`
 - `apps/desktop/test/development-branding.test.mjs`
 - `apps/desktop/test/development-profile.test.mjs`
+- `apps/desktop/test/electron-runtime-notices.test.mjs`
 - `apps/desktop/test/macos-release-lane.test.mjs`
 - `apps/desktop/test/macos-release-verification.test.mjs`
 - `apps/desktop/test/mcp-oauth.test.mjs`
