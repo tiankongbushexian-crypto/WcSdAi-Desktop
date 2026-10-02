@@ -12,46 +12,48 @@ Support and private security reports: <2222223323@qq.com>.
 ## Download location
 
 The three native installers below are available from successful
-[run 37031890473](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473),
+[run 37040371425](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425),
 using source commit
-[`9403cf853caaffbe50be4a0b8a34d670e80f5e79`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/9403cf853caaffbe50be4a0b8a34d670e80f5e79).
+[`eddfb2ae203511f537cc8ea875d50c9f385a3c37`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/eddfb2ae203511f537cc8ea875d50c9f385a3c37).
 Each native build job and desktop typecheck passed. Use the direct link for
 your computer, or select its artifact from the run's **Artifacts** list.
 The outer download is a ZIP archive containing the installer and its evidence.
 
 | Computer | Download | Actions artifact | Installer inside |
 | --- | --- | --- | --- |
-| Mac with Apple Silicon | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237592457) | `WcSdAi-1.0.2-macos-arm64-unsigned` | `WcSdAi-1.0.2-macos-arm64-unsigned.dmg` |
-| Mac with Intel processor | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11238118163) | `WcSdAi-1.0.2-macos-x64-unsigned` | `WcSdAi-1.0.2-macos-x64-unsigned.dmg` |
-| Windows x64 | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237882914) | `WcSdAi-1.0.2-windows-x64-unsigned` | `WcSdAi-1.0.2-windows-x64-unsigned.exe` (NSIS installer) |
+| Mac with Apple Silicon | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425/artifacts/11242851443) | `WcSdAi-1.0.3-macos-arm64-unsigned` | `WcSdAi-1.0.3-macos-arm64-unsigned.dmg` |
+| Mac with Intel processor | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425/artifacts/11242722796) | `WcSdAi-1.0.3-macos-x64-unsigned` | `WcSdAi-1.0.3-macos-x64-unsigned.dmg` |
+| Windows x64 | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425/artifacts/11242038049) | `WcSdAi-1.0.3-windows-x64-unsigned` | `WcSdAi-1.0.3-windows-x64-unsigned.exe` (NSIS installer) |
 
 The workflow reads the actual version from `apps/desktop/package.json`; these
-artifacts contain version 1.0.2. Corresponding source from the commit above,
+artifacts contain version 1.0.3. Corresponding source from the commit above,
 checksums and notices accompany each installer. Do not use the portable Windows
 executable as a substitute for the installer row.
 
 Downloaded checksums, exact corresponding source and packaged resources have
 been independently verified for all three installers. The exact corresponding
 source is also available as a separate
-[source artifact](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237836375).
+[source artifact](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425/artifacts/11241606891).
 The installer downloads expire at these times under the current retention policy:
 
 | Installer | Expiry in Asia/Shanghai (Beijing) | GitHub UTC expiry |
 | --- | --- | --- |
-| macOS arm64 | 2026-11-02 00:13:32 | 2026-11-01T16:13:32Z |
-| macOS x64 | 2026-11-02 00:20:18 | 2026-11-01T16:20:18Z |
-| Windows x64 | 2026-11-02 00:19:30 | 2026-11-01T16:19:30Z |
+| macOS arm64 | 2026-11-02 01:28:28 | 2026-11-01T17:28:28Z |
+| macOS x64 | 2026-11-02 01:33:16 | 2026-11-01T17:33:16Z |
+| Windows x64 | 2026-11-02 01:34:12 | 2026-11-01T17:34:12Z |
+| Corresponding source | 2026-11-02 01:23:38 | 2026-11-01T17:23:38Z |
 
 The downloaded Apple Silicon application passed two isolated launches and
 restored all 800 fixture Sessions after restart, and successfully checked the
 public update manifest. Intel and Windows packages passed static verification;
 actual installation and existing-data upgrade checks on those systems remain
-pending. Validation used isolated profiles and did not replace the owner's
-running 1.0.1 application, whose local upgrade was explicitly deferred. Refer to
-the
-[1.0.2 verification report](1.0.2-verification.md) for downloaded artifact checks
-and the exact acceptance scope. The earlier 1.0.1 build and verification history
-remains in the [archived team verification report](team-verification.md).
+pending. Both macOS packages include the verified 26×22 and 52×44 menu-bar
+images. Validation used isolated profiles and did not replace the owner's
+installed 1.0.2 application. Its Check for Updates → download → manual install
+journey remains a separate pending acceptance step. Refer to the
+[1.0.3 verification report](1.0.3-verification.md) for downloaded artifact checks
+and the exact acceptance scope. The [1.0.2 report](1.0.2-verification.md) and
+[archived 1.0.1 report](team-verification.md) retain their historical results.
 
 GitHub requires a signed-in account with repository read access to download
 Actions artifacts. This workflow retains artifacts for 30 days, subject to
