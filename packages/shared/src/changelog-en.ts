@@ -2,6 +2,13 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const enEntries: ChangelogEntry[] = [
   {
+    version: "1.0.3",
+    date: "2026-10-03",
+    highlights: [
+      "Enlarge and optically center the macOS menu-bar logo, with native Retina image support.",
+    ],
+  },
+  {
     version: "1.0.2",
     date: "2026-10-02",
     highlights: [

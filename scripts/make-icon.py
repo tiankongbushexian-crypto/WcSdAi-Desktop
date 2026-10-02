@@ -34,13 +34,17 @@ APP_ICON_SYMBOL_SCALE = 1.68
 # The wider upper strokes make the geometrically centered mark look high.
 # Shift only the app-tile placement; preserve the canonical symbol geometry.
 APP_ICON_OPTICAL_OFFSET_Y = 27
+MAC_TRAY_SIZE = (26, 22)
+MAC_TRAY_MARK_HEIGHT = 16
+MAC_TRAY_OPTICAL_OFFSET_Y = 1.25
 DURATIONS = [900, 180, 180, 180, 180, 180, 180, 240]
 RENDER_JS = """
 const fs = require('node:fs');
 const sharp = require('sharp');
-const size = Number(process.argv[1]);
+const width = Number(process.argv[1]);
+const height = Number(process.argv[2]);
 sharp(fs.readFileSync(0), { density: 288 })
-  .resize(size, size).png().toBuffer()
+  .resize(width, height).png().toBuffer()
   .then(data => process.stdout.write(data))
   .catch(error => { console.error(error.message); process.exitCode = 1; });
 """
@@ -84,9 +88,9 @@ def mark_svg(body: str, color: str, scale: float = 1.0) -> str:
     )
 
 
-def render(svg: str, size: int) -> Image.Image:
+def render(svg: str, size: int, height: int | None = None) -> Image.Image:
     output = subprocess.run(
-        ["node", "-e", RENDER_JS, str(size)],
+        ["node", "-e", RENDER_JS, str(size), str(height or size)],
         input=svg.encode(), capture_output=True, check=False,
     )
     if output.returncode:
@@ -109,6 +113,25 @@ def save_png(image: Image.Image, path: Path, outputs: list[Path]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     image.save(path, optimize=True)
     outputs.append(path)
+
+
+def save_mac_tray(body: str, outputs: list[Path]) -> None:
+    # The canonical mark spans y=120..392; use its painted height rather
+    # than shrinking the padded 512px square into a tiny status-bar icon.
+    width, height = MAC_TRAY_SIZE
+    scale = MAC_TRAY_MARK_HEIGHT / 272
+    x = (width - 512 * scale) / 2
+    y = (height - 512 * scale) / 2 + MAC_TRAY_OPTICAL_OFFSET_Y
+    svg = (
+        f'<svg xmlns="{SVG_NS}" width="{width}" height="{height}" '
+        f'viewBox="0 0 {width} {height}"><g '
+        f'transform="translate({x} {y}) scale({scale})">{body}</g></svg>'
+    )
+    for factor, suffix in ((1, ""), (2, "@2x")):
+        alpha = render(svg, width * factor, height * factor).getchannel("A")
+        image = Image.new("RGBA", alpha.size, "#000000")
+        image.putalpha(alpha)
+        save_png(image, BUILD / f"tray-icon-mac{suffix}.png", outputs)
 
 
 def save_motion(body: str, color: str, theme: str, outputs: list[Path]) -> None:
@@ -176,7 +199,7 @@ def main() -> None:
         save_png(render_mark(body, color, 192), ASSETS / "brand" / f"logo-{theme}.png", outputs)
         save_motion(body, color, theme, outputs)
     save_png(render_mark(body, "#FFFFFF", BASE), BUILD / "logo_dark.png", outputs)
-    save_png(render_mark(body, "#000000", BASE), BUILD / "tray-icon-mac.png", outputs)
+    save_mac_tray(body, outputs)
 
     windows_icon = BUILD / "icon.ico"
     master.save(windows_icon, format="ICO", sizes=[(s, s) for s in (16, 32, 48, 64, 128, 256)])
@@ -202,9 +225,12 @@ def main() -> None:
         "canonical_source": SOURCE.relative_to(ROOT).as_posix(),
         "canonical_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "source_rights": "User supplied; license and trademark authorization pending confirmation before release.",
-        "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox.",
+        "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox. Render the macOS tray separately at 26x22pt with a 16pt painted height, 1.25pt downward optical offset and 1x/2x representations.",
         "app_icon_symbol_scale": APP_ICON_SYMBOL_SCALE,
         "app_icon_optical_offset_y": APP_ICON_OPTICAL_OFFSET_Y,
+        "mac_tray_logical_size": MAC_TRAY_SIZE,
+        "mac_tray_mark_height": MAC_TRAY_MARK_HEIGHT,
+        "mac_tray_optical_offset_y": MAC_TRAY_OPTICAL_OFFSET_Y,
         "outputs": [validate(path) for path in outputs],
     }
     (BUILD / "brand-assets.json").write_text(json.dumps(manifest, indent=2) + "\n")

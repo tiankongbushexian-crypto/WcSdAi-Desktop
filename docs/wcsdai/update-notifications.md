@@ -112,6 +112,25 @@ manifest cannot enable checks inside that old executable. No production server
 deployment is part of this implementation. Publication of the manifest and a
 notification-capable installer are separate from local implementation/tests.
 
+## Manual upgrade acceptance
+
+For an already installed notification-capable version, verify delivery through
+that application's Settings → Info → Check for Updates (or the native menu).
+Use the real fixed public manifest after the new platform packages have been
+downloaded and verified; never override the production feed with a test fixture.
+Confirm the newer version and notes, choose its download action, then download
+the matching artifact through the opened GitHub page. The owner installs the
+package through the normal manual installer workflow and restarts WcSdAi.
+Confirm the installed version, the changed feature and existing project/session
+and configuration continuity without exposing credential values.
+
+Preparing packages, publishing a manifest and completing that installed-app
+journey are separate acceptance steps. A direct replacement from a worktree or
+locally built app does not demonstrate the check → download → manual-install
+journey. Until all new packages are verified, retain the previous manifest and
+verified download links. See the [1.0.3 verification plan](1.0.3-verification.md)
+for the macOS menu-bar fix and its pending 1.0.2 → 1.0.3 acceptance.
+
 ## Verification
 
 `manual-update-feed.test.mjs` covers schema and URL boundaries, numeric version

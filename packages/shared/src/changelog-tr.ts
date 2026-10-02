@@ -2,6 +2,13 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const trEntries: ChangelogEntry[] = [
   {
+    version: "1.0.3",
+    date: "2026-10-03",
+    highlights: [
+      "macOS menü çubuğu logosunu büyütün ve optik olarak ortalayın; yerel Retina görüntü desteği ekleyin.",
+    ],
+  },
+  {
     version: "1.0.2",
     date: "2026-10-02",
     highlights: [

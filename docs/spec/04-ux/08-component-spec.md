@@ -188,9 +188,14 @@ Outer frame that positions Topbar, Sidebar, MainChat, and WorkPanel. Owns resize
   restores/focuses the same window, while clicking a covered window brings it
   to the front. Tray activation restores and focuses tray-hidden windows; Quit
   remains explicit and, except for automated probes, confirms with a native
-  warning before shutdown (D363). On macOS the tray uses a transparent monochrome template
-  of the PI mark rather than the rounded application tile, so it remains
-  readable in the menu bar.
+  warning before shutdown (D363).
+- The macOS menu-bar icon uses the transparent monochrome WcSdAi template mark.
+  Its native image has a 26×22pt logical canvas and matching 26×22px (1x) and
+  52×44px (2x) representations. The visible mark occupies about 23.24×16pt and
+  is optically centered with a 1.25pt downward offset. It retains native
+  light/dark template rendering, with no rounded application tile or background.
+  This visual resource does not change tray interaction, quit behavior, or the
+  Windows/Linux tray image.
 - Windows/Linux do not render File/Edit/View/Window/Help in the titlebar and
   do not reserve left-side space for an application menubar. F10 and
   Shift+F10 remain available to focused content.

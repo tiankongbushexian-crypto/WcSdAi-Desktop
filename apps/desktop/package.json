@@ -1,6 +1,6 @@
 {
   "name": "@pi-desktop/desktop",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "desktopName": "wcsdai.desktop",
   "private": true,
   "description": "WcSdAi Electron application",
@@ -181,6 +181,10 @@
         {
           "from": "build/tray-icon-mac.png",
           "to": "tray-icon-mac.png"
+        },
+        {
+          "from": "build/tray-icon-mac@2x.png",
+          "to": "tray-icon-mac@2x.png"
         }
       ]
     },

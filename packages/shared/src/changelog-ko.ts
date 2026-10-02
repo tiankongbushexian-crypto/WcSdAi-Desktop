@@ -2,6 +2,13 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const koEntries: ChangelogEntry[] = [
   {
+    version: "1.0.3",
+    date: "2026-10-03",
+    highlights: [
+      "macOS 메뉴 막대 로고를 확대하고 시각적으로 중앙에 정렬하며 Retina 이미지를 기본 지원합니다.",
+    ],
+  },
+  {
     version: "1.0.2",
     date: "2026-10-02",
     highlights: [

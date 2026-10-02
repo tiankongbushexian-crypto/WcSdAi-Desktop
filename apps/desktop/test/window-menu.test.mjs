@@ -307,7 +307,7 @@ test("Windows/Linux explicit minimize paths use the native taskbar", async () =>
   assert.match(mainSource, /import \{[\s\S]*Tray[\s\S]*\} from "electron"/);
   assert.match(mainSource, /function createTray\(\)/);
   assert.match(mainSource, /join\(resourceRoot, "tray-icon-mac\.png"\)/);
-  assert.match(mainSource, /icon\.setTemplateImage\(true\)/);
+  assert.match(mainSource, /prepareTrayImage\(source, process\.platform\)/);
   assert.match(mainSource, /tray\.on\("click", restoreMainWindow\)/);
   assert.match(mainSource, /tray\.on\("double-click", restoreMainWindow\)/);
   assert.match(
@@ -337,8 +337,12 @@ test("Windows/Linux explicit minimize paths use the native taskbar", async () =>
       from: "build/tray-icon-mac.png",
       to: "tray-icon-mac.png",
     },
+    {
+      from: "build/tray-icon-mac@2x.png",
+      to: "tray-icon-mac@2x.png",
+    },
   ]);
-  assert.match(iconScriptSource, /tray-icon-mac\.png/);
+  assert.match(iconScriptSource, /tray-icon-mac\{suffix\}\.png/);
   const trayPng = await readFile(new URL("../build/tray-icon-mac.png", import.meta.url));
   assert.equal(trayPng[25], 6, "tray template retains an RGBA alpha channel");
 });
