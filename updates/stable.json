@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "notes": {
-    "en": "• WcSdAi branding, monochrome icons and Simplified Chinese by default.\n• Preserve existing Sessions, provider settings, plugins, MCP and approval flows.\n• Native team installers include corresponding source, license notices and checksums.",
-    "zh-CN": "• 启用 WcSdAi 品牌、黑白图标和默认简体中文界面。\n• 保留已有会话、模型配置、插件、MCP 与权限确认流程。\n• 团队安装包包含对应源码、许可证说明及校验值。"
+    "en": "• Check for new versions online, read release notes and open the matching download page for manual installation.\n• Enlarge and optically center the monochrome app icon while preserving its white margin.\n• Center the home greeting and choose fresh copy, logo motion and text entrance for each new session.\n• Add two smooth logo animations and three text entrances, with system reduced-motion support.",
+    "zh-CN": "• 联网检查新版本，展示更新内容，点击进入对应下载页后手动安装。\n• 放大并调整黑白应用图标的视觉中心，保留白底留白。\n• 首页文字与 Logo 居中对齐，每次新会话随机搭配文案、Logo 动画和文字效果。\n• 新增两种流畅 Logo 动画和三种文字入场效果，支持系统减少动态效果设置。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231618108",
-      "expiresAt": "2026-11-01T14:20:01.000Z"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237592457",
+      "expiresAt": "2026-11-01T16:13:32Z"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11232087687",
-      "expiresAt": "2026-11-01T14:23:50.000Z"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11238118163",
+      "expiresAt": "2026-11-01T16:20:18Z"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231329104",
-      "expiresAt": "2026-11-01T14:26:02.000Z"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237882914",
+      "expiresAt": "2026-11-01T16:19:30Z"
     }
   }
 }

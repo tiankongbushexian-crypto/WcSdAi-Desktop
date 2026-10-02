@@ -37,29 +37,29 @@ Local-first · Model-agnostic · Plugin-powered · macOS / Windows / Linux
 
 ## Team downloads
 
-**Current release line: 1.0.x. Target version: 1.0.2; the verified downloads below are still 1.0.1. No WcSdAi GitHub Release has been published.**
+**Current release line: 1.0.x. Current team version: 1.0.2. All three verified installers are available below. No WcSdAi GitHub Release has been published.**
 
 WcSdAi — **让ai更简单** — is an AI desktop workspace for our team's use, maintained by **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** at **量动科技**. Copyright **2026 量动科技** applies to its original contributions. Website: [wanchuangsd.cn](https://wanchuangsd.cn); support: [2222223323@qq.com](mailto:2222223323@qq.com).
 
-**Prepared for 1.0.2:**
+**New in 1.0.2:**
 
 - Online update checks show the new version and its notes, then open the matching download page for manual installation.
 - The larger monochrome application mark has improved visual centering inside its rounded white tile.
 - Home greetings align with the logo and change on a new task or refresh, with two additional logo animations, three text entrances, and reduced-motion support.
 
-Existing 1.0.1 installations need one manual upgrade to a notification-capable build before they can receive future update reminders. The links below remain on the verified 1.0.1 packages until new native installers have been built and checked. See [update notifications](docs/wcsdai/update-notifications.md) for the delivery behavior.
+Existing 1.0.1 installations need one manual upgrade to a notification-capable build before they can receive future update reminders. The links below provide the verified 1.0.2 installers for that manual upgrade. See [update notifications](docs/wcsdai/update-notifications.md) for the delivery behavior.
 
-| Platform | Download entry | Actions artifact for version 1.0.1 | Installer inside the ZIP |
+| Platform | Download entry | Actions artifact for version 1.0.2 | Installer inside the ZIP |
 | --- | --- | --- | --- |
-| macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231618108) | `WcSdAi-1.0.1-macos-arm64-unsigned` | `WcSdAi-1.0.1-macos-arm64-unsigned.dmg` |
-| macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11232087687) | `WcSdAi-1.0.1-macos-x64-unsigned` | `WcSdAi-1.0.1-macos-x64-unsigned.dmg` |
-| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231329104) | `WcSdAi-1.0.1-windows-x64-unsigned` | `WcSdAi-1.0.1-windows-x64-unsigned.exe` |
+| macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237592457) | `WcSdAi-1.0.2-macos-arm64-unsigned` | `WcSdAi-1.0.2-macos-arm64-unsigned.dmg` |
+| macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11238118163) | `WcSdAi-1.0.2-macos-x64-unsigned` | `WcSdAi-1.0.2-macos-x64-unsigned.dmg` |
+| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237882914) | `WcSdAi-1.0.2-windows-x64-unsigned` | `WcSdAi-1.0.2-windows-x64-unsigned.exe` |
 
-**Build and download status:** all three installers are available from successful [native build run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778), built from commit [`6dc7fc9ebc63`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/6dc7fc9ebc63448f15a65b78542abe9505aabca3). All three native build jobs and desktop typechecks passed. The downloaded Apple Silicon app passed two isolated launches and restored all 800 fixture Sessions after restart. Intel and Windows installation and upgrade checks remain pending; build verification does not establish those results. See the [team verification report](docs/wcsdai/team-verification.md) for artifact checks and acceptance scope.
+**Build and download status:** all three installers are available from successful [native build run 37031890473](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473), built from commit [`9403cf853caa`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/9403cf853caaffbe50be4a0b8a34d670e80f5e79). All three native build jobs and desktop typechecks passed; downloaded checksums, packaged identity and bundled notices have been verified for all three platforms. The downloaded Apple Silicon app passed two isolated launches, restored all 800 fixture Sessions after restart, and successfully checked the public update manifest. Intel and Windows packages passed static inspection; installation and existing-data upgrades on representative Intel Macs and Windows PCs remain pending. See the [1.0.2 verification report](docs/wcsdai/1.0.2-verification.md) for artifact checks and acceptance scope.
 
 1. Sign in to GitHub with an account that has read access to this repository.
 2. Use the direct platform link above, or open the successful run and find **Artifacts** at the bottom of its run summary.
-3. Download your platform's artifact ZIP, extract it, and open its `.dmg` or `.exe` installer. The ZIP also includes checksums, build details, corresponding source, and license notices. The workflow retains artifacts for 30 days.
+3. Download your platform's artifact ZIP, extract it, and open its `.dmg` or `.exe` installer. The ZIP also includes checksums, build details, corresponding source, and license notices. The workflow retains artifacts for 30 days. This batch expires on 2026-11-02 in Asia/Shanghai; exact per-platform times are in the [team distribution guide](docs/wcsdai/team-distribution.md).
 
 These team installers are **unsigned**: they have no macOS Developer ID signing/notarization or Windows publisher signature. The operating system may warn about an unknown developer or unverified publisher. Team use does not change the operating system's security requirements.
 
@@ -67,7 +67,7 @@ The [GitHub Releases page](https://github.com/tiankongbushexian-crypto/WcSdAi-De
 
 The default product language is Simplified Chinese. Existing provider settings, the plugin marketplace, and technical package names are retained. Fresh installations use `~/.wcsdai` for Host data and `WcSdAi` for the Electron profile; existing PI-Desktop data remains compatible through legacy-path fallback and migration aliases. See [data migration and compatibility](docs/wcsdai/local-data-migration.md) before moving existing data.
 
-[Brand migration](docs/wcsdai/brand-migration.md) · [Local verification](docs/wcsdai/verification-report.md) · [Release checklist](docs/wcsdai/release-checklist.md)
+[Brand migration](docs/wcsdai/brand-migration.md) · [1.0.2 verification](docs/wcsdai/1.0.2-verification.md) · [Release checklist](docs/wcsdai/release-checklist.md)
 
 Screenshots inherited from PI-Desktop illustrate workflows and may contain the historical upstream brand. They are not screenshots of the current WcSdAi build.
 
@@ -600,7 +600,7 @@ Agent / Plan / Goal
 
 </div>
 
-See [Team downloads](#team-downloads) for current availability, artifact names, and download instructions. The manual team workflow builds unsigned `.dmg` installers for macOS and an unsigned NSIS `.exe` installer for Windows. It does not publish a GitHub Release or configure automatic updates.
+See [Team downloads](#team-downloads) for current availability, artifact names, and download instructions. The manual team workflow builds unsigned `.dmg` installers for macOS and an unsigned NSIS `.exe` installer for Windows. It does not publish a GitHub Release or automatically install updates. Starting with 1.0.2, packaged builds check a version manifest and open the download page after the user chooses to update.
 
 Linux packaging targets remain `.AppImage`, `.deb`, `.rpm`, and `.asar` for source builds; no Linux team artifact is provided by this workflow.
 
