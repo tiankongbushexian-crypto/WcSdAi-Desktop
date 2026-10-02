@@ -10,7 +10,7 @@ changes are included.
 | Application / catalogs | WcSdAi copy, default zh-CN, About attribution, branded physical data roots with legacy aliases and preserved encryption identity; unconfigured feed disabled |
 | Assets | Supplied monochrome symbol, rounded app icons, animated home mark, tray and DMG artwork with deterministic generator |
 | Build / release | Version 1.0.1, native identifiers, artifacts, fork links, operator signing configuration and release readiness checks |
-| Tests | Brand, profile/update compatibility, source contracts, E2E, and three baseline test-only timing/structure repairs |
+| Tests | Brand, profile/update compatibility, source contracts, E2E, and baseline test-only timing/structure repairs |
 | Documentation / legal | Audit, mapping, policies, notices, exact-version license inventory and release/verification evidence |
 
 Total changed or added files: 197.

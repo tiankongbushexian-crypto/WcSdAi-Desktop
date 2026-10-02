@@ -12,12 +12,15 @@ distribution is an optional future lane, not a prerequisite for team packages.
 - [x] Keep original LGPL license text and third-party attribution; team use does not introduce a different license.
 - [x] Provide separate macOS Apple Silicon, macOS Intel and Windows x64 download entries in both READMEs.
 - [x] Prepare a manual native build workflow without Developer ID, notarization or Windows signing secrets.
-- [x] Validate the macOS arm64 ad-hoc app seal and packaged startup locally; this requires no publisher certificate. Hosted and Intel checks remain separate.
+- [x] Validate the macOS ad-hoc app seals on both native hosted runners; no publisher certificate is used.
+- [x] Download the hosted macOS arm64 artifact, launch it twice in an isolated profile and restore all 800 fixture Sessions after restart.
 - [x] Keep automatic updates disabled and use manual replacement for team versions.
 - [x] Owner authorizes commit/push/integration and remote workflow execution/artifact upload.
-- [ ] Execute the native macOS/Windows jobs and verify installer checksums and matching source artifacts.
+- [x] Complete macOS arm64, macOS Intel x64 and Windows x64 native build jobs and desktop typechecks in [run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778).
+- [x] Include corresponding source from commit `6dc7fc9ebc63448f15a65b78542abe9505aabca3`, build information, license notices and checksums with all three uploaded installers.
+- [x] Verify all three downloaded installers' checksums, bundled resources and exact corresponding source; all four artifacts remain available through 2026-11-01.
 - [ ] Test the resulting installers and existing-data upgrades on representative team Macs and Windows PCs.
-- [ ] Share the successful Actions run's artifact links with recipients.
+- [x] Publish the successful Actions run's three direct artifact links in both READMEs and the team distribution guide.
 
 See [team distribution](team-distribution.md) for artifact names, download
 instructions and OS installation expectations. “Unsigned” means no verified

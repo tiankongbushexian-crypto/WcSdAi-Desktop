@@ -43,14 +43,14 @@ WcSdAi — **让ai更简单** — is an AI desktop workspace for our team's use,
 
 | Platform | Download entry | Actions artifact for version 1.0.1 | Installer inside the ZIP |
 | --- | --- | --- | --- |
-| macOS Apple Silicon (arm64) | [Open team builds](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml) | `WcSdAi-1.0.1-macos-arm64-unsigned` | `WcSdAi-1.0.1-macos-arm64-unsigned.dmg` |
-| macOS Intel (x64) | [Open team builds](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml) | `WcSdAi-1.0.1-macos-x64-unsigned` | `WcSdAi-1.0.1-macos-x64-unsigned.dmg` |
-| Windows (x64) | [Open team builds](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml) | `WcSdAi-1.0.1-windows-x64-unsigned` | `WcSdAi-1.0.1-windows-x64-unsigned.exe` |
+| macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231618108) | `WcSdAi-1.0.1-macos-arm64-unsigned` | `WcSdAi-1.0.1-macos-arm64-unsigned.dmg` |
+| macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11232087687) | `WcSdAi-1.0.1-macos-x64-unsigned` | `WcSdAi-1.0.1-macos-x64-unsigned.dmg` |
+| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231329104) | `WcSdAi-1.0.1-windows-x64-unsigned` | `WcSdAi-1.0.1-windows-x64-unsigned.exe` |
 
-**Build and download status:** the macOS Apple Silicon package has been built, installed, and checked locally. The team workflow builds each platform on its native macOS or Windows runner. Available versions and platforms are determined by the downloadable **Artifacts** in successful workflow runs linked above. A platform listed in the build matrix does not by itself confirm that its installer is ready; check the run result and artifact before downloading.
+**Build and download status:** all three installers are available from successful [native build run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778), built from commit [`6dc7fc9ebc63`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/6dc7fc9ebc63448f15a65b78542abe9505aabca3). All three native build jobs and desktop typechecks passed. The downloaded Apple Silicon app passed two isolated launches and restored all 800 fixture Sessions after restart. Intel and Windows installation and upgrade checks remain pending; build verification does not establish those results. See the [team verification report](docs/wcsdai/team-verification.md) for artifact checks and acceptance scope.
 
 1. Sign in to GitHub with an account that has read access to this repository.
-2. Open **WcSdAi Team Installers**, select a successful run, and find **Artifacts** at the bottom of its run summary.
+2. Use the direct platform link above, or open the successful run and find **Artifacts** at the bottom of its run summary.
 3. Download your platform's artifact ZIP, extract it, and open its `.dmg` or `.exe` installer. The ZIP also includes checksums, build details, corresponding source, and license notices. The workflow retains artifacts for 30 days.
 
 These team installers are **unsigned**: they have no macOS Developer ID signing/notarization or Windows publisher signature. The operating system may warn about an unknown developer or unverified publisher. Team use does not change the operating system's security requirements.

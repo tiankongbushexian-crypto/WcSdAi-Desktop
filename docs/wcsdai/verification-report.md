@@ -11,8 +11,15 @@
 > unsigned build checks are recorded in [team verification](team-verification.md).
 
 Verification date: **2026-10-02 (Asia/Shanghai)**. Target: **WcSdAi 1.0.1**.
-Status: **local engineering validation complete; publication remains blocked by
-owner configuration and release qualification**. The final all-workspace test
+Current delivery: native macOS arm64/x64 and Windows x64 team installers were
+built and uploaded in [run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778)
+from commit `6dc7fc9ebc63448f15a65b78542abe9505aabca3`. Downloaded checksums and
+all 3,084 corresponding source entries were verified. See the
+[accepted hosted build](team-verification.md#accepted-hosted-team-build) for
+the current package acceptance evidence and remaining device checks.
+
+Historical brand-only status: **local engineering validation complete;
+signed public-release configuration and qualification incomplete**. The final all-workspace test
 run passed **6,396 JavaScript tests and 724 Rust tests (7,120 total)**.
 Typechecks, lint, unsigned macOS arm64 packaging, DMG read-only inspection and
 final packaged startup/restart acceptance passed. This is not a signed or

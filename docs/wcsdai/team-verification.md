@@ -1,5 +1,7 @@
 # Repository pages and unsigned team packaging verification
 
+Latest accepted delivery: [native team build 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778), based on `6dc7fc9ebc63448f15a65b78542abe9505aabca3`. See [accepted hosted team build](#accepted-hosted-team-build) below for downloads and verification. Earlier sections preserve their original candidate evidence.
+
 Date: 2026-10-02 (Asia/Shanghai). Branch: `codex/wcsdai-brand-foundation`.
 HEAD/base: `22dfb87a84056127fad07617e8d06974f927bebc`, plus the ongoing
 uncommitted WcSdAi request changes. The primary `main` checkout remains clean.
@@ -267,3 +269,111 @@ tests resolution with the desktop directory as the strictest workspace root.
 It preserves the builder's path restriction and changes no runtime code or
 notice verification logic. Failed native artifacts are not treated as passing
 Windows evidence.
+
+The path fix is commit `9bbab5572e1e16d92c2e20f615b505be4e7df73d`, based on
+`0d7673eb9a7d3dbb4fd5d1e9fa7be0cd90ff22be`. The stricter relative-path
+resolver test first reproduced the old rejection, then all 36 packaging tests
+passed. The hook body is unchanged byte for byte. Actual arm64 packaging from
+that committed candidate passed the notice gate, strict ad-hoc verification,
+all legal/brand checks and two isolated launches restoring all 800 synthetic
+Sessions. Its PR #3 integration candidate has the same executable tree as the
+tested head. No user installation or profile was touched. Evidence:
+`runtime-notices-9bbab5572e1e-package-verification.json` and
+`runtime-notices-9bbab5572e1e-smoke.json` under `.artifacts/wcsdai/`.
+
+
+## Accepted hosted team build
+
+All three native build jobs, platform typechecks, artifact collection/upload,
+and the corresponding-source job passed in
+[run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778).
+The executable/source commit is `6dc7fc9ebc63448f15a65b78542abe9505aabca3`,
+the merge of PR #3. Its four PR checks passed without retry. Subsequent
+changes in this delivery record and the deterministic MCP test below do not
+change the runtime or installer contents; the artifacts correctly identify
+their actual source commit rather than a later documentation commit.
+
+| Platform | Verified artifact | Installer bytes | Installer SHA-256 |
+| --- | --- | ---: | --- |
+| macos-arm64 | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231618108) | 134,647,642 | `d61bc559177bbb01a713b7f24e48d401cd6f383c4ae68e8d0a4fc573608fcbb1` |
+| macos-x64 | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11232087687) | 140,845,573 | `e0c7008a8eaab8bb4fc1d31bc5c804727532c6448d2eb02e5f042af2acc05c10` |
+| windows-x64 | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231329104) | 119,882,116 | `0c10fe1672d62017aa68aa8a9c96d34f12807336555cad6cb0a97e09f64e01da` |
+
+Every downloaded installer artifact passed all 12 outer checksum entries.
+The separate source artifact passed its 11 entries. Every source archive
+matched all 3,084 Git blobs, including modes and symlink targets, at the exact
+build commit. The common source tarball SHA-256 is
+`5f7362a787eb07c1f9014f7d69074a908aee71ac1c33e2fd1b1fcfda641f9948`.
+The [separate source download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231692178)
+is also included inside each installer artifact. Downloads require GitHub
+sign-in/read access and expire after the configured 30-day retention
+(2026-11-01 for this run). No tag or GitHub Release was created.
+
+The actual downloaded Apple Silicon DMG passed native WcSdAi / 1.0.1 /
+com.example.wcsdai identity, arm64 app/Host architecture, icon and eight
+tracked legal-file checks against the build commit. Its 19,956,022-byte
+Chromium notice matched the actual native packaging log, SHA-256
+`7ae82e97b8a60b9d97871e0e11a05285aea2d42bef665f93f6a4f415235839ed`.
+Both mounted and copied applications passed strict ad-hoc seal verification.
+Two isolated launches of the copied app restored exactly 800 distinct synthetic
+Sessions after restart, including Session reads. Owned processes, temporary
+profiles and mount points were cleaned, with no cleanup errors. No existing
+application installation or real user data was modified by these checks.
+
+The Intel DMG passed the same static identity, icon, legal-file and Chromium
+checks, with x86_64 app/Host binaries and strict ad-hoc seals. Its application
+was not executed on this arm64 host.
+
+The Windows NSIS payload was extracted with the existing system archive tool,
+without executing an EXE. App and Host are AMD64 PE32+; version 1.0.1, company
+量动科技, WcSdAi title, installed-distribution metadata, icon and all eight legal
+resources matched the build commit. The installer/app/Host have empty
+Authenticode certificate tables. The packaged Chromium notice equals the
+runtime's root copy byte for byte: 20,313,960 bytes, SHA-256
+`c971fa90cb787337e9df73773f3b43cd5621f035e53cded439bd927b3b759e0c`.
+It matches all three actual native packaging passes in the job log, excluding
+earlier test-fixture hashes. No Windows execution or installation is claimed.
+
+Evidence under ignored `.artifacts/wcsdai/`:
+
+- `download-verification-37018547778.json`
+- `hosted-arm64-verification-37018547778.json` (SHA-256 `897cdea4e3fafae54a53aadeb8215c6da6bae99d4c7c6cd5162fc67744532b2c`)
+- `hosted-team-packaged-smoke-37018547778.json` (SHA-256 `ed5cad25063366f121e77abcad42dd9f33e504d045b14758b318abca8ccc2832`)
+- `hosted-x64-verification-37018547778.json` (SHA-256 `3ad57d4b45ad8a8636720c52660fbb0e02accc9fd9fbf240519528d623d74a30`)
+- `windows-static-6dc7-final/report.json` (SHA-256 `de812da9d238c86abf853a4309759603791e7bc1e2c73b940a3d563eb78a18c2`)
+
+After accepting this replacement, the five superseded installer artifacts
+from runs `37010853990` and `37015957023` were removed to avoid accidental
+downloads of obsolete candidates. Their workflow logs, corresponding-source
+artifacts and local historical verification evidence remain available.
+
+Actual Windows and Intel Mac installation, startup, upgrade, uninstall and
+OS-protected credential acceptance still require representative team devices.
+Live model-provider and external MCP services were not called. Automatic
+updates remain unconfigured; team updates use manual installer replacement.
+
+## Deterministic MCP timeout regression coverage
+
+Main CI run `37018516708` at the installer source commit hit the same existing
+20 ms initialization race again, at approximately 28 ms. Installer builds and
+native typechecks passed independently; the failed full CI attempt is retained
+as evidence, not reported as green. The failure log is
+`.artifacts/wcsdai/final-main-ci-failure.log`.
+
+The follow-up changes only the timeout test in `plugin-mcp.test.mjs`, using the
+real public `McpServerClient`, an immediate HTTP `fetchImpl` handshake and a
+deferred tool response. It waits until `tools/call` starts, advances a controlled
+clock by 80 ms, and proves the request was not aborted by the 20 ms connection
+budget before completing within its 500 ms tool budget. Neighboring real
+loopback HTTP tests remain. The unused wall-clock slow-tool fixture branch was
+removed. Production timeouts, transports and permissions are unchanged.
+
+All 30 tests passed on the existing Node 22.23.3 and Node 24.19.0 runtimes.
+Two isolated production-text mutation fixtures both failed the intended signal
+assertion: one drops the transport's tool timeout, the other uses the connection
+budget for the tool request. Neither produced unhandled rejections or cancelled
+tests. No mutation touched tracked production code or required new dependencies.
+Evidence: `mcp-timeout-controlled-node22.log`,
+`mcp-timeout-controlled-node24.log` and `mcp-timeout-mutations/*.log` under
+`.artifacts/wcsdai/`. This test-only repair does not require rebuilding the
+accepted installers from an unchanged runtime tree.

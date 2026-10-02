@@ -11,20 +11,34 @@ Support and private security reports: <2222223323@qq.com>.
 
 ## Download location
 
-Open [WcSdAi Team Installers](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml),
-choose a successful run, then download the matching item under **Artifacts**.
+The three native installers below are available from successful
+[run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778),
+using source commit
+[`6dc7fc9ebc63448f15a65b78542abe9505aabca3`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/6dc7fc9ebc63448f15a65b78542abe9505aabca3).
+Each native build job and desktop typecheck passed. Use the direct link for
+your computer, or select its artifact from the run's **Artifacts** list.
 The outer download is a ZIP archive containing the installer and its evidence.
 
-| Computer | Actions artifact | Installer inside |
-| --- | --- | --- |
-| Mac with Apple Silicon | `WcSdAi-1.0.1-macos-arm64-unsigned` | `WcSdAi-1.0.1-macos-arm64-unsigned.dmg` |
-| Mac with Intel processor | `WcSdAi-1.0.1-macos-x64-unsigned` | `WcSdAi-1.0.1-macos-x64-unsigned.dmg` |
-| Windows x64 | `WcSdAi-1.0.1-windows-x64-unsigned` | `WcSdAi-1.0.1-windows-x64-unsigned.exe` (NSIS installer) |
+| Computer | Download | Actions artifact | Installer inside |
+| --- | --- | --- | --- |
+| Mac with Apple Silicon | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231618108) | `WcSdAi-1.0.1-macos-arm64-unsigned` | `WcSdAi-1.0.1-macos-arm64-unsigned.dmg` |
+| Mac with Intel processor | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11232087687) | `WcSdAi-1.0.1-macos-x64-unsigned` | `WcSdAi-1.0.1-macos-x64-unsigned.dmg` |
+| Windows x64 | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231329104) | `WcSdAi-1.0.1-windows-x64-unsigned` | `WcSdAi-1.0.1-windows-x64-unsigned.exe` (NSIS installer) |
 
-The workflow reads the actual version from `apps/desktop/package.json`; the
-table illustrates the current 1.0.1 version. Source, checksums and notices
-accompany the artifacts. Do not use the portable Windows executable as a
-substitute for the installer row.
+The workflow reads the actual version from `apps/desktop/package.json`; these
+artifacts contain version 1.0.1. Corresponding source from the commit above,
+checksums and notices accompany each installer. Do not use the portable Windows
+executable as a substitute for the installer row.
+
+Downloaded checksums, exact corresponding source and packaged resources have
+been independently verified for all three installers. Their Actions artifacts
+are available through 2026-11-01 under the current retention policy.
+
+The downloaded Apple Silicon application passed two isolated launches and
+restored all 800 fixture Sessions after restart. Native Intel and Windows
+installation and existing-data upgrade checks remain pending. Refer to the
+[team verification report](team-verification.md) for downloaded artifact checks
+and the exact acceptance scope.
 
 GitHub requires a signed-in account with repository read access to download
 Actions artifacts. This workflow retains artifacts for 30 days, subject to
@@ -34,9 +48,11 @@ The repository is currently public: calling a build a team build does not make
 it private or restrict downloads to team members. No repository visibility or
 access-control change is included in this work.
 
-**Availability:** use the successful workflow run's Artifacts list as the source
-of truth for downloadable packages; a workflow link alone does not prove a
-build exists. The repository had no Releases when first checked on 2026-10-02. Its
+**Availability:** the links above identify the successful 2026-10-02 run and its
+three uploaded installer artifacts. Later candidates are listed under
+[WcSdAi Team Installers](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml);
+check their results and source revision separately. No WcSdAi GitHub Release has
+been published. The
 [Releases page](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases)
 remains the possible longer-term download location after an explicitly
 authorized publication; the links do not create a release.
