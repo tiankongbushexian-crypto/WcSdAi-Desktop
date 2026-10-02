@@ -82,6 +82,8 @@ Windows 可执行文件和原生窗口图标中使用 `build/icon.ico`。渲染�
   验证最终副本的 SHA256 必须与源文件一致。macOS、Windows、Linux 上文件缺失、
   为空或内容变化均使构建失败；该流程不依赖 Electron 开发环境的延迟安装，
   也不要求预先存在 `node_modules/electron/dist`。
+  钩子模块位于 `apps/desktop/build/electron-runtime-notices.mjs`，始终处于桌面包
+  的工作区边界内；原生构建命令直接启动 builder、未识别仓库根工作区时也能解析。
 - `Resources/app.asar` — Electron Main、preload、渲染器输出以及仅
   运行时解析的生产模块。 Renderer 库已存在
   在 Vite 输出中，并且不会再次复制为原始包树。

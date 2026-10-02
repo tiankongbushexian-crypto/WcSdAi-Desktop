@@ -95,6 +95,9 @@ when macOS `iconutil` is available, without overwriting the canonical source.
   signing and installer creation. Missing, empty or changed notices fail the
   build on macOS, Windows and Linux. This does not depend on Electron's lazy
   development installation or a pre-existing `node_modules/electron/dist`.
+  The hook module lives at `apps/desktop/build/electron-runtime-notices.mjs`,
+  within the desktop package's workspace boundary even when a direct native
+  builder invocation does not discover the repository workspace root.
 - `Resources/app.asar` — Electron Main, preload, renderer output, and only the
   runtime-resolved production modules. Renderer libraries are already present
   in Vite output and are not copied again as raw package trees.

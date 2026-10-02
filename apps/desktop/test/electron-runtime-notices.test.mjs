@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
@@ -19,7 +19,10 @@ async function hooks() {
   const result = {};
   for (const name of ["afterExtract", "afterPack"]) {
     assert.equal(typeof config[name], "string", `${name} must be registered for every packaging lane`);
-    result[name] = await resolveFunction("module", resolve(desktop, config[name]), name, root);
+    // Keep a relative executor so the builder actually applies its workspace
+    // boundary. Direct Windows builder launches may discover only this app.
+    const executor = `.${sep}${relative(process.cwd(), resolve(desktop, config[name]))}`;
+    result[name] = await resolveFunction("module", executor, name, desktop);
     assert.equal(typeof result[name], "function");
   }
   return result;
@@ -52,7 +55,7 @@ async function fixture(t, platform, notice = "<html>Target Electron runtime lice
   return { context, notice, finalNotice: join(finalResources, "licenses", packagedName), finishPacking };
 }
 
-test("runtime notice hooks are registered through the real builder module resolver", async () => {
+test("runtime notice hooks resolve within a desktop-only builder workspace", async () => {
   const resolved = await hooks();
   assert.notEqual(resolved.afterExtract, resolved.afterPack);
   assert.ok(!config.extraResources.some((resource) => resource.from?.includes("node_modules/electron/dist")));

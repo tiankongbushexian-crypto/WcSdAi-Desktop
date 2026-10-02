@@ -14,7 +14,7 @@
 
 [![Stars](https://img.shields.io/github/stars/tiankongbushexian-crypto/WcSdAi-Desktop?style=flat\&label=stars)](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/stargazers)
 [![CI](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/ci.yml/badge.svg)](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/tiankongbushexian-crypto/WcSdAi-Desktop)](LICENSE)
+[![License](https://img.shields.io/badge/license-LGPL--3.0--or--later-black)](LICENSE)
 
 <br />
 

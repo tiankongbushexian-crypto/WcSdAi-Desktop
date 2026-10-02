@@ -23,8 +23,11 @@ notices and their index live under `LICENSES/components/`, so repository-level
 license detection does not mistake them for additional project licenses.
 All texts remain included in packages and source archives. Stable Licensee
 v10.1.0 scans the root and direct `LICENSES/` children, and reduces these two
-matching LGPL files to one license. GitHub's final displayed classification
-must still be checked after publication. See
+matching LGPL files to one license. The GitHub API still reported
+`Other` / `NOASSERTION` after the first remote merge on 2026-10-02. This is
+a metadata-detection limitation; the license text has not been replaced.
+README badges state the declared LGPL-3.0-or-later license explicitly and link
+to the retained license. See
 [GitHub license detection](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#detecting-a-license)
 and [Licensee's project aggregation](https://github.com/licensee/licensee/blob/v10.1.0/lib/licensee/projects/project.rb).
 `Cargo.toml` declares `LGPL-3.0-or-later`; that declaration is retained.
