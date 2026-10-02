@@ -9255,3 +9255,27 @@ button for retry. Successful retry opens through the existing IPC without a
 renderer-supplied URL. Cover both English banner and Chinese Settings entry
 points with `node scripts/e2e-update-notifications.mjs`; no real provider or
 installer is used by this acceptance fixture.
+
+## E2E-MACOS-tray-optical-size
+
+- **范围：** WcSdAi macOS 菜单栏图形的尺寸、光学居中与 Retina 图像；现有托盘
+  交互和 Windows/Linux 资源保持不变。
+- **前提：** 从请求提交构建的隔离 macOS Electron 候选版本与临时配置目录；复用
+  已有工具链和依赖。
+- **步骤：** 运行 `node scripts/e2e-macos-tray.mjs`。加载生产原生图像并创建、销毁
+  真实原生 Tray。验证透明 26×22pt 逻辑画布、26×22px 的 1x 与 52×44px 的 2x
+  图像、约 23.24×16pt 的可见图形、向下 1.25pt 的光学偏移以及系统模板模式。
+  在 Retina 显示器的浅色/深色外观下检查菜单栏效果；验证最终安装包含两种
+  图像。检查原有托盘菜单打开、窗口恢复及明确退出行为，不改变交互约定。
+- **交付验收：** 三个平台的 1.0.3 原生包全部验证后，通过固定
+  `updates/stable.json` 清单发布实际版本、下载地址和到期时间。从负责人已安装
+  的 1.0.2 应用执行：检查更新 → 阅读版本/说明 → 打开对应下载页 → 下载 →
+  手动安装 → 重启。验证 1.0.3、菜单栏外观及已有项目、Session 和配置。不以
+  直接替换应用代替该流程，不读取凭据值。
+- **预期：** 单色图形明显放大且光学居中，在 Retina 上保持清晰，使用系统模板
+  对比度。不增加自动安装路径，不改变持久化数据。
+- **状态：** 1.0.3 计划项；在 `docs/wcsdai/1.0.3-verification.md` 分别记录实际命令、
+  候选/基准提交、产物与已安装应用的验收。
+- **追溯：** `04-ux/08-component-spec.md`、`docs/wcsdai/update-notifications.md`
+  与现有手动更新控制器测试。原生托盘生命周期验收由
+  `scripts/e2e-macos-tray.mjs` 负责。

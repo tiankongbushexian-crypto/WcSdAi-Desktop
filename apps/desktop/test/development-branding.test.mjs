@@ -132,7 +132,7 @@ test("macOS development launches from a branded host bundle", () => {
   assert.match(devScriptSource, /CFBundleName", APP_NAME/);
   assert.match(devScriptSource, /CFBundleExecutable", APP_NAME/);
   assert.match(devScriptSource, /CFBundleIconFile", "icon\.icns"/);
-  assert.match(devScriptSource, /BRANDING_SCHEMA = "v4"/);
+  assert.match(devScriptSource, /BRANDING_SCHEMA = "v5"/);
   assert.match(
     devScriptSource,
     /copyFileSync\(iconPath, join\(resources, "icon\.icns"\)\)/,
@@ -144,6 +144,10 @@ test("macOS development launches from a branded host bundle", () => {
   assert.match(
     devScriptSource,
     /copyFileSync\(trayIconMacPath, join\(resources, "tray-icon-mac\.png"\)\)/,
+  );
+  assert.match(
+    devScriptSource,
+    /copyFileSync\(trayIconMacRetinaPath, join\(resources, "tray-icon-mac@2x\.png"\)\)/,
   );
   assert.match(devScriptSource, /verbatimSymlinks: true/);
   assert.match(devScriptSource, /join\(ROOT, "\.cache", "electron-dev"\)/);
@@ -176,6 +180,7 @@ test(
     const iconPath = join(root, "source.icns");
     const trayIconPath = join(root, "tray-icon.png");
     const trayIconMacPath = join(root, "tray-icon-mac.png");
+    const trayIconMacRetinaPath = join(root, "tray-icon-mac@2x.png");
     const cacheRoot = join(root, "cache");
 
     try {
@@ -185,6 +190,7 @@ test(
       await writeFile(iconPath, "canonical-icon");
       await writeFile(trayIconPath, "generic-tray-icon");
       await writeFile(trayIconMacPath, "macOS-tray-icon");
+      await writeFile(trayIconMacRetinaPath, "macOS-Retina-tray-icon");
       await writeFile(
         join(contents, "Info.plist"),
         `<?xml version="1.0" encoding="UTF-8"?>
@@ -205,6 +211,7 @@ test(
         iconPath,
         trayIconPath,
         trayIconMacPath,
+        trayIconMacRetinaPath,
         cacheRoot,
         sign: false,
       };
@@ -233,12 +240,26 @@ test(
         "macOS-tray-icon",
       );
       assert.match(plist, /<string>WcSdAi<\/string>/);
+      const retinaResource = join(brandedContents, "Resources", "tray-icon-mac@2x.png");
+      assert.equal(await readFile(retinaResource, "utf8"), "macOS-Retina-tray-icon");
       assert.match(plist, /<string>com\.example\.wcsdai\.dev<\/string>/);
       assert.equal(prepareMacDevelopmentBundle(options), brandedExecutable);
 
+      await rm(retinaResource);
+      assert.equal(prepareMacDevelopmentBundle(options), brandedExecutable);
+      assert.equal(await readFile(retinaResource, "utf8"), "macOS-Retina-tray-icon");
+
+      await writeFile(trayIconMacRetinaPath, "updated-macOS-Retina-tray-icon");
+      const retinaUpdatedExecutable = prepareMacDevelopmentBundle(options);
+      assert.notEqual(retinaUpdatedExecutable, brandedExecutable);
+      assert.equal(
+        await readFile(join(retinaUpdatedExecutable, "..", "..", "Resources", "tray-icon-mac@2x.png"), "utf8"),
+        "updated-macOS-Retina-tray-icon",
+      );
+
       await writeFile(trayIconMacPath, "updated-macOS-tray-icon");
       const updatedExecutable = prepareMacDevelopmentBundle(options);
-      assert.notEqual(updatedExecutable, brandedExecutable);
+      assert.notEqual(updatedExecutable, retinaUpdatedExecutable);
       const updatedContents = join(updatedExecutable, "..", "..");
       assert.equal(
         await readFile(

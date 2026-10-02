@@ -2,6 +2,13 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const ptBREntries: ChangelogEntry[] = [
   {
+    version: "1.0.3",
+    date: "2026-10-03",
+    highlights: [
+      "Ampliar e centralizar visualmente o logotipo na barra de menus do macOS, com suporte nativo a imagens Retina.",
+    ],
+  },
+  {
     version: "1.0.2",
     date: "2026-10-02",
     highlights: [

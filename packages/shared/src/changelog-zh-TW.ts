@@ -2,6 +2,13 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const zhTWEntries: ChangelogEntry[] = [
   {
+    version: "1.0.3",
+    date: "2026-10-03",
+    highlights: [
+      "放大並光學置中 macOS 選單列 Logo，補充 Retina 高解析度影像支援。",
+    ],
+  },
+  {
     version: "1.0.2",
     date: "2026-10-02",
     highlights: [

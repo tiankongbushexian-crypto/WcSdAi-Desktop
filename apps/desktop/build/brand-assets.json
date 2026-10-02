@@ -4,9 +4,15 @@
   "canonical_source": "apps/desktop/build/wcsdai-symbol.svg",
   "canonical_sha256": "556e07599bd6284ed53faf348c73c280db0624f5e3f03e16ed3504ced3a0bd46",
   "source_rights": "User supplied; license and trademark authorization pending confirmation before release.",
-  "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox.",
+  "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox. Render the macOS tray separately at 26x22pt with a 16pt painted height, 1.25pt downward optical offset and 1x/2x representations.",
   "app_icon_symbol_scale": 1.68,
   "app_icon_optical_offset_y": 27,
+  "mac_tray_logical_size": [
+    26,
+    22
+  ],
+  "mac_tray_mark_height": 16,
+  "mac_tray_optical_offset_y": 1.25,
   "outputs": [
     {
       "path": "apps/desktop/build/icon_1024.png",
@@ -193,11 +199,26 @@
     },
     {
       "path": "apps/desktop/build/tray-icon-mac.png",
-      "sha256": "ab78b0c59b5fed254e4c2f3085535c195e2869325bdc792f40572bbe3c3635a3",
+      "sha256": "0b75719d51901fab7d93fa89371a892cc942b0a75a7d29a3d3f46807809189b5",
       "sizes": [
         [
-          1024,
-          1024
+          26,
+          22
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/build/tray-icon-mac@2x.png",
+      "sha256": "323c6263e67a11a38126ba6a7a1ba1614268492ec34bcb1fddb85dae0f3555c3",
+      "sizes": [
+        [
+          52,
+          44
         ]
       ],
       "alpha_extrema": [

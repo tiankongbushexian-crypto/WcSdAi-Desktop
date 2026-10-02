@@ -16189,3 +16189,36 @@ button for retry. Successful retry opens through the existing IPC without a
 renderer-supplied URL. Cover both English banner and Chinese Settings entry
 points with `node scripts/e2e-update-notifications.mjs`; no real provider or
 installer is used by this acceptance fixture.
+
+## E2E-MACOS-tray-optical-size
+
+- **Scope:** WcSdAi macOS menu-bar mark size, optical centering and Retina
+  representations; existing tray interaction and Windows/Linux assets remain
+  unchanged.
+- **Prerequisites:** An isolated macOS Electron candidate built from the request
+  commit; a disposable profile. Reuse the existing toolchain and dependencies.
+- **Steps:** Run `node scripts/e2e-macos-tray.mjs`. Load the production native
+  image and create/destroy the real native Tray. Verify a transparent 26×22pt
+  logical canvas, 26×22px 1x and 52×44px 2x images, an approximately 23.24×16pt
+  visible mark with a 1.25pt downward optical offset, and native template mode.
+  Inspect the menu-bar result under light/dark appearance on a Retina display;
+  verify the final package contains both representations. Check existing tray
+  menu opening, window restoration and explicit quit behavior without changing
+  the interaction contract.
+- **Delivery acceptance:** After all three native 1.0.3 packages are verified,
+  publish their actual version, download URLs and expiry through the fixed
+  `updates/stable.json` feed. From the owner's installed 1.0.2 application,
+  Check for Updates → review version/notes → open the matching download page →
+  download → manually install → restart. Verify 1.0.3, the menu-bar appearance
+  and existing projects, Sessions and configuration. Do not substitute a direct
+  app replacement for this journey; do not inspect credential values.
+- **Expected:** The monochrome mark is visibly larger and optically centered,
+  remains sharp on Retina and uses the system template contrast. No new
+  automatic installer path or persisted-data change occurs.
+- **Status:** Planned for 1.0.3; record executed command, candidate/base, artifacts
+  and the installed-app acceptance separately in
+  `docs/wcsdai/1.0.3-verification.md`.
+- **Traceability:** `04-ux/08-component-spec.md`,
+  `docs/wcsdai/update-notifications.md` and the existing manual-update controller
+  tests. Native tray lifecycle acceptance is owned by
+  `scripts/e2e-macos-tray.mjs`.

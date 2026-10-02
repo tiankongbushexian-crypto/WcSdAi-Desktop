@@ -37,7 +37,9 @@ Local-first · Model-agnostic · Plugin-powered · macOS / Windows / Linux
 
 ## Team downloads
 
-**Current release line: 1.0.x. Current team version: 1.0.2. All three verified installers are available below. No WcSdAi GitHub Release has been published.**
+**Current release line: 1.0.x. Next target: 1.0.3 (in preparation). The verified team downloads below remain at 1.0.2. No WcSdAi GitHub Release has been published.**
+
+The 1.0.3 candidate enlarges and optically centers the macOS menu-bar logo and adds native Retina images. Its packages and the real 1.0.2 → 1.0.3 manual update journey are pending verification; the public update manifest remains at 1.0.2 until the new packages are verified. See the [1.0.3 verification plan](docs/wcsdai/1.0.3-verification.md).
 
 WcSdAi — **让ai更简单** — is an AI desktop workspace for our team's use, maintained by **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** at **量动科技**. Copyright **2026 量动科技** applies to its original contributions. Website: [wanchuangsd.cn](https://wanchuangsd.cn); support: [2222223323@qq.com](mailto:2222223323@qq.com).
 

@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 
 const APP_NAME = "WcSdAi";
 const DEV_BUNDLE_ID = "com.example.wcsdai.dev";
-const BRANDING_SCHEMA = "v4";
+const BRANDING_SCHEMA = "v5";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DESKTOP_ROOT = join(ROOT, "apps", "desktop");
 
@@ -48,6 +48,7 @@ export function prepareMacDevelopmentBundle({
   iconPath,
   trayIconPath,
   trayIconMacPath,
+  trayIconMacRetinaPath,
   cacheRoot,
   sign = true,
 }) {
@@ -57,6 +58,7 @@ export function prepareMacDevelopmentBundle({
     ["application icon", iconPath],
     ["tray icon", trayIconPath],
     ["macOS tray icon", trayIconMacPath],
+    ["macOS Retina tray icon", trayIconMacRetinaPath],
   ]) {
     if (!existsSync(path)) {
       throw new Error(`Development bundle ${name} is missing: ${path}`);
@@ -77,12 +79,14 @@ export function prepareMacDevelopmentBundle({
   const targetResources = join(targetBundle, "Contents", "Resources");
   const targetTrayIcon = join(targetResources, "tray-icon.png");
   const targetTrayIconMac = join(targetResources, "tray-icon-mac.png");
+  const targetTrayIconMacRetina = join(targetResources, "tray-icon-mac@2x.png");
 
   if (
     existsSync(markerPath) &&
     existsSync(targetExecutable) &&
     existsSync(targetTrayIcon) &&
-    existsSync(targetTrayIconMac)
+    existsSync(targetTrayIconMac) &&
+    existsSync(targetTrayIconMacRetina)
   ) {
     return targetExecutable;
   }
@@ -108,6 +112,7 @@ export function prepareMacDevelopmentBundle({
     copyFileSync(iconPath, join(resources, "icon.icns"));
     copyFileSync(trayIconPath, join(resources, "tray-icon.png"));
     copyFileSync(trayIconMacPath, join(resources, "tray-icon-mac.png"));
+    copyFileSync(trayIconMacRetinaPath, join(resources, "tray-icon-mac@2x.png"));
 
     const plistPath = join(contents, "Info.plist");
     setPlistString(plistPath, "CFBundleDisplayName", APP_NAME);
@@ -143,7 +148,8 @@ export function prepareMacDevelopmentBundle({
       existsSync(markerPath) &&
       existsSync(targetExecutable) &&
       existsSync(targetTrayIcon) &&
-      existsSync(targetTrayIconMac);
+      existsSync(targetTrayIconMac) &&
+      existsSync(targetTrayIconMacRetina);
     rmSync(stagingRoot, { recursive: true, force: true });
     if (cacheWonRace) return targetExecutable;
     throw error;
@@ -162,6 +168,7 @@ function run() {
       iconPath: join(DESKTOP_ROOT, "build", "icon.icns"),
       trayIconPath: join(DESKTOP_ROOT, "build", "icon.png"),
       trayIconMacPath: join(DESKTOP_ROOT, "build", "tray-icon-mac.png"),
+      trayIconMacRetinaPath: join(DESKTOP_ROOT, "build", "tray-icon-mac@2x.png"),
       cacheRoot: join(ROOT, ".cache", "electron-dev"),
     });
   }

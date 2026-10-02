@@ -37,7 +37,9 @@
 
 ## 团队下载
 
-**当前发布线：1.0.x。当前团队版本：1.0.2。下方三个平台安装包均已验证并可下载。尚未发布 WcSdAi GitHub Release。**
+**当前发布线：1.0.x。下一目标版本：1.0.3（准备中）。下方已验证的团队下载仍为 1.0.2。尚未发布 WcSdAi GitHub Release。**
+
+1.0.3 候选版本放大并光学居中 macOS 菜单栏 Logo，增加 Retina 高清图像。新安装包和从 1.0.2 检查更新、下载并手动安装 1.0.3 的真实流程仍待验证；新包验证完成前，公共更新清单继续保持 1.0.2。见[1.0.3 验证计划](docs/wcsdai/1.0.3-verification.md)。
 
 WcSdAi — **让ai更简单** — 是面向团队使用的 AI 桌面工作台，由 **量动科技**的 **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** 维护。原创贡献版权：**Copyright 2026 量动科技**。官网：[wanchuangsd.cn](https://wanchuangsd.cn)；技术支持：[2222223323@qq.com](mailto:2222223323@qq.com)。
 

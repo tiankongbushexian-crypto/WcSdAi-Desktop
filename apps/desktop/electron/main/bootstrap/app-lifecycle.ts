@@ -20,6 +20,7 @@ import { catalogs, defaultLocale, resolveLocale } from "@pi-desktop/i18n";
 import { installApplicationMenu } from "../application-menu";
 import { isWindowFullScreen, setWindowFullScreen } from "../window-fullscreen";
 import { createTraySessions } from "../tray-sessions";
+import { prepareTrayImage } from "../tray-image";
 import { createTaskbarUnreadBadge } from "../taskbar-unread-badge";
 import { createWindow, type WindowLifecycleState } from "./window";
 import { windowToggleAction } from "./window-visibility";
@@ -147,10 +148,7 @@ export function createApplicationLifecycle({
       : join(app.getAppPath(), "build");
     const candidates =
       process.platform === "darwin"
-        ? [
-          join(resourceRoot, "tray-icon-mac.png"),
-          join(resourceRoot, app.isPackaged ? "tray-icon.png" : "icon.png"),
-          ]
+        ? [join(resourceRoot, "tray-icon-mac.png")]
         : [join(resourceRoot, app.isPackaged ? "tray-icon.png" : "icon.png")];
     return candidates.find((candidate) => existsSync(candidate)) ?? null;
   }
@@ -265,11 +263,7 @@ export function createApplicationLifecycle({
       });
       return;
     }
-    const icon = source.resize({
-      width: process.platform === "darwin" ? 18 : 16,
-      height: process.platform === "darwin" ? 18 : 16,
-    });
-    if (process.platform === "darwin") icon.setTemplateImage(true);
+    const icon = prepareTrayImage(source, process.platform);
 
     state.tray = new Tray(icon);
     state.tray.setToolTip(APP_NAME);
