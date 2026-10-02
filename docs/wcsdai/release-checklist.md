@@ -14,7 +14,7 @@ distribution is an optional future lane, not a prerequisite for team packages.
 - [x] Prepare a manual native build workflow without Developer ID, notarization or Windows signing secrets.
 - [x] Validate the macOS ad-hoc app seals on both native hosted runners; no publisher certificate is used.
 - [x] Download the hosted macOS arm64 artifact, launch it twice in an isolated profile and restore all 800 fixture Sessions after restart.
-- [x] Keep automatic updates disabled and use manual replacement for team versions.
+- [x] Keep automatic installation disabled and use manual replacement for team versions; 1.0.2 adds notification-only checks.
 - [x] Owner authorizes commit/push/integration and remote workflow execution/artifact upload.
 - [x] Complete macOS arm64, macOS Intel x64 and Windows x64 native build jobs and desktop typechecks in [run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778).
 - [x] Include corresponding source from commit `6dc7fc9ebc63448f15a65b78542abe9505aabca3`, build information, license notices and checksums with all three uploaded installers.
@@ -63,8 +63,9 @@ publisher identity; it does not require disabling OS security or app approvals.
 The app currently has `build.publish: null` and empty `RELEASES_URL`.
 These values are intentional for the unsigned team lane; no update server or
 signing account needs to be supplied for that lane.
-The updater returns disabled without an approved URL and packaged metadata;
-existing updater download/install logic remains intact. To prepare a later
+Packaged 1.0.2 team builds use the fixed, validated GitHub version manifest for
+notifications and download-page navigation. Development builds remain disabled.
+The existing signed updater download/install logic remains intact. To prepare a later
 release, configure the fork repository's GitHub feed, set its approved latest
 release URL, then validate `pnpm check:wcsdai-release` with
 `WCSDAI_RELEASE_READY=true` only after this checklist is complete. CI requires
@@ -82,3 +83,20 @@ notarization. See [electron-builder v26 signing documentation](https://www.elect
 The native architecture matrix is inherited from the upstream release lanes,
 not cross-compiled from this Mac. Do not label an arm64 local build as tested
 on Intel, Windows or Linux.
+
+## 1.0.2 notification and motion candidate
+
+- [x] Owner approved icon A: 12% larger, 27/1024px optical downward offset.
+- [x] Owner approved both new logo motions, three text entrances and randomized greetings.
+- [x] Version surfaces and all nine shipped changelog catalogs synchronized.
+- [x] Notification metadata parser and real Main controller tested against offline,
+  timeout, malformed/oversized feed, unsupported target, expired download and disposal.
+- [x] Automatic binary download/install remains off for unsigned team packages.
+- [x] Current `updates/stable.json` initially advertises only verified 1.0.1 artifacts.
+- [ ] Complete final candidate and PR integration checks before merging.
+- [ ] Build, download and verify three native 1.0.2 installers and corresponding source.
+- [ ] Update the manifest and README links only after those artifacts are verified.
+
+Existing 1.0.1 users must install 1.0.2 manually once. The checker cannot be
+retroactively added to an already installed executable. No server deployment,
+Git tag or GitHub Release is needed for this notification-only Actions lane.

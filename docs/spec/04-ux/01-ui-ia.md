@@ -169,11 +169,12 @@ destination, chat as the home surface, tools and permissions inline.
 ## 3. Destinations
 
 ### 3.1 Chat home (default)
-- Empty state: a restrained hero title ("What can I help you build?" — a
+- Empty state: a centered greeting selected on entry for empty, temporary or
+  project context (see the greeting/motion contract in `07-ui-design-system.md`); a
   project-bound session turns the project name into a dotted-underline
   switcher that lists the sidebar's open projects, can search them, can
-  clone a git repository from a syntactically public remote (ADR 0247 / D416), and can open another local folder), an optional first-run
-  checklist, and a bottom-reserved composer. Task entry starts directly in the composer; no
+  clone a git repository from a syntactically public remote (ADR 0247 / D416), and can open another local folder. An optional first-run
+  checklist and a bottom-reserved composer complete the home surface. Task entry starts directly in the composer; no
   redundant supporting paragraph, developer starter cards, or contextual
   quick-action row is rendered (D204/D206).
 - With transcript: message stream + tool disclosure rows (D071), a contextual

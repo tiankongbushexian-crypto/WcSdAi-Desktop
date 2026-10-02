@@ -37,9 +37,17 @@
 
 ## 团队下载
 
-**当前发布线：1.0.x。目标版本：1.0.1；尚未发布 WcSdAi GitHub Release。**
+**当前发布线：1.0.x。目标版本：1.0.2；下方已验证的下载仍为 1.0.1。尚未发布 WcSdAi GitHub Release。**
 
 WcSdAi — **让ai更简单** — 是面向团队使用的 AI 桌面工作台，由 **量动科技**的 **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** 维护。原创贡献版权：**Copyright 2026 量动科技**。官网：[wanchuangsd.cn](https://wanchuangsd.cn)；技术支持：[2222223323@qq.com](mailto:2222223323@qq.com)。
+
+**1.0.2 准备内容：**
+
+- 联网检查新版本，展示版本号和更新内容，并打开对应下载页供手动安装。
+- 放大黑白应用图标中的 Logo，改善其在圆角白底中的视觉居中。
+- 首页欢迎语与 Logo 居中对齐，新建任务或刷新时随机更换；增加两种 Logo 动画、三种文字入场效果，并支持减少动态效果。
+
+已经安装的 1.0.1 需要先手动升级一次到具备更新提醒功能的版本，之后才能收到后续提醒。下方链接在新原生安装包构建和验证完成前继续指向已验证的 1.0.1，具体行为见[更新提醒说明](docs/wcsdai/update-notifications.md)。
 
 | 平台 | 下载入口 | 1.0.1 版本的 Actions artifact | ZIP 内的安装包 |
 | --- | --- | --- | --- |

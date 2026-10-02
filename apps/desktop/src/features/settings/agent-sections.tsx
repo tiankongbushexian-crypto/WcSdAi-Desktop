@@ -4,6 +4,7 @@ import type { AgentInstructionFile, AppSettings, UpdatePreference } from "@pi-de
 import { api } from "../../lib/api";
 import { useAppStore } from "../../stores/app-store";
 import { useUpdateState } from "../../hooks/use-update-state";
+import { useOpenUpdateRelease } from "../../hooks/use-open-update-release";
 import { Button } from "../../components/ui";
 import { IconFileText } from "../../components/icons";
 import { SettingsMenuSelect } from "../../components/settings/SettingsMenuSelect";
@@ -90,6 +91,7 @@ export function UpdatesRow({
 }) {
   const { t } = useTranslation();
   const update = useUpdateState();
+  const openRelease = useOpenUpdateRelease();
   const showToast = useAppStore((state) => state.showToast);
   const [releaseNotesOpen, setReleaseNotesOpen] = useState(false);
   const [preferenceSaving, setPreferenceSaving] = useState(false);
@@ -137,7 +139,7 @@ export function UpdatesRow({
       <Button
         variant="secondary"
         disabled={!update.releasesUrl}
-        onClick={() => void api.updatesOpenReleases().catch(() => undefined)}
+        onClick={openRelease}
       >
         {t("updates.viewRelease")}
       </Button>

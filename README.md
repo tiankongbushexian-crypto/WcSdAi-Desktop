@@ -37,9 +37,17 @@ Local-first · Model-agnostic · Plugin-powered · macOS / Windows / Linux
 
 ## Team downloads
 
-**Current release line: 1.0.x. Target version: 1.0.1; no WcSdAi GitHub Release has been published.**
+**Current release line: 1.0.x. Target version: 1.0.2; the verified downloads below are still 1.0.1. No WcSdAi GitHub Release has been published.**
 
 WcSdAi — **让ai更简单** — is an AI desktop workspace for our team's use, maintained by **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** at **量动科技**. Copyright **2026 量动科技** applies to its original contributions. Website: [wanchuangsd.cn](https://wanchuangsd.cn); support: [2222223323@qq.com](mailto:2222223323@qq.com).
+
+**Prepared for 1.0.2:**
+
+- Online update checks show the new version and its notes, then open the matching download page for manual installation.
+- The larger monochrome application mark has improved visual centering inside its rounded white tile.
+- Home greetings align with the logo and change on a new task or refresh, with two additional logo animations, three text entrances, and reduced-motion support.
+
+Existing 1.0.1 installations need one manual upgrade to a notification-capable build before they can receive future update reminders. The links below remain on the verified 1.0.1 packages until new native installers have been built and checked. See [update notifications](docs/wcsdai/update-notifications.md) for the delivery behavior.
 
 | Platform | Download entry | Actions artifact for version 1.0.1 | Installer inside the ZIP |
 | --- | --- | --- | --- |

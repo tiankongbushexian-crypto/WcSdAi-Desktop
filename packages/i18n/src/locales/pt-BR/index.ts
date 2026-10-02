@@ -125,6 +125,7 @@ export const ptBR = {
     downloaded: "A versão {{version}} está pronta para ser instalada.",
     restart: "Reiniciar para atualizar",
     viewRelease: "Ver versão",
+    openReleaseFailed: "Não foi possível abrir a página de download. Verifique se há atualizações e tente novamente.",
     whatsNew: "Novidades",
     releaseNotes: "Notas da versão",
     closeReleaseNotes: "Fechar notas da versão",
@@ -253,6 +254,11 @@ export const ptBR = {
       error: "Não foi possível carregar esta imagem",
       retry: "Tentar novamente",
       position: "{{current}} de {{total}}"
+    },
+    homeWelcome: {
+      empty: { g0: "Como posso ajudar você a construir?", g1: "Como posso ajudar você a construir?", g2: "Como posso ajudar você a construir?", g3: "Como posso ajudar você a construir?", g4: "Como posso ajudar você a construir?", g5: "Como posso ajudar você a construir?", g6: "Como posso ajudar você a construir?", g7: "Como posso ajudar você a construir?" },
+      temporary: { g0: "O que você gostaria de explorar temporariamente?", g1: "O que você gostaria de explorar temporariamente?", g2: "O que você gostaria de explorar temporariamente?", g3: "O que você gostaria de explorar temporariamente?", g4: "O que você gostaria de explorar temporariamente?", g5: "O que você gostaria de explorar temporariamente?", g6: "O que você gostaria de explorar temporariamente?", g7: "O que você gostaria de explorar temporariamente?" },
+      project: { g0: "O que podemos construir em {{project}}?", g1: "O que podemos construir em {{project}}?", g2: "O que podemos construir em {{project}}?", g3: "O que podemos construir em {{project}}?", g4: "O que podemos construir em {{project}}?", g5: "O que podemos construir em {{project}}?", g6: "O que podemos construir em {{project}}?", g7: "O que podemos construir em {{project}}?" },
     },
     emptyTitle: "Como posso ajudar você a construir?",
     emptyTitleInProject: "O que podemos construir em {{project}}?",

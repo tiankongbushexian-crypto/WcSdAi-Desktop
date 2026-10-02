@@ -1903,35 +1903,21 @@ task-candidate E2E 从请求工作树运行，但使用主工作区已经准备�
 - **里程碑**：M5
 - **状态**：单位覆盖（`user-select.test.mjs`）；场景已记录
 
-#### E2E-046：PI-Desktop 渲染器品牌和输入框图标边界
+#### E2E-046: WcSdAi renderer branding and composer icon boundary
 
-- **先决条件**：应用程序在英语和中中文语言环境中运行，并带有
-  空荡荡的家和可用的停靠成绩单。
-- **步骤**：1) 检查展开和折叠的侧边栏。 2) 检查
-  空荡荡的英雄和停靠的输入框。 3) 观察八帧吉祥物 GIF 原地循环，
-  将指针移到其上并确认节奏与几何形状不变。开启减少动态
-  效果并确认显示静止首帧。 4）关注页脚设置和插件
-  图标，然后每个 project/Temporary 会话创建控件。 5）打开设置
-  和输入框输入。
-- **预期**：可见 shell 标识为 `PI-Desktop`；空荡荡的家英雄
-  渲染与当前主题匹配的 100px `HomeMascotLogo` GIF，首帧短暂停留后循环挥手；
-  指针悬停不改变节奏或几何形状，减少运动时显示对应静止首帧。
-  expanded/collapsed
-  侧边栏通过 `BrandLogo` 呈现派生的 `src/assets/brand/logo-*.png` 资源
-  并且停靠的输入框提示行没有前导
-  品牌图标或保留图标槽及其文本直接与输入对齐
-  天沟。页脚设置和插件操作是紧凑的图标按钮；
-  插件紧邻“设置”右侧，并公开本地化的
-可访问的名称。每个作用域会话创建控件都使用专用的
-  带有本地化标签和可访问名称的消息加号图标。 `Codex` 仅在以下情况下保持可见
-  外部导入源标签或非运行时设计参考文本。
-- **链接规格**：`04-ux/01-ui-ia.md`、`04-ux/07-ui-design-system.md`、
-  `04-ux/08-component-spec.md`、`04-ux/09-interaction-patterns.md`、
-  `08-meta/decisions-log.md`（D094/D160），
-  `../../adr/0031-icon-free-composer-prompt-row.md`
-- **验收**：质量（品牌一致性和关键操作感觉很精致）
-- **里程碑**：M5
-- **状态**：单位覆盖（`renderer-branding.test.mjs`）；场景已记录
+- **Preconditions**: English and zh-CN, empty/temporary/project homes and a transcript.
+- **Steps**: Inspect sidebar and composer, create new empty sessions, refresh,
+  type a draft, switch theme, enable reduced motion and activate the project switcher.
+- **Expected**: WcSdAi shell identity; centered 100px decorative logo and title;
+  nonrepeating greeting/motion choices on new contexts and refresh; stable choice
+  while typing. The project remains a real accessible button. Theme uses black
+  or white; reduced motion leaves a still visible logo and readable title. Composer
+  prompt rows have no leading brand icon. Scoped new-session controls retain the
+  localized message-plus action; sidebar Settings and Plugins remain accessible.
+- **Coverage**: `home-welcome.test.mjs`, `renderer-branding.test.mjs`,
+  `scripts/e2e-home-welcome.mjs`, `scripts/e2e-wcsdai-brand.mjs`.
+- **Specs linked**: `04-ux/07-ui-design-system.md`, `04-ux/08-component-spec.md`.
+- **Acceptance**: Quality; **Milestone**: M5.
 
 #### E2E-047：保留、折叠、切换和关闭多个项目选项卡
 
@@ -3383,33 +3369,20 @@ IPC 请求无法关闭。
 - **链接规格**：`04-ux/07-ui-design-system.md` §8、`04-ux/02-i18n-english-first.md`、决策日志 D146 / D304 / D348
 - **验收**：A（应用程序启动），质量
 - **里程碑**：M5
-#### E2E-099：品牌标志遵循活跃主题
-- **状态**：草案
-- **优先级**：P3
-- **封面**：品质/US-UI 外壳抛光
-- **前提条件**：应用程序运行；主题可以在浅色和深色（以及系统）之间切换，而无需重新启动。
-- **步骤**：
-  1. 在轻型模式下，打开应用程序外壳、空的聊天主页和展开的侧边栏 (Windows/Linux) 或启动画面。
-  2. 检查侧边栏和启动画面中渲染的 `BrandLogo` 源，
-     并检查空首页英雄中的浅色八帧 `HomeMascotLogo` GIF。
-     将鼠标悬停在吉祥物上并验证节奏不变。
-  3. 将主题切换为深色（设置→基础→外观，或系统外观更改）。
-  4. 重新检查相同的表面，无需重新加载。
-  5. 切换回光源并重新检查。
-- **预期**：
-  - 明暗模式渲染 `src/assets/brand/logo-light.png` /
-    `src/assets/brand/logo-dark.png`
-    位于侧边栏和启动画面中，无需重新加载窗口。
-- 空首页英雄按当前主题渲染 100 像素的八帧吉祥物 GIF
-    （`home-mascot-light.gif` / `home-mascot-dark.gif`），首帧短暂停留后
-    循环挥手。切换主题时即时更换资源，无需重新加载窗口。指针悬停
-    不改变节奏；减少运动时对应静止首帧仍然可见。
-  - 尺寸在主题变化时保持稳定（侧边栏 20 像素、英雄 100 像素、启动栏
-    64px），标记保持装饰性，无需点击、键盘或焦点
-    行为。
-- **链接规格**：`04-ux/08-component-spec.md` §3.7、`04-ux/07-ui-design-system.md`
-- **验收**：质量
-- **里程碑**：M5
+#### E2E-099: Brand logo follows the active theme
+
+- **Preconditions**: App running; theme can change without restart.
+- **Steps**: Inspect sidebar, splash and each home-logo variant in light and dark;
+  change system theme; hover each mark; enable reduced motion.
+- **Expected**: Sidebar/splash `BrandLogo` swaps light/dark sources live. Home
+  breath GIF swaps theme pairs; assembly/trace SVG uses pure black or white.
+  The 100px home slot, 20px expanded sidebar and 64px splash remain stable.
+  Hover does not change animation speed. Reduced motion freezes SVG/text and
+  replaces GIF with its still frame; all marks remain decorative.
+- **Coverage**: `renderer-branding.test.mjs`, `scripts/e2e-home-welcome.mjs`.
+- **Specs linked**: `04-ux/08-component-spec.md`, `04-ux/07-ui-design-system.md`.
+- **Acceptance**: Quality; **Milestone**: M5.
+
 #### E2E-077：主题感知选择和 CJK 部分标签
 
 - **状态**：部分自动化（`user-select.test.mjs`、`interaction-polish.test.mjs`）
@@ -5772,15 +5745,23 @@ eleven-tool-round desktop paths are verified by
   macOS 侧边栏将折叠侧边栏放在右侧相同的位置
   行，没有 Logo/Home 品牌或 back/forward 按钮。
 
-### US-UI-17 PI-Desktop 家庭英雄标志
-- 在空聊天主页上，100px `HomeMascotLogo` GIF 在标题上方呈现
-  八帧挥手吉祥物，并在首帧稍作停留。浅色和深色主题各使用一套
-  GIF 和静止 PNG。
-- 指针悬停不改变节奏或几何形状；减少运动时显示对应静止
-  首帧。吉祥物保持装饰性。
-- 标题为 28px / 粗细为 400；活动项目名称使用点下划线（1 像素，偏移 4 像素）。
-- Composer 不会在有效负载之前渲染附件或 appshot 控件
-  首尾相连达到 pi。
+### US-UI-17 WcSdAi home greeting and logo
+
+- The centered empty-home column has a decorative 100px `HomeMascotLogo`
+  and a centered title. Each new empty-session context selects a greeting,
+  logo motion and title entrance independently, avoiding each previous choice.
+  English, Simplified Chinese and Traditional Chinese have eight greetings per
+  context (empty / temporary / project); other locales keep their translated
+  wording. Unrelated renders and draft input never change the selection.
+- Logo variants are the existing eight-frame breath GIF, diagonal assembly of
+  the canonical three SVG pieces, and outline trace into solid ink. Theme
+  changes select black/white instantly; hover never changes cadence. CSS
+  drives the vector variants without JavaScript animation timers.
+- Text enters once with rise, staggered glyphs or focus. Project names remain
+  real focusable switcher controls; project text uses whole-title rise instead
+  of glyph splitting. Reduced motion freezes both vector animations and text,
+  and substitutes the GIF's matching still PNG. The composer stays unchanged.
+- The title retains 28px / weight 400, including its dotted project button.
 
 ### US-UI-18 Composer 没有惰性操作
 - 在聊天主页和停靠线程上，检查每个输入框控件。
@@ -9240,3 +9221,37 @@ the latest destination. These assertions measure work counts, not device FPS.
   解析器及 macOS/Windows/Linux 解压到打包的 fixture，覆盖 macOS 改名与清理、
   校验失败和 Windows 重复打包；实际原生包检查进一步确认 runtime 许可证。
 - **规格：** [团队分发](/wcsdai/team-distribution)、fork 基线修订及发布手册。
+
+
+## E2E-WCSDAI-team-version-notifications
+
+- **Preconditions:** Notification-capable packaged candidate, isolated profile,
+  fixed-feed HTTP boundary served by controlled test fixtures, and a current
+  semantic version lower than the fixture's verified release. No real provider
+  credentials or production user data are used.
+- **Steps:** Start the app; observe the delayed automatic check. Verify the
+  available-version banner and localized notes. Open its download action and
+  inspect the shell boundary's validated platform URL. Dismiss, check again,
+  restart with reminder settings retained, then publish a newer fixture.
+  Exercise explicit Settings checks, locale change, offline/timeout, malformed
+  and oversized bodies, invalid URLs, expired artifacts, older/equal versions,
+  unsupported targets and disposal while a response is in flight.
+- **Expected:** One ambient reminder per version, explicit checks remain
+  observable, later versions may remind again, and notes are plain text from
+  the fixed manifest. No automatic download/install or renderer-selected URL.
+  Rejected data cannot open a page, and stale results cannot mutate disposed
+  controller state. Failures do not block the first window or existing work.
+- **Specs linked:** ADR 0022, 04-ux/09-interaction-patterns.md and
+  `docs/wcsdai/update-notifications.md`.
+- **Status:** Candidate implementation and controlled-boundary tests; public
+  deployment and real-client upgrade are separate acceptance steps.
+
+### WcSdAi download-page failure recovery acceptance
+
+From Settings, check the controlled newer-version fixture, observe the same
+version and plain-text notes in Settings and the banner, and open the download
+page. A rejected Main action shows a localized error toast and retains the
+button for retry. Successful retry opens through the existing IPC without a
+renderer-supplied URL. Cover both English banner and Chinese Settings entry
+points with `node scripts/e2e-update-notifications.mjs`; no real provider or
+installer is used by this acceptance fixture.

@@ -1,6 +1,6 @@
 {
   "name": "@pi-desktop/desktop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "desktopName": "wcsdai.desktop",
   "private": true,
   "description": "WcSdAi Electron application",

@@ -2,6 +2,16 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const zhTWEntries: ChangelogEntry[] = [
   {
+    version: "1.0.2",
+    date: "2026-10-02",
+    highlights: [
+      "連網執行時檢查 WcSdAi 新版本，顯示更新內容，並可開啟下載頁手動安裝。",
+      "放大黑白應用程式圖示中的 Logo，調整其在圓角白底中的視覺位置。",
+      "首頁文字與 Logo 置中對齊，新增任務或重新整理時隨機更換歡迎語，輸入時保持穩定。",
+      "新增兩種流暢的 Logo 動畫和三種文字進場效果，啟用減少動態效果時顯示靜態內容。",
+    ],
+  },
+  {
     version: "1.0.1",
     highlights: [
       "WcSdAi 1.0.1 基於 PI-Desktop 0.16.0，目前仍在準備發佈。",

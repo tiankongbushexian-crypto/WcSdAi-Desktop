@@ -2,6 +2,16 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const enEntries: ChangelogEntry[] = [
   {
+    version: "1.0.2",
+    date: "2026-10-02",
+    highlights: [
+      "Check for new WcSdAi versions while online, read update notes, and open the download page for manual installation.",
+      "Enlarge the monochrome application mark and adjust its visual alignment inside the rounded white icon.",
+      "Align home greetings with the logo and choose a fresh greeting when starting a new task or refreshing, without changing it while you type.",
+      "Add two smooth logo animations and three text entrances, with a still presentation when reduced motion is enabled.",
+    ],
+  },
+  {
     version: "1.0.1",
     highlights: [
       "WcSdAi 1.0.1 brand foundation based on PI-Desktop 0.16.0; release preparation only.",

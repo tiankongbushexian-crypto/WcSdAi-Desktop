@@ -127,23 +127,22 @@ Codex as a visual reference. The identity contract is deliberately small:
   and NSIS shortcut identity stay aligned so native notifications,
   notification settings, and taskbar groups identify the app as `WcSdAi`
   rather than Electron.
-- The empty-home hero uses a 100px `HomeMascotLogo` GIF: an eight-frame monochrome
-  WcSdAi mark rendered from the supplied vector geometry, with a gentle scale
-  pulse and a short
-  idle hold on the first frame. CSS selects the pair from
-  `document.documentElement[data-theme]`; anything other than `light` uses the
-  dark artwork. Playback is native to the GIF. There is no random pose
-  selection, JavaScript timer, or hover-driven speed change. Reduced motion
-  swaps the GIF for the matching first-frame PNG without changing the 100px
-  slot.
-  `BrandLogo` remains 20px/18px in the expanded/collapsed sidebar and 64px in
-  the startup splash. Composer prompt rows do not render a leading brand icon
-  in either home or thread-docked mode.
-- The empty-home hero keeps three session identities: project sessions retain
-  the underlined project action, temporary sessions use dedicated temporary
-  chat copy without a project or folder action, and no active session uses the
-  generic welcome copy. The state is derived from the selected session, not
-  merely from the visible workspace.
+- The centered empty-home column has a decorative 100px `HomeMascotLogo`
+  and a centered title. Each new empty-session context selects a greeting,
+  logo motion and title entrance independently, avoiding each previous choice.
+  English, Simplified Chinese and Traditional Chinese have eight greetings per
+  context (empty / temporary / project); other locales keep their translated
+  wording. Unrelated renders and draft input never change the selection.
+- Logo variants are the existing eight-frame breath GIF, diagonal assembly of
+  the canonical three SVG pieces, and outline trace into solid ink. Theme
+  changes select black/white instantly; hover never changes cadence. CSS
+  drives the vector variants without JavaScript animation timers.
+- Text enters once with rise, staggered glyphs or focus. Project names remain
+  real focusable switcher controls; project text uses whole-title rise instead
+  of glyph splitting. Reduced motion freezes both vector animations and text,
+  and substitutes the GIF's matching still PNG. The composer stays unchanged.
+- `BrandLogo` remains 20px/18px in the expanded/collapsed sidebar and 64px
+  in the startup splash; composer prompt rows have no leading brand icon.
 - New-session controls use the dedicated message-plus icon at 15–16px. The
   generic plus icon remains reserved for non-session additions such as adding
   a project.
@@ -861,11 +860,8 @@ model):
   controls remain icon-only and use the semantic hover wash
 - Empty hero title uses `var(--ds-text-primary)` (light override `#1a1c1f`);
   never hardcode light ink for shared hero styles
-- Empty-home branding stays quiet: the 100px eight-frame mascot GIF is the
-  sole animated hero mark. Light and dark themes each use a dedicated asset
-  pair. It loops a short wave with an idle hold so the composer remains the
-  primary task surface. Pointer hover does not change the cadence; reduced
-  motion shows the matching still first frame.
+- Home motion follows the greeting and animation contract in the brand section
+  above, with a quiet hold between logo cycles and no repeating text entrance.
 - Night home composer plate styles are **dark-scoped only** (elevated-primary
   `#212121f5` + standard elevation-prominent)
 - Empty draft row keeps **one visible line / 28px optical minimum** so the

@@ -4,11 +4,13 @@
   "canonical_source": "apps/desktop/build/wcsdai-symbol.svg",
   "canonical_sha256": "556e07599bd6284ed53faf348c73c280db0624f5e3f03e16ed3504ced3a0bd46",
   "source_rights": "User supplied; license and trademark authorization pending confirmation before release.",
-  "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile.",
+  "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox.",
+  "app_icon_symbol_scale": 1.68,
+  "app_icon_optical_offset_y": 27,
   "outputs": [
     {
       "path": "apps/desktop/build/icon_1024.png",
-      "sha256": "ad9b766b8802e9c612e09ac5c52d4f69851803a8a4d02cdc5044193d22e32f93",
+      "sha256": "987176e4dbe5ec61a441bb729fb8fe2296e5eaaa605b86c5e94cc755dde2255a",
       "sizes": [
         [
           1024,
@@ -23,7 +25,7 @@
     },
     {
       "path": "apps/desktop/build/icon.png",
-      "sha256": "ca1a5fcffc6c641cfd5c41f992f13ea5cd3a5995e79a0612f9adcca6ad3d3aa4",
+      "sha256": "7a8d62d9ed25512a42a9e690c374eb352f34a544e608fb1917dc7849cfc6f1ae",
       "sizes": [
         [
           512,
@@ -38,7 +40,7 @@
     },
     {
       "path": "docs/public/app-icon.png",
-      "sha256": "ad9b766b8802e9c612e09ac5c52d4f69851803a8a4d02cdc5044193d22e32f93",
+      "sha256": "987176e4dbe5ec61a441bb729fb8fe2296e5eaaa605b86c5e94cc755dde2255a",
       "sizes": [
         [
           1024,
@@ -53,7 +55,7 @@
     },
     {
       "path": "docs/image/readme/logo.png",
-      "sha256": "ca1a5fcffc6c641cfd5c41f992f13ea5cd3a5995e79a0612f9adcca6ad3d3aa4",
+      "sha256": "7a8d62d9ed25512a42a9e690c374eb352f34a544e608fb1917dc7849cfc6f1ae",
       "sizes": [
         [
           512,
@@ -206,7 +208,7 @@
     },
     {
       "path": "apps/desktop/build/icon.ico",
-      "sha256": "cd6af00735d80dd693b7bec0e41826dc8a0f1b33195b35579060bf7031e002b6",
+      "sha256": "345c30c2270e2e55b34a2f90906b8de27ceef92681a479c7385fc6d3b2f56351",
       "sizes": [
         [
           16,
@@ -241,7 +243,7 @@
     },
     {
       "path": "apps/desktop/build/icon.icns",
-      "sha256": "28b41404daf1cdf960eaab0dec0528d84cbd71401a6d3551f4ca60fee378c0be",
+      "sha256": "1a0c5f780f8df7626710e42ff8dd583af12c5ead555313b41abd578b190672eb",
       "sizes": [
         [
           1024,

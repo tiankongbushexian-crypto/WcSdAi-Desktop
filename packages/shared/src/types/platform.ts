@@ -67,10 +67,10 @@ export type UpdateState = {
   currentVersion: string;
   availableVersion?: string;
   /**
-   * Localized product highlights for `availableVersion` from the shipped-locale
-   * in-app changelog. Plain text (bullet lines); absent when the version has
-   * no catalog entry. Main selects the locale — the renderer never supplies
-   * a feed or remote notes URL (ADR 0022 / D164).
+   * Localized plain-text product highlights for `availableVersion`. Signed
+   * releases use the shipped catalog; WcSdAi team notifications use the fixed,
+   * validated version manifest so older clients can describe future releases.
+   * Main selects the locale. The renderer never supplies a feed or notes URL.
    */
   releaseNotes?: string;
   /** 0-100 while status is "downloading". */

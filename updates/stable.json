@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.1",
+  "notes": {
+    "en": "• WcSdAi branding, monochrome icons and Simplified Chinese by default.\n• Preserve existing Sessions, provider settings, plugins, MCP and approval flows.\n• Native team installers include corresponding source, license notices and checksums.",
+    "zh-CN": "• 启用 WcSdAi 品牌、黑白图标和默认简体中文界面。\n• 保留已有会话、模型配置、插件、MCP 与权限确认流程。\n• 团队安装包包含对应源码、许可证说明及校验值。"
+  },
+  "downloads": {
+    "darwin-arm64": {
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231618108",
+      "expiresAt": "2026-11-01T14:20:01.000Z"
+    },
+    "darwin-x64": {
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11232087687",
+      "expiresAt": "2026-11-01T14:23:50.000Z"
+    },
+    "win32-x64": {
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778/artifacts/11231329104",
+      "expiresAt": "2026-11-01T14:26:02.000Z"
+    }
+  }
+}

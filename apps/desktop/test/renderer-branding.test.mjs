@@ -60,7 +60,7 @@ test("app chrome uses the shared brand asset without branding the composer input
   await assert.rejects(
     () => access(new URL("../src/assets/home-mascot-groups.png", import.meta.url)),
   );
-  assert.match(chatSurface, /<HomeMascotLogo \/>/);
+  assert.match(chatSurface, /<HomeWelcome/);
   assert.match(mascotLogo, /import mascotMotionDarkUrl from\s*"\.\.\/assets\/home-mascot-dark\.gif"/);
   assert.match(mascotLogo, /import mascotMotionLightUrl from\s*"\.\.\/assets\/home-mascot-light\.gif"/);
   assert.match(mascotLogo, /import mascotStillDarkUrl from\s*"\.\.\/assets\/home-mascot-still-dark\.png"/);
@@ -71,7 +71,9 @@ test("app chrome uses the shared brand asset without branding the composer input
   assert.match(mascotLogo, /className="home-mascot-motion home-mascot-light"/);
   assert.match(mascotLogo, /className="home-mascot-still home-mascot-dark"/);
   assert.match(mascotLogo, /className="home-mascot-still home-mascot-light"/);
-  assert.doesNotMatch(mascotLogo, /<svg/);
+  assert.match(mascotLogo, /<svg/);
+  assert.match(mascotLogo, /data-logo-motion=\{motion\}/);
+  assert.match(mascotLogo, /viewBox="0 0 512 512"/);
   assert.doesNotMatch(
     mascotLogo,
     /home-mascot-groups\.png|home-mascot-orbit|Math\.random\(\)|setTimeout|backgroundPosition|onMouseEnter|onMouseLeave|useState|useEffect|matchMedia/,

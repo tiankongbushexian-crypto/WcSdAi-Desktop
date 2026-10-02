@@ -100,9 +100,13 @@ An artifact build is not proof that installation or upgrade passed on that OS.
    share the successful run's download link with recipients.
 
 The workflow uploads Actions artifacts only. It does not push commits or tags,
-create a GitHub Release, deploy to a server, or enable automatic application
-updates. `build.publish` remains null and `RELEASES_URL` remains empty. Team
-members update manually by installing a later verified team package.
+create a GitHub Release or deploy to a server. `build.publish` remains null and
+`RELEASES_URL` remains empty, so automatic installation remains off. Starting
+with 1.0.2, packaged builds check the fixed GitHub version manifest and show
+release notes plus a download action. Team members install the verified package
+manually. The existing 1.0.1 must be upgraded manually once to gain this feature.
+See [update notifications](update-notifications.md) for manifest publication,
+artifact expiry and the startup/periodic check policy.
 
 The existing `release.yml` and `scripts/release-macos.sh` remain available as
 the separate signed public-release lane. Its signing and update-feed gates

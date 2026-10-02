@@ -29,6 +29,11 @@ SVG_NS = "http://www.w3.org/2000/svg"
 SOURCE_PACKAGE = "WcSdAi-logo-refined/symbol/svg/symbol-black.svg"
 SOURCE_SHA256 = "b8608e607e057df97b8485ac158e7e0aeb9e51e551ea71e9548e335103a315c8"
 BASE = 1024
+# Enlarge the mark by 12% from the original 1.5 scale, retaining tile padding.
+APP_ICON_SYMBOL_SCALE = 1.68
+# The wider upper strokes make the geometrically centered mark look high.
+# Shift only the app-tile placement; preserve the canonical symbol geometry.
+APP_ICON_OPTICAL_OFFSET_Y = 27
 DURATIONS = [900, 180, 180, 180, 180, 180, 180, 240]
 RENDER_JS = """
 const fs = require('node:fs');
@@ -154,7 +159,12 @@ def main() -> None:
     body = symbol_body()
     outputs: list[Path] = []
     tile = '<rect x="80" y="80" width="864" height="864" rx="196" fill="#FFFFFF"/>'
-    app_svg = svg_document(tile + f'<g transform="translate(128 128) scale(1.5)">{body}</g>')
+    offset = (BASE - 512 * APP_ICON_SYMBOL_SCALE) / 2
+    app_svg = svg_document(
+        tile + f'<g transform="translate({offset:g} {offset + APP_ICON_OPTICAL_OFFSET_Y:g}) '
+        f'scale({APP_ICON_SYMBOL_SCALE:g})">'
+        f'{body}</g>'
+    )
     (BUILD / "wcsdai-app-icon.svg").write_text(app_svg)
     (ROOT / "docs" / "public" / "brand-mark.svg").write_text(app_svg)
     master = render(app_svg, BASE)
@@ -192,7 +202,9 @@ def main() -> None:
         "canonical_source": SOURCE.relative_to(ROOT).as_posix(),
         "canonical_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "source_rights": "User supplied; license and trademark authorization pending confirmation before release.",
-        "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile.",
+        "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox.",
+        "app_icon_symbol_scale": APP_ICON_SYMBOL_SCALE,
+        "app_icon_optical_offset_y": APP_ICON_OPTICAL_OFFSET_Y,
         "outputs": [validate(path) for path in outputs],
     }
     (BUILD / "brand-assets.json").write_text(json.dumps(manifest, indent=2) + "\n")
