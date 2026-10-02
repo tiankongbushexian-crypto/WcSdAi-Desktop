@@ -23,7 +23,7 @@ historical evidence.
   preface for the local package below. Before committing, this was reduced to
   a 79-byte attribution comment so license-detection normalization sees the
   unchanged original text. Detailed contact and fork attribution remain in
-  NOTICE.md. Final source LICENSE SHA-256:
+  NOTICE.md. Source LICENSE SHA-256 at the first committed candidate:
   `2f7551de1c91066e20f389aa26ada7190981321303788e28c8e34151cf8ba1c3`.
   The following 7,652-byte LGPL text is byte-identical to the original, as is
   LICENSES/LGPL-3.0.txt. No upstream/third-party copyright was reassigned and no
@@ -160,3 +160,12 @@ and [base ancestry](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/a
 The local follow-up package above predates its follow-up commit. Final head
 checks and native installer availability are recorded by the subsequent PR
 and Team Installers workflow runs.
+
+After the notice-layout change, the GitHub license API still returned Other.
+The unchanged attribution comment was therefore moved after the exact original
+LGPL text, keeping the standard GNU heading first. Final source LICENSE SHA-256:
+`554a96d21a0eb27516db46d1cefd31ec69f35c0dde20b64cef921edadd8121fe`.
+This footer-only source adjustment postdates the local package hashes above.
+Hosted packages use the final committed notices. It changes no executable code,
+entitlement or packaging parameter; server-side recognition remains a separate
+metadata check.

@@ -7,7 +7,7 @@ The reusable procedure is [local-data-migration.md](local-data-migration.md).
 
 The subsequent repository-page/team-distribution update has its own
 [verification record](team-verification.md). The DMG hash below describes the
-migration-time package; the later package contains an updated license preface
+migration-time package; the later package contains updated license attribution
 and notices without replacing the running installation or its data.
 
 ## Candidate and environment

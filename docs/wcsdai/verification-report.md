@@ -6,7 +6,7 @@
 > [local data migration](local-data-migration.md) and its
 > [separate verification report](migration-verification.md). These earlier
 > results are preserved and must not be presented as migration verification.
-> The later team-distribution change adds a WcSdAi preface to root `LICENSE`
+> The later team-distribution change adds WcSdAi attribution to root `LICENSE`
 > while preserving the full original LGPL text. Its package/license hashes and
 > unsigned build checks are recorded in [team verification](team-verification.md).
 

@@ -10,13 +10,13 @@ optional delivery decision.
 ## Preserved upstream terms
 
 WcSdAi is a fork of <https://github.com/vastsa/PI-Desktop>. Root `LICENSE`
-contains a short WcSdAi copyright attribution followed by the complete,
-unchanged original GNU LGPL v3.0 text. The attribution adds no license terms and
+begins with the complete, unchanged original GNU LGPL v3.0 text, followed by
+a separate WcSdAi copyright attribution. The attribution adds no license terms and
 does not replace the Free Software Foundation's license-text copyright.
 `LICENSES/LGPL-3.0.txt` remains byte-identical to the baseline root `LICENSE`.
 The original text's SHA-256 is
 `e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118`.
-The attribution is one HTML comment, which Licensee removes before matching;
+The final attribution is one HTML comment, which Licensee removes before matching;
 the remaining content is exactly the original text. `LICENSES/LGPL-3.0.txt`
 is the only direct file in `LICENSES/`. Companion GPL/OFL texts, third-party
 notices and their index live under `LICENSES/components/`, so repository-level

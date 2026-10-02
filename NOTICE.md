@@ -17,8 +17,8 @@ work and does not imply endorsement by PI-Desktop, Pi, Electron, model vendors,
 or marketplace publishers.
 
 The upstream project uses GNU LGPL v3.0; its Cargo workspace declares
-`LGPL-3.0-or-later`. Root `LICENSE` begins with a short WcSdAi copyright attribution,
-followed by the complete, unchanged upstream GNU LGPL text. Maintainer and
+`LGPL-3.0-or-later`. Root `LICENSE` begins with the complete, unchanged upstream GNU LGPL text,
+followed by a separate WcSdAi copyright attribution. Maintainer and
 contact details are recorded above. `LICENSES/LGPL-3.0.txt` remains a byte-identical copy of that original
 text. The Free Software Foundation's license-text copyright is unchanged.
 The LGPL-covered upstream code and modifications remain under their applicable

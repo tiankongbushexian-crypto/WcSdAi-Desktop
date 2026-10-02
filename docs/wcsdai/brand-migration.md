@@ -32,7 +32,7 @@ remain evidence of the upstream product, not failed global replacements.
 | Local crash product name | WcSdAi through APP_NAME | Observability | startup crashReporter | Yes | existing crash tests |
 | Existing telemetry transport/settings | Unchanged | Telemetry | Pi dependencies / current app policy | Preserve | no endpoint/default change |
 | Visible PI-Desktop test expectations | WcSdAi | Tests | branding/UI/packaging tests | Yes | targeted and full suites |
-| Upstream copyright / LGPL | Unchanged original license text after a short WcSdAi attribution comment; detailed contacts in NOTICE | Legal | LICENSE; NOTICE; LICENSES; THIRD_PARTY_NOTICES | Yes | compare LGPL payload hash + license normalization + package contents |
+| Upstream copyright / LGPL | Unchanged original license text with a short WcSdAi attribution footer; detailed contacts in NOTICE | Legal | LICENSE; NOTICE; LICENSES; THIRD_PARTY_NOTICES | Yes | compare LGPL payload hash + license normalization + package contents |
 | Upstream contributor and security contacts | tiankongbushexian-crypto / 量动科技 / 2222223323@qq.com | Repository community pages | CONTRIBUTING.md; SECURITY.md | Yes | identity/link review; no invented response SLA |
 | No team installer entry | macOS Apple Silicon / Intel and Windows x64 download entries | Repository download experience | README.md; README.zh-CN.md; team-distribution.md | Yes | destinations and artifact names checked against workflow |
 | Signed publication as the only documented delivery | Separate manually triggered unsigned team build | Team distribution | team-builds.yml; release-checklist.md; release runbook | Yes | native matrix, explicit unsigned flags, source/checksum/notice fixture tests |

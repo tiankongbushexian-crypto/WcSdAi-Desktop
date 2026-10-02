@@ -34,7 +34,7 @@ publisher identity; it does not require disabling OS security or app approvals.
 - [ ] Verify website ownership, HTTPS and actual published content.
 - [x] Support email confirmed: 2222223323@qq.com.
 - [ ] Confirm download/update URL; set publish metadata and RELEASES_URL together.
-- [x] Original LGPL license text retained with a WcSdAi project preface; LGPL/GPL copies and notices supplied.
+- [x] Original LGPL license text retained with a WcSdAi attribution footer; LGPL/GPL copies and notices supplied.
 - [x] THIRD_PARTY_NOTICES.md and license inventory supplied.
 - [x] LGPL compliance preparation documented.
 - [ ] Make exact corresponding modified source available with each binary.

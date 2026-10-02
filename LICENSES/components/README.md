@@ -7,7 +7,7 @@ licenses during repository-level license detection; all files are still shipped.
 
 | File | Source and purpose |
 | --- | --- |
-| [LGPL-3.0.txt](../LGPL-3.0.txt) | Byte-identical copy of PI-Desktop's original root `LICENSE`. The current root file adds a separate WcSdAi copyright attribution before this unchanged license text. |
+| [LGPL-3.0.txt](../LGPL-3.0.txt) | Byte-identical copy of PI-Desktop's original root `LICENSE`. The current root file adds a separate WcSdAi copyright attribution after this unchanged license text. |
 | [GPL-3.0.txt](GPL-3.0.txt) | GNU GPL v3 text, obtained from <https://www.gnu.org/licenses/gpl-3.0.txt>; LGPLv3 incorporates its terms. |
 | [OFL-1.1.txt](OFL-1.1.txt) | Canonical SIL OFL 1.1 text from <https://openfontlicense.org/documents/OFL.txt>. Its example copyright header is generic; actual KaTeX font copyright and reserved names are preserved in the collected original notices. |
 | [third-party-notices.txt](third-party-notices.txt) | Original license, notice, copyright and author files collected from installed npm packages, cached Cargo sources and the bundled file-manager plugin. Identical text is stored once with all component references. |
