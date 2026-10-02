@@ -15,6 +15,7 @@
 :root,
 :root[data-theme="dark"] {
   color-scheme: dark;
+  --ds-home-brand-ink: #ffffff;
   --gray-0: #ffffff;
   --gray-50: #f9f9f9;
   --gray-75: #f3f3f3;
@@ -216,6 +217,7 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
+  --ds-home-brand-ink: #000000;
   /* Codex electron-light */
   --ds-bg-primary: #ffffff;
   --ds-settings-rail-bg: #f3f3f3;

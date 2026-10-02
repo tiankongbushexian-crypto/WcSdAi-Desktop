@@ -4,8 +4,9 @@ import test from "node:test";
 
 const read = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
-const [chatSurface, en, zh] = await Promise.all([
+const [chatSurface, welcome, en, zh] = await Promise.all([
   read("../src/components/ChatSurface.tsx"),
+  read("../src/components/HomeWelcome.tsx"),
   read("../../../packages/i18n/src/locales/en/index.ts"),
   read("../../../packages/i18n/src/locales/zh-CN/index.ts"),
 ]);
@@ -17,14 +18,16 @@ test("temporary empty home has a distinct session state without project actions"
     /const isTemporarySession = Boolean\([\s\S]*!activeSession\.projectPath\?\.trim\(\)/,
   );
   assert.match(chatSurface, /data-home-session-kind/);
-  assert.match(chatSurface, /t\("chat\.emptyTitleTemporary"\)/);
+  assert.match(chatSurface, /<HomeWelcome/);
+  assert.match(chatSurface, /kind=\{heroProject \? "project" : isTemporarySession \? "temporary" : "empty"\}/);
+  assert.match(welcome, /chat\.homeWelcome\.\$\{kind\}\.g\$\{choice\.greeting\}/);
   assert.doesNotMatch(
     chatSurface,
     /empty-hero-subtitle|emptySubtitle(?:Temporary)?/,
   );
   assert.match(
     chatSurface,
-    /heroProject \? \([\s\S]*?\) : isTemporarySession \? \([\s\S]*?emptyTitleTemporary/,
+    /project=\{heroProject \? <HomeProjectSwitcher[^>]*\/> : undefined\}/,
   );
   assert.match(en, /emptyTitleTemporary:/);
   assert.doesNotMatch(en, /emptySubtitle(?:Temporary)?:/);

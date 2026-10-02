@@ -1,0 +1,153 @@
+/* The same centered column and vector geometry power the app and review page. */
+.home-welcome {
+  isolation: isolate;
+  gap: 16px;
+}
+
+.home-welcome .empty-hero-icon,
+.home-welcome .home-welcome-title {
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+.home-mascot-vector {
+  color: var(--ds-home-brand-ink);
+  overflow: visible;
+}
+
+
+.home-mascot-vector svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.home-symbol-piece {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+[data-logo-motion="assemble"] .home-symbol-piece {
+  animation: home-symbol-assemble 8.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.home-symbol-piece-0 { --piece-x: -30px; --piece-y: -18px; --piece-angle: -7deg; }
+.home-symbol-piece-1 { --piece-x: 28px; --piece-y: -18px; --piece-angle: 6deg; }
+.home-symbol-piece-2 { --piece-x: 2px; --piece-y: 34px; --piece-angle: -5deg; }
+
+[data-logo-motion="assemble"] .home-symbol-piece-1 { animation-delay: 90ms; }
+[data-logo-motion="assemble"] .home-symbol-piece-2 { animation-delay: 180ms; }
+
+@keyframes home-symbol-assemble {
+  0%, 7%, 61%, 100% { transform: translate(0, 0) rotate(0); }
+  24% { transform: translate(var(--piece-x), var(--piece-y)) rotate(var(--piece-angle)); }
+  49% { transform: translate(0, 0) rotate(0); }
+}
+
+.home-symbol-trace {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+[data-logo-motion="trace"] .home-symbol-fill {
+  animation: home-symbol-ink 8.4s ease-in-out infinite;
+}
+
+[data-logo-motion="trace"] .home-symbol-trace {
+  animation: home-symbol-draw 8.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+[data-logo-motion="trace"] .home-symbol-piece-1 > path { animation-delay: 140ms; }
+[data-logo-motion="trace"] .home-symbol-piece-2 > path { animation-delay: 280ms; }
+
+@keyframes home-symbol-ink {
+  0%, 7%, 55%, 100% { fill-opacity: 1; }
+  20%, 33% { fill-opacity: 0.08; }
+}
+
+@keyframes home-symbol-draw {
+  0%, 7% { stroke-dashoffset: 1; opacity: 0; }
+  18% { opacity: 1; }
+  40% { stroke-dashoffset: 0; opacity: 1; }
+  55%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+.home-welcome-title {
+  width: fit-content;
+  text-align: center;
+  overflow-wrap: anywhere;
+  animation: home-welcome-rise 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-welcome-title-focus {
+  animation: home-welcome-focus 760ms ease-out both;
+}
+
+.home-welcome-title-letters {
+  animation: none;
+}
+
+.home-welcome-letter {
+  display: inline-block;
+  white-space: pre;
+  animation: home-welcome-letter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--letter-delay);
+}
+
+/* One uninterrupted accessible title; animated glyphs are decorative. */
+.home-welcome-readable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes home-welcome-rise {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes home-welcome-focus {
+  from { opacity: 0; filter: blur(5px); transform: scale(0.985); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+@keyframes home-welcome-letter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.home-welcome[data-motion-paused] * {
+  animation-play-state: paused;
+}
+
+.home-welcome[data-reduced-motion] * {
+  animation: none !important;
+}
+
+.home-welcome[data-motion-paused] .home-mascot-motion,
+.home-welcome[data-reduced-motion] .home-mascot-motion {
+  display: none !important;
+}
+
+:root[data-theme="light"] .home-welcome[data-motion-paused] .home-mascot-still.home-mascot-light,
+:root:not([data-theme="light"]) .home-welcome[data-motion-paused] .home-mascot-still.home-mascot-dark,
+:root[data-theme="light"] .home-welcome[data-reduced-motion] .home-mascot-still.home-mascot-light,
+:root:not([data-theme="light"]) .home-welcome[data-reduced-motion] .home-mascot-still.home-mascot-dark {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-welcome *, .home-mascot-vector * { animation: none !important; }
+}

@@ -2,6 +2,16 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const trEntries: ChangelogEntry[] = [
   {
+    version: "1.0.2",
+    date: "2026-10-02",
+    highlights: [
+      "Çevrimiçiyken yeni WcSdAi sürümlerini denetleyin, yenilikleri okuyun ve elle kurulum için indirme sayfasını açın.",
+      "Tek renkli uygulama logosunu büyütün ve yuvarlatılmış beyaz simge içindeki görsel hizasını ayarlayın.",
+      "Ana sayfa karşılama metnini logoyla ortalayın; yeni görevde veya yenilemede yeni bir metin seçin, yazarken metni değiştirmeyin.",
+      "İki akıcı logo animasyonu ve üç metin giriş efekti ekleyin; azaltılmış hareket etkinken sabit içerik gösterin.",
+    ],
+  },
+  {
     version: "1.0.1",
     highlights: [
       "WcSdAi 1.0.1, PI-Desktop 0.16.0 temelinde yayıma hazırlanmaktadır.",

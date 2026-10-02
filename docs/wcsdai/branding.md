@@ -5,7 +5,7 @@
 | Product / full name / short name | WcSdAi |
 | Slug | wcsdai |
 | Repository directory | WcSdAi-Desktop |
-| Version | 1.0.1, unreleased |
+| Version | 1.0.2 candidate; 1.0.1 team installers remain available until validation/upload completes |
 | Slogan | 让 AI 更简单 (Make AI simpler) |
 | Organization / copyright owner | 量动科技 |
 | Copyright | Copyright 2026 量动科技; upstream and third-party rights retained |
@@ -23,9 +23,9 @@
 | Windows AppUserModelId | com.example.wcsdai |
 | Linux executable / desktop entry | wcsdai / wcsdai.desktop |
 | Platforms | macOS arm64 + x64; Windows x64; Linux x64 + arm64 |
-| Current distribution | Unsigned internal-team packages through the manual WcSdAi Team Installers workflow; first remote run pending |
+| Current distribution | Unsigned internal-team packages through the manual WcSdAi Team Installers workflow; verified 1.0.1 native builds available; 1.0.2 candidate in validation |
 | Optional later release channel | GitHub Releases, pending explicit publication |
-| Download / update URL | README links the team workflow; no artifact uploaded yet. Automatic update URL remains unset. |
+| Download / update URL | README links verified Actions artifacts. Packaged 1.0.2 checks the fixed GitHub `updates/stable.json` manifest for notifications; automatic installation remains disabled. |
 | Privacy / terms / user agreement | Local [drafts](legal/README.md); public URLs pending |
 
 ## About text

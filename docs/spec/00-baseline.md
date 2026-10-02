@@ -125,7 +125,7 @@ upstream history; historical schema-version descriptions are not rewritten.
 The owner subsequently selected [unsigned team installers](../wcsdai/team-distribution.md).
 The manual team workflow provides native macOS arm64/x64 and Windows x64
 packages with source and checksums, without publisher signing credentials or
-an automatic-update feed. The signed public-release lane remains separate.
+an automatic-install feed. The signed public-release lane remains separate.
 
 ## Frozen Decisions
 
@@ -245,3 +245,14 @@ relevant decision record before changing the contract.
 > D623 / ADR 0064 amends the inline automatic compaction trigger to 90% of
 > the derived hard budget. The hard limit remains the final provider-request
 > guard; no background compaction or storage/protocol change is introduced.
+
+
+### WcSdAi notification-only team updates
+
+The WcSdAi team lane retains unsigned manual installation and now supports
+version notification through a fixed, validated GitHub manifest. It does not
+activate automatic binary downloads or installation. Main owns checks, notes,
+URL validation and existing reminder persistence. No Host schema, protocol,
+provider, session or permission changes are required. See ADR 0022 and
+`docs/wcsdai/update-notifications.md`. The initial manifest records the latest
+actually uploaded 1.0.1 build; unpublished candidate versions are not advertised.

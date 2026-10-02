@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { UpdateState } from "@pi-desktop/shared";
 import { api } from "../lib/api";
 import { useUpdateState } from "../hooks/use-update-state";
+import { useOpenUpdateRelease } from "../hooks/use-open-update-release";
 import { Button, TooltipButton } from "./ui";
 import { IconClose, IconCloudDown, IconExternal } from "./icons";
 
@@ -18,6 +19,7 @@ const shownManualReminderVersions = new Set<string>();
 export function UpdateBanner() {
   const { t } = useTranslation();
   const update = useUpdateState();
+  const openRelease = useOpenUpdateRelease();
   const manualReminderVersion =
     update?.status === "available" &&
     update.mode === "manual" &&
@@ -108,9 +110,7 @@ export function UpdateBanner() {
             <Button
               variant="secondary"
               size="sm"
-              onClick={() =>
-                void api.updatesOpenReleases().catch(() => undefined)
-              }
+              onClick={openRelease}
             >
               <IconExternal className="size-3.5" />
               {t("updates.viewRelease")}

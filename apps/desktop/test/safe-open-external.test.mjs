@@ -144,5 +144,9 @@ test("main, plugins, preview, and updater share the allowlist before openExterna
     /openExternal\(\): void \{[\s\S]*void shell\.openExternal\(url\);/,
   );
 
-  assert.match(updaterSource, /parseAllowedExternalUrl\(RELEASES_URL\)/);
+  assert.match(
+    updaterSource,
+    /async openReleases\(\): Promise<void> \{[\s\S]*?const target = this\.manualFeed[\s\S]*?this\.manualFeed\.downloadUrlFor\([\s\S]*?: RELEASES_URL;\s*const url = parseAllowedExternalUrl\(target\);\s*if \(!url\) throw new Error\("DISALLOWED_EXTERNAL_URL"\);\s*await shell\.openExternal\(url\);/,
+    "both the validated manual download page and fixed signed release page pass the shared allowlist",
+  );
 });

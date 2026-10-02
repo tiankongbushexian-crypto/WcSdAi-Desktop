@@ -214,3 +214,14 @@
 冻结协议仍为 v9，存储架构仍为 v10。未来的变化
 必须保留自动化 M6 场景 E2E-104 到 E2E-117 或更新
 变更合同前的相关决定记录。
+
+
+### WcSdAi notification-only team updates
+
+The WcSdAi team lane retains unsigned manual installation and now supports
+version notification through a fixed, validated GitHub manifest. It does not
+activate automatic binary downloads or installation. Main owns checks, notes,
+URL validation and existing reminder persistence. No Host schema, protocol,
+provider, session or permission changes are required. See ADR 0022 and
+`docs/wcsdai/update-notifications.md`. The initial manifest records the latest
+actually uploaded 1.0.1 build; unpublished candidate versions are not advertised.

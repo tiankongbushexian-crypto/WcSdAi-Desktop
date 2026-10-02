@@ -121,3 +121,29 @@ available on supported Windows packages only after the UI warns that NSIS may
 replace the extracted no-install copy. Unsupported installer formats remain
 Manual. This additive setting requires no database schema or host protocol
 version change.
+
+
+## WcSdAi team update notifications
+
+The team distribution adds a notification-only feed, independent of publisher
+signing and electron-builder `app-update.yml`. Electron Main fetches only the
+fixed repository-owned `updates/stable.json` over HTTPS. Renderer callers cannot
+choose the feed or a download URL. The manifest declares schema version, a
+stable semantic version, localized plain-text notes and per-platform download
+pages. Unsupported architectures, malformed/oversized responses, expired
+Actions artifacts and untrusted links fail closed. No GitHub token ships in
+the client. The manifest must describe an already verified uploaded build.
+
+Packaged team installs check after the existing startup delay and periodically
+while running. Settings retains an explicit check. A newer valid version raises
+the existing once-per-version manual reminder, with update notes and the
+validated platform download-page action. The team path never downloads,
+executes, replaces or installs binaries. OS publisher signing is independent
+of displaying a version notification. The existing signed updater path remains
+available when its own approved feed metadata is configured.
+
+Current 1.0.1 installs have no configured feed and require one manual upgrade
+to a notification-capable version. Updating the remote manifest alone cannot
+retrofit checks into that installed code. Actions pages require sign-in and
+have retention limits; the feed carries their expiry, and operators must not
+advertise unavailable installers. See [team notification contract](../wcsdai/update-notifications.md).

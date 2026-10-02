@@ -1233,3 +1233,24 @@ Mode/provider/model/permission/shell 配置和新提示仍然存在
 21. 本机窗口边缘调整大小通过回流更改 MainChat，而不压缩
     固定工作面板；分隔符提交更新提交的首选宽度，
 而分隔线取消恢复之前的宽度（ADR 0033）
+
+
+## WcSdAi team notification feed
+
+Packaged WcSdAi team builds use the fixed repository-owned version manifest
+for notification-only updates. A new stable version shows the current and
+available versions, localized plain-text release highlights, and a platform
+appropriate download-page action. Notifications are deduplicated per version;
+manual checks in Settings remain available. The existing manual update state
+and IPC are reused. An unsupported, malformed, oversized, expired or untrusted
+manifest must not produce an actionable download link. Offline checks are
+bounded and never prevent app startup or existing work.
+
+The team lane cannot enable automatic binary downloads, install-on-quit or
+restart-to-install. Its download action opens only the validated page owned by
+the same GitHub repository; no renderer-supplied URL or embedded credential is
+accepted. Version comparison is semantic, so 1.0.10 is newer than 1.0.9 and an
+older feed cannot downgrade the app. Signed distributions retain their existing
+updater behavior. Operators update the manifest only after verifying the actual
+uploaded installers and corresponding source. An already installed 1.0.1 needs
+one manual upgrade to acquire this feature.

@@ -2,6 +2,16 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const koEntries: ChangelogEntry[] = [
   {
+    version: "1.0.2",
+    date: "2026-10-02",
+    highlights: [
+      "온라인 상태에서 WcSdAi 새 버전을 확인하고 업데이트 내용을 표시하며 수동 설치를 위한 다운로드 페이지를 엽니다.",
+      "흑백 앱 로고를 확대하고 모서리가 둥근 흰색 아이콘 안에서 시각적 정렬을 조정합니다.",
+      "홈 인사말을 로고와 가운데 정렬하고 새 작업을 만들거나 새로고침할 때 새 문구를 선택하며 입력 중에는 바꾸지 않습니다.",
+      "부드러운 로고 애니메이션 두 가지와 텍스트 등장 효과 세 가지를 추가하고 동작 줄이기를 사용하면 정적인 화면을 표시합니다.",
+    ],
+  },
+  {
     version: "1.0.1",
     highlights: [
       "WcSdAi 1.0.1은 PI-Desktop 0.16.0 기반이며 출시 준비 중입니다.",

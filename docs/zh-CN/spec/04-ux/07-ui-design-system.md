@@ -106,13 +106,21 @@ WcSdAi 的行为类似于桌面应用程序 shell，因此意外拖动
   和 NSIS 快捷方式标识保持一致，以便本机通知，
   通知设置和任务栏组将应用程序标识为 `WcSdAi`
   而不是 Electron。
-- 空首页使用 100px 的 `HomeMascotLogo` GIF：从随附矢量图形生成八帧黑白
-  WcSdAi 标记，以轻微缩放循环播放，首帧短暂停留。CSS 根据
-  `document.documentElement[data-theme]` 选择对应资源，非 `light` 时使用
-  深色稿。播放由 GIF 自身完成，没有随机姿势、JavaScript 定时器或悬停
-  加速。减少动态效果时切换为对应首帧 PNG，槽位仍为 100px。
-  `BrandLogo` 在展开/收起侧边栏中保持 20px/18px，启动画面中保持 64px。
-  首页和会话停靠模式下的 Composer 提示行均不显示前置品牌图标。
+- The centered empty-home column has a decorative 100px `HomeMascotLogo`
+  and a centered title. Each new empty-session context selects a greeting,
+  logo motion and title entrance independently, avoiding each previous choice.
+  English, Simplified Chinese and Traditional Chinese have eight greetings per
+  context (empty / temporary / project); other locales keep their translated
+  wording. Unrelated renders and draft input never change the selection.
+- Logo variants are the existing eight-frame breath GIF, diagonal assembly of
+  the canonical three SVG pieces, and outline trace into solid ink. Theme
+  changes select black/white instantly; hover never changes cadence. CSS
+  drives the vector variants without JavaScript animation timers.
+- Text enters once with rise, staggered glyphs or focus. Project names remain
+  real focusable switcher controls; project text uses whole-title rise instead
+  of glyph splitting. Reduced motion freezes both vector animations and text,
+  and substitutes the GIF's matching still PNG. The composer stays unchanged.
+- Sidebar and splash dimensions remain 20px/18px and 64px respectively.
 - 新会话控件使用 15–16 像素的专用消息加图标。的
   通用加号图标保留用于非会话添加，例如添加
   一个项目。
@@ -774,10 +782,8 @@ Toast enter/exit 保留现有移除合同（`animationend` 于
   控件仅保留图标并使用语义悬停清洗
 - 空英雄标题使用`var(--ds-text-primary)`（轻覆盖`#1a1c1f`）；
   切勿对共享英雄样式的浅色墨水进行硬编码
-- 空置房屋品牌保持安静：100 像素的八帧吉祥物 GIF 是唯一的
-  动画英雄标记。浅色和深色主题各使用一套资源。它循环一段短挥手
-  并在首帧稍作停留，因此输入框仍然是主要的任务表面。指针悬停
-  不改变节奏；减少运动时显示对应静止首帧。
+- Home motion follows the greeting and animation contract above, with quiet
+  holds between logo cycles and a single text entrance.
 - 夜间家庭输入框板样式**仅限黑暗范围**（高架主
   `#212121f5` + 标准标高-突出）
 - 空草稿行保持 **一条可见线/28 像素光学最小值**，因此

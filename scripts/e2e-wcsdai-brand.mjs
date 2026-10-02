@@ -8,8 +8,11 @@ import { join, resolve } from "node:path";
 import { assertDesktopBuild, repositoryRoot } from "./e2e/boot.mjs";
 import { launchLiveVoiceDesktop } from "./e2e/live-voice-desktop.mjs";
 import { waitFor } from "./e2e/wait.mjs";
+import { zhCN } from "../packages/i18n/dist/index.js";
 
 const root = resolve(repositoryRoot());
+const { version: appVersion } = JSON.parse(await readFile(join(root, "apps/desktop/package.json"), "utf8"));
+const emptyGreetings = Object.values(zhCN.chat.homeWelcome.empty);
 const { mainPath, rendererPath } = assertDesktopBuild(root);
 const evidence = resolve(process.env.WCSDAI_EVIDENCE_DIR || join(root, ".artifacts/wcsdai/brand-e2e"));
 await mkdir(evidence, { recursive: true });
@@ -73,9 +76,15 @@ try {
     assert.equal(await desktop.evaluate("document.documentElement.lang"), "zh-CN");
     const settings = await desktop.invoke("settingsGet");
     assert.ok(settings.language === undefined || settings.language === "zh-CN");
-    assert.equal(await bodyContains("今天想做点什么？"), true);
+    const greeting = await desktop.evaluate(`(() => {
+      const heading = document.querySelector('.home-welcome-title');
+      return heading?.querySelector('.home-welcome-readable')?.textContent ?? heading?.textContent;
+    })()`);
+    assert.ok(emptyGreetings.includes(greeting), `Expected a localized empty-home greeting, got: ${greeting}`);
+    assert.equal(await desktop.evaluate(`!!document.querySelector('[data-testid="home-mascot-logo"]')`), true);
     const logos = await desktop.evaluate(`Array.from(document.querySelectorAll('.brand-logo, .home-mascot-logo img')).map(img => ({ complete: img.complete, width: img.naturalWidth }))`);
-    assert.ok(logos.length > 0);
+    const hasVector = await desktop.evaluate(`!!document.querySelector('.home-mascot-vector svg')`);
+    assert.ok(logos.length > 0 || hasVector);
     assert.ok(logos.every((logo) => logo.complete && logo.width > 0));
     await desktop.screenshot("01-fresh-boot-zh-CN.png");
   });
@@ -84,7 +93,7 @@ try {
     await desktop.clickSelector('[data-nav="settings"]');
     await clickInfo();
     await waitFor(() => bodyContains("关于 WcSdAi"), 10_000, "brand attribution page");
-    for (const text of ["Copyright 2026 量动科技", "2222223323@qq.com", "PI-Desktop", "GNU LGPL v3.0", "1.0.1"]) {
+    for (const text of ["Copyright 2026 量动科技", "2222223323@qq.com", "PI-Desktop", "GNU LGPL v3.0", appVersion]) {
       assert.equal(await bodyContains(text), true, text);
     }
     assert.equal(await desktop.evaluate(`document.querySelector('a[href="https://wanchuangsd.cn"]') !== null`), true);

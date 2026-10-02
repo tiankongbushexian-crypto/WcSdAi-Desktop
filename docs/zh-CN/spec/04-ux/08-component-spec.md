@@ -496,14 +496,10 @@ Collapsed (48px):
   64 px 启动画面；ADR 0125）。该组件订阅了
   `document.documentElement[data-theme]` 通过 `MutationObserver` 并交换
   运行时侧边栏和启动画面的源代码，无需重新加载。的
-  空屋英雄在 100 像素处使用 `HomeMascotLogo` 八帧 GIF。浅色和深色主题
-  各有一套 GIF 和静止 PNG。CSS 跟随 `document.documentElement[data-theme]`，
-  无需重新加载；非 `light` 时使用深色稿。黑白 WcSdAi 标记循环轻微缩放
-  动画，并在首帧稍作停留。播放由 GIF 自身完成，指针悬停不改变节奏；
-  减少运动时切换为对应静止首帧 PNG。这
-expanded/collapsed 侧边栏仍为 20px/18px 且启动画面为 64 像素。
-  主目录和线程停靠的输入框提示行不会呈现领先品牌
-  图标。
+  HomeWelcome follows the greeting and motion contract in
+  `07-ui-design-system.md`. The icon remains 100px; sidebar dimensions
+  remain 20px/18px and the splash remains 64px. Composer rows have no
+  leading brand icon.
 - 项目和临时会话创建控件呈现专用
   消息加会话图标。通用
   `IconPlus` 保留用于添加非会话实体。

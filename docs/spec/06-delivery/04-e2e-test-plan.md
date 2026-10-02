@@ -3526,40 +3526,21 @@ identify the platform validation still needed.
 - **Milestone**: M5
 - **Status**: Unit-covered (`user-select.test.mjs`); scenario Documented
 
-#### E2E-046: PI-Desktop renderer branding and composer icon boundary
+#### E2E-046: WcSdAi renderer branding and composer icon boundary
 
-- **Preconditions**: App running in both English and zh-CN locales, with an
-  empty home and a docked transcript available.
-- **Steps**: 1) Inspect the expanded and collapsed sidebar. 2) Inspect the
-  empty-home hero and docked composer. 3) Observe the eight-frame mascot GIF
-  looping in place, move the pointer over it, and confirm its cadence and
-  geometry do not change. Enable reduced motion and confirm the still first
-  frame is shown. 4) Focus the footer Settings and Plugins icons, then each
-  project/Temporary session create control. 5) Open Settings and the composer
-  input.
-- **Expected**: Visible shell identity reads `PI-Desktop`; the empty-home hero
-  renders the theme-matching 100px `HomeMascotLogo` GIF with a short idle hold
-  and a looping wave. Pointer hover does not alter the cadence or geometry,
-  and reduced motion shows the matching still first frame.
-  The expanded/collapsed
-  sidebar renders the derived `src/assets/brand/logo-*.png` asset through `BrandLogo`
-  and the docked composer prompt row has no leading
-  brand icon or reserved icon slot and its text aligns directly with the input
-  gutter. The right Composer toolbar shows a Bot model × reasoning chip, then
-  a standalone prompt-enhancement Sparkles button, then the single submit
-  slot. The footer Settings and Plugins actions are compact icon buttons;
-  Plugins sits immediately to the right of Settings and exposes a localized
-  accessible name. Every scoped session-creation control uses the dedicated
-  message-plus icon with localized labels and accessible names. `Codex` remains visible only as
-  the external import-source label or in non-runtime design-reference text.
-- **Specs linked**: `04-ux/01-ui-ia.md`, `04-ux/07-ui-design-system.md`,
-  `04-ux/08-component-spec.md`, `04-ux/09-interaction-patterns.md`,
-  `08-meta/decisions-log.md` (D094/D160/D293),
-  `../../adr/0031-icon-free-composer-prompt-row.md`,
-  `../../adr/0152-eight-frame-empty-home-mascot-gif.md`
-- **Acceptance**: Quality (brand consistency and key operations feel polished)
-- **Milestone**: M5
-- **Status**: Unit-covered (`renderer-branding.test.mjs`); scenario Documented
+- **Preconditions**: English and zh-CN, empty/temporary/project homes and a transcript.
+- **Steps**: Inspect sidebar and composer, create new empty sessions, refresh,
+  type a draft, switch theme, enable reduced motion and activate the project switcher.
+- **Expected**: WcSdAi shell identity; centered 100px decorative logo and title;
+  nonrepeating greeting/motion choices on new contexts and refresh; stable choice
+  while typing. The project remains a real accessible button. Theme uses black
+  or white; reduced motion leaves a still visible logo and readable title. Composer
+  prompt rows have no leading brand icon. Scoped new-session controls retain the
+  localized message-plus action; sidebar Settings and Plugins remain accessible.
+- **Coverage**: `home-welcome.test.mjs`, `renderer-branding.test.mjs`,
+  `scripts/e2e-home-welcome.mjs`, `scripts/e2e-wcsdai-brand.mjs`.
+- **Specs linked**: `04-ux/07-ui-design-system.md`, `04-ux/08-component-spec.md`.
+- **Acceptance**: Quality; **Milestone**: M5.
 
 #### E2E-047: Retain, collapse, switch, and close multiple project tabs
 
@@ -5690,33 +5671,19 @@ must keep splitting are covered by `markdown-blocks.test.mjs`.
 - **Acceptance**: A (app startup), Quality
 - **Milestone**: M5
 #### E2E-099: Brand logo follows the active theme
-- **Status**: Draft
-- **Priority**: P3
-- **Covers**: Quality / US-UI shell polish
-- **Preconditions**: App running; theme can switch between light and dark (and system) without restart.
-- **Steps**:
-  1. In light mode, open the app shell, an empty chat home, and the expanded sidebar (Windows/Linux) or startup splash.
-  2. Inspect the rendered `BrandLogo` source in the sidebar and startup splash,
-     and inspect the light eight-frame `HomeMascotLogo` GIF in the empty-home
-     hero. Hover the mascot and verify that its cadence does not change.
-  3. Switch the theme to dark (Settings → Basics → Appearance, or system appearance change).
-  4. Re-inspect the same surfaces without reloading.
-  5. Switch back to light and re-inspect.
-- **Expected**:
-  - Light and dark mode render `src/assets/brand/logo-light.png` /
-    `src/assets/brand/logo-dark.png`
-    live in the sidebar and startup splash without a window reload.
-  - The empty-home hero renders the 100px eight-frame mascot GIF for the
-    active theme (`home-mascot-light.gif` / `home-mascot-dark.gif`) with a
-    short idle hold and a looping wave. Switching theme swaps the pair live
-    without a window reload. Pointer hover does not change the cadence;
-    under reduced motion the matching still first frame remains visible.
-  - Sizes stay stable across theme changes (sidebar 20px, hero 100px, splash
-    64px), and the marks stay decorative with no click, keyboard, or focus
-    behavior.
-- **Specs linked**: `04-ux/08-component-spec.md` §3.7, `04-ux/07-ui-design-system.md`
-- **Acceptance**: Quality
-- **Milestone**: M5
+
+- **Preconditions**: App running; theme can change without restart.
+- **Steps**: Inspect sidebar, splash and each home-logo variant in light and dark;
+  change system theme; hover each mark; enable reduced motion.
+- **Expected**: Sidebar/splash `BrandLogo` swaps light/dark sources live. Home
+  breath GIF swaps theme pairs; assembly/trace SVG uses pure black or white.
+  The 100px home slot, 20px expanded sidebar and 64px splash remain stable.
+  Hover does not change animation speed. Reduced motion freezes SVG/text and
+  replaces GIF with its still frame; all marks remain decorative.
+- **Coverage**: `renderer-branding.test.mjs`, `scripts/e2e-home-welcome.mjs`.
+- **Specs linked**: `04-ux/08-component-spec.md`, `04-ux/07-ui-design-system.md`.
+- **Acceptance**: Quality; **Milestone**: M5.
+
 #### E2E-077: Theme-aware selection and CJK section labels
 
 - **Status**: Partially automated (`user-select.test.mjs`, `interaction-polish.test.mjs`)
@@ -9362,15 +9329,23 @@ This test plan spec is accepted when:
   macOS sidebar places Collapse sidebar at the right in that same
   row, with no Logo/Home brand or back/forward buttons.
 
-### US-UI-17 PI-Desktop home hero logo
-- On empty chat home, the 100px `HomeMascotLogo` GIF renders above the title
-  as an eight-frame waving mascot with a short idle hold. Light and dark
-  themes each use a dedicated GIF and still PNG.
-- Pointer hover does not change the cadence or geometry; reduced motion shows
-  the matching still first frame. The mascot remains decorative.
-- Title is 28px / weight 400; active project name uses dotted underline (1px, offset 4px).
-- Composer does not render attachment or appshot controls before their payload
-  reaches pi end to end.
+### US-UI-17 WcSdAi home greeting and logo
+
+- The centered empty-home column has a decorative 100px `HomeMascotLogo`
+  and a centered title. Each new empty-session context selects a greeting,
+  logo motion and title entrance independently, avoiding each previous choice.
+  English, Simplified Chinese and Traditional Chinese have eight greetings per
+  context (empty / temporary / project); other locales keep their translated
+  wording. Unrelated renders and draft input never change the selection.
+- Logo variants are the existing eight-frame breath GIF, diagonal assembly of
+  the canonical three SVG pieces, and outline trace into solid ink. Theme
+  changes select black/white instantly; hover never changes cadence. CSS
+  drives the vector variants without JavaScript animation timers.
+- Text enters once with rise, staggered glyphs or focus. Project names remain
+  real focusable switcher controls; project text uses whole-title rise instead
+  of glyph splitting. Reduced motion freezes both vector animations and text,
+  and substitutes the GIF's matching still PNG. The composer stays unchanged.
+- The title retains 28px / weight 400, including its dotted project button.
 
 ### US-UI-18 Composer has no inert actions
 - On chat home and a docked thread, inspect every composer control.
@@ -16180,3 +16155,37 @@ renderer's durable transcript reads. No real model or provider is contacted.
   packaging; actual native package inspection verifies the runtime notice.
 - **Specs:** [team distribution](../../wcsdai/team-distribution.md), fork
   baseline amendment and release runbook.
+
+
+## E2E-WCSDAI-team-version-notifications
+
+- **Preconditions:** Notification-capable packaged candidate, isolated profile,
+  fixed-feed HTTP boundary served by controlled test fixtures, and a current
+  semantic version lower than the fixture's verified release. No real provider
+  credentials or production user data are used.
+- **Steps:** Start the app; observe the delayed automatic check. Verify the
+  available-version banner and localized notes. Open its download action and
+  inspect the shell boundary's validated platform URL. Dismiss, check again,
+  restart with reminder settings retained, then publish a newer fixture.
+  Exercise explicit Settings checks, locale change, offline/timeout, malformed
+  and oversized bodies, invalid URLs, expired artifacts, older/equal versions,
+  unsupported targets and disposal while a response is in flight.
+- **Expected:** One ambient reminder per version, explicit checks remain
+  observable, later versions may remind again, and notes are plain text from
+  the fixed manifest. No automatic download/install or renderer-selected URL.
+  Rejected data cannot open a page, and stale results cannot mutate disposed
+  controller state. Failures do not block the first window or existing work.
+- **Specs linked:** ADR 0022, 04-ux/09-interaction-patterns.md and
+  `docs/wcsdai/update-notifications.md`.
+- **Status:** Candidate implementation and controlled-boundary tests; public
+  deployment and real-client upgrade are separate acceptance steps.
+
+### WcSdAi download-page failure recovery acceptance
+
+From Settings, check the controlled newer-version fixture, observe the same
+version and plain-text notes in Settings and the banner, and open the download
+page. A rejected Main action shows a localized error toast and retains the
+button for retry. Successful retry opens through the existing IPC without a
+renderer-supplied URL. Cover both English banner and Chinese Settings entry
+points with `node scripts/e2e-update-notifications.mjs`; no real provider or
+installer is used by this acceptance fixture.

@@ -1,5 +1,10 @@
 /**
- * App auto-update via electron-updater against GitHub Releases.
+ * Application update delivery owned by Electron Main.
+ *
+ * WcSdAi team builds without a signed feed use the fixed public metadata
+ * manifest in manual-update-feed.ts: version/notes plus a download-page link.
+ * They never download binaries or install on quit. The separately configured
+ * signed electron-updater path below retains its existing platform policy.
  *
  * The feed (latest*.yml + installers) is attached to each GitHub Release by
  * .github/workflows/release.yml. Discovery always tracks the latest stable
@@ -51,6 +56,11 @@ import {
   type WindowsDistribution,
 } from "./update-policy";
 import { ManualUpdateReminderTracker } from "./manual-update-reminder";
+import {
+  MANUAL_UPDATE_DOWNLOADS_URL,
+  ManualUpdateFeed,
+  supportsManualUpdateTarget,
+} from "./manual-update-feed";
 
 export { resolveUpdateMode } from "./update-policy";
 export type { WindowsDistribution } from "./update-policy";
@@ -109,6 +119,9 @@ export type UpdaterOptions = {
   /** Tests may supply a configured feed without accessing packaged resources. */
   updateFeedConfigured?: boolean;
   distribution?: WindowsDistribution;
+  arch?: string;
+  /** External metadata transport seam; the production URL stays fixed. */
+  fetchUpdateManifest?: typeof fetch;
 };
 
 export class AppUpdaterController {
@@ -118,6 +131,8 @@ export class AppUpdaterController {
   private readonly platform: NodeJS.Platform;
   private readonly isPackaged: boolean;
   private readonly updateFeedConfigured: boolean;
+  private readonly manualFeed: ManualUpdateFeed | null;
+  private readonly arch: string;
   private readonly env: NodeJS.ProcessEnv;
   private readonly distribution?: WindowsDistribution;
   private readonly defaultPreference: UpdatePreference;
@@ -186,18 +201,22 @@ export class AppUpdaterController {
         : undefined);
     this.platform = platform;
     this.isPackaged = isPackaged;
-    this.updateFeedConfigured = options.updateFeedConfigured ??
+    const signedFeedConfigured = options.updateFeedConfigured ??
       (Boolean(RELEASES_URL) && existsSync(join(process.resourcesPath, "app-update.yml")));
+    this.arch = options.arch ?? process.arch;
+    this.manualFeed = isPackaged && !signedFeedConfigured && supportsManualUpdateTarget(platform, this.arch)
+      ? new ManualUpdateFeed(options.fetchUpdateManifest) : null;
+    this.updateFeedConfigured = signedFeedConfigured || Boolean(this.manualFeed);
     this.env = process.env;
     this.distribution = distribution;
-    this.defaultPreference = resolveDefaultUpdatePreference(
+    this.defaultPreference = this.manualFeed ? "manual" : resolveDefaultUpdatePreference(
       platform,
       isPackaged,
       this.env,
       distribution,
     );
     this.preference = this.defaultPreference;
-    this.automaticSupported = this.updateFeedConfigured && supportsAutomaticUpdates(
+    this.automaticSupported = signedFeedConfigured && supportsAutomaticUpdates(
       platform,
       isPackaged,
       this.env,
@@ -252,14 +271,18 @@ export class AppUpdaterController {
       manualReminder: false,
       status: "idle",
       currentVersion: options.currentVersion,
-      releasesUrl: RELEASES_URL,
+      releasesUrl: this.manualFeed ? MANUAL_UPDATE_DOWNLOADS_URL : RELEASES_URL,
     };
-    if (mode !== "disabled") this.attachListeners();
+    if (this.manualFeed) {
+      this.autoUpdater.autoDownload = false;
+      this.autoUpdater.autoInstallOnAppQuit = false;
+    } else if (mode !== "disabled") this.attachListeners();
   }
 
   /** Localized product notes for a discovered version, if catalogued. */
   private notesFor(version: string | undefined): string | undefined {
     if (!version) return undefined;
+    if (this.manualFeed) return this.manualFeed.notesFor(version, this.getLocale());
     return formatChangelogNotes(version, this.getLocale());
   }
 
@@ -490,6 +513,7 @@ export class AppUpdaterController {
   /** User- or schedule-triggered check. Resolves with the settled state. */
   async check(options: { manual?: boolean } = {}): Promise<UpdateState> {
     await this.ensureSettingsLoaded();
+    if (this.disposed) return this.state;
     if (this.state.mode === "disabled") {
       throw new Error("updates are not configured for this build");
     }
@@ -504,6 +528,7 @@ export class AppUpdaterController {
     const timeoutMs = this.manualRequested
       ? MANUAL_CHECK_TIMEOUT_MS
       : AUTO_CHECK_TIMEOUT_MS;
+    if (this.manualFeed) return this.checkManualFeed(timeoutMs);
     try {
       // Fire-and-forget relative to boot: callers must not await this from the
       // first-window path. The race only bounds *our* wait; electron-updater
@@ -534,6 +559,37 @@ export class AppUpdaterController {
       // The 'error' listener already recorded state; rethrow for manual
       // callers so the invoke rejects and the UI can toast it.
       if (options.manual) throw error;
+    }
+    return this.state;
+  }
+
+  private async checkManualFeed(timeoutMs: number): Promise<UpdateState> {
+    if (!this.manualFeed) return this.state;
+    const previous = this.state;
+    this.setState({ status: "checking", error: undefined });
+    try {
+      const result = await this.manualFeed.check(
+        this.state.currentVersion, this.platform, this.arch, timeoutMs,
+      );
+      if (this.disposed) return this.state;
+      this.setState({
+        status: result.available ? "available" : "up-to-date",
+        availableVersion: result.available ? result.version : undefined,
+        releaseNotes: result.available ? this.notesFor(result.version) : undefined,
+        releasesUrl: result.downloadUrl ?? MANUAL_UPDATE_DOWNLOADS_URL,
+        manualReminder: result.available ? this.manualReminderFor(result.version) : false,
+        progressPercent: undefined,
+      });
+    } catch (error) {
+      if (this.disposed) return this.state;
+      const detail = error instanceof Error ? error.message : "update check failed";
+      this.logger.app("updater", "warn", "manual release check failed", { data: { detail } });
+      // Keep an already-discovered update actionable across an offline poll.
+      if (!this.manualRequested) this.setState({ ...previous, error: undefined });
+      else {
+        this.setState({ status: "error", error: detail });
+        throw error;
+      }
     }
     return this.state;
   }
@@ -574,12 +630,18 @@ export class AppUpdaterController {
   }
   /** Adopt legacy NSIS cache files before the first update check. */
   reclaimRelocatedUpdateCache(): Promise<void> {
-    if (this.state.mode === "disabled") return Promise.resolve();
+    if (this.state.mode === "disabled" || this.manualFeed) return Promise.resolve();
     return this.cacheMaintenance.reclaimLegacyCache();
   }
 
   async openReleases(): Promise<void> {
-    const url = parseAllowedExternalUrl(RELEASES_URL);
+    if (this.disposed) throw new Error("update checker disposed");
+    const target = this.manualFeed
+      ? this.state.availableVersion
+        ? this.manualFeed.downloadUrlFor(this.state.availableVersion, this.platform, this.arch)
+        : MANUAL_UPDATE_DOWNLOADS_URL
+      : RELEASES_URL;
+    const url = parseAllowedExternalUrl(target);
     if (!url) throw new Error("DISALLOWED_EXTERNAL_URL");
     await shell.openExternal(url);
   }
@@ -605,6 +667,7 @@ export class AppUpdaterController {
 
   dispose() {
     this.disposed = true;
+    this.manualFeed?.dispose();
     if (this.initialTimer) clearTimeout(this.initialTimer);
     if (this.intervalTimer) clearInterval(this.intervalTimer);
     this.initialTimer = null;

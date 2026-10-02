@@ -5,7 +5,7 @@ import {
   vendorAccountOmitsSessionModel,
 } from "../lib/chat-launch-error";
 import { Composer } from "./Composer";
-import { HomeMascotLogo } from "./HomeMascotLogo";
+import { HomeWelcome } from "./HomeWelcome";
 import { HomeProjectSwitcher } from "./HomeProjectSwitcher";
 import { IconX } from "./icons";
 import { TooltipButton } from "./ui";
@@ -96,12 +96,7 @@ export const ChatSurface = memo(function ChatSurface({
   const isTemporarySession = Boolean(
     activeSessionId && activeSession && !activeSession.projectPath?.trim(),
   );
-  const emptyTitleParts = useMemo(() => {
-    const marker = "__PROJECT__";
-    const template = t("chat.emptyTitleInProject", { project: marker });
-    const [before = "", after = ""] = template.split(marker);
-    return { before, after };
-  }, [t]);
+
 
   // The head of the retained order is the session on screen. It equals
   // `activeSessionId` except during a cold switch, where the destination has no
@@ -162,28 +157,11 @@ export const ChatSurface = memo(function ChatSurface({
         >
           <div className="home-scroll">
             <div className="home-stack-inner">
-              <div className="empty-hero">
-                <div
-                  className="empty-hero-icon"
-                  data-testid="home-icon"
-                  aria-hidden
-                >
-                  <HomeMascotLogo />
-                </div>
-                <h1>
-                  {heroProject ? (
-                    <>
-                      {emptyTitleParts.before}
-                      <HomeProjectSwitcher name={heroProject} path={workspace?.path || activeSession?.projectPath || null} />
-                      {emptyTitleParts.after}
-                    </>
-                  ) : isTemporarySession ? (
-                    t("chat.emptyTitleTemporary")
-                  ) : (
-                    t("chat.emptyTitle")
-                  )}
-                </h1>
-              </div>
+              <HomeWelcome
+                key={`${activeSessionId ?? "home"}:${heroProject ? "project" : isTemporarySession ? "temporary" : "empty"}`}
+                kind={heroProject ? "project" : isTemporarySession ? "temporary" : "empty"}
+                project={heroProject ? <HomeProjectSwitcher name={heroProject} path={workspace?.path || activeSession?.projectPath || null} /> : undefined}
+              />
               <OnboardingChecklist />
             </div>
           </div>

@@ -659,7 +659,7 @@ visually distinct from list content.
 
 ### 3.7 Brand and icon contract
 
-- The visible shell name is `PI-Desktop`; Codex is not used as the renderer
+- The visible shell name is `WcSdAi`; Codex is not used as the renderer
   identity.
 - A control with no label states `.icon-btn-square`, which pins both axes to
   `--ds-control-size` (28px). `.icon-btn` on its own takes its width from its
@@ -674,16 +674,10 @@ visually distinct from list content.
   splash at 3x; ADR 0125). The component subscribes to
   `document.documentElement[data-theme]` via a `MutationObserver` and swaps the
   source at runtime for the sidebar and startup splash without a reload. The
-  empty-home hero uses `HomeMascotLogo` as a 100px eight-frame GIF. Light and
-  dark themes each have a dedicated GIF plus still PNG. CSS follows
-  `document.documentElement[data-theme]` without a reload; anything other than
-  `light` uses the dark artwork. The monochrome WcSdAi mark loops a gentle scale pulse with a
-  short idle hold on the first frame. Playback is native to the GIF and does
-  not change on pointer hover; reduced motion swaps to the matching still
-  first-frame PNG. The expanded/collapsed sidebar remains 20px/18px and the
-  startup splash 64px.
-  Home and thread-docked composer prompt rows do not render a leading brand
-  icon.
+  empty-home hero uses `HomeWelcome` with the greeting and motion contract
+  in `07-ui-design-system.md`. The icon remains 100px; sidebar dimensions
+  remain 20px/18px and the splash remains 64px. Composer rows have no
+  leading brand icon.
 - Project and Temporary session creation controls render the dedicated
   message-plus session icon. Generic
   `IconPlus` remains reserved for adding non-session entities.

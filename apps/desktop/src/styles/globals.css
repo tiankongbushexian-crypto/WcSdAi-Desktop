@@ -13,6 +13,7 @@
 @import "./base.css";
 @import "./chrome.css";
 @import "./chat-shell.css";
+@import "./home-welcome.css";
 @import "./composer.css";
 @import "./sidebar-threads.css";
 @import "./messages.css";

@@ -1,6 +1,6 @@
 # ADR 0152: Eight-frame empty-home mascot GIF
 
-- Status: Accepted
+- Status: Accepted; WcSdAi home-motion amendment below supersedes the single-variant choice
 - Date: 2026-09-04
 - Deciders: PI-Desktop core
 - Related: D293, D294, E2E-046, E2E-099, US-UI-17
@@ -51,3 +51,18 @@ hover does not change cadence.
   reduced-motion state the GIF plus CSS swap already cover.
 - Use one GIF for both themes: the supplied light and dark artwork would
   clash with the opposite surface.
+
+## WcSdAi amendment (2026-10-02)
+
+The owner approved two vector motions (diagonal assembly and outline trace),
+three single-entry text animations and randomized localized greetings after
+reviewing a preview that imports the production components. The existing
+monochrome breath GIF is retained as one of three choices. This supersedes the
+single-GIF and no-random-selection portions above for the fork.
+
+Selection occurs once per newly mounted session context and avoids the previous
+choice, stored only in renderer sessionStorage with an in-memory fallback.
+No Host/session schema changes or JavaScript animation timers are introduced.
+The canonical logo geometry, centered 100px slot, real project switcher,
+black/white theme treatment and reduced-motion support remain invariants.
+See `docs/wcsdai/home-motion-review.md` and the current UI design-system contract.
