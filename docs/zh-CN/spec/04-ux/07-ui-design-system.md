@@ -5,7 +5,7 @@
 
 ## 1. 目标
 
-1. 为 PI-Desktop 中的视觉标记、组件基础和布局指标提供**单一事实来源**
+1. 为 WcSdAi 中的视觉标记、组件基础和布局指标提供**单一事实来源**
 2. 确保浅色和深色主题的**高可读性和对比度** - 这是开发人员工作站，而不是营销界面
 3. 将所有设计决策映射到 **Tailwind CSS 标记**，以便规范 → 实现明确
 4.启用**未来类似shadcn的原始提取**，无需重新指定基础
@@ -36,7 +36,7 @@
 
 ### 3. 1 文本选择
 
-PI-Desktop 的行为类似于桌面应用程序 shell，因此意外拖动
+WcSdAi 的行为类似于桌面应用程序 shell，因此意外拖动
 默认情况下，chrome 会禁止选择。选择合同为：
 
 - 导航、标题栏镶边、按钮、标签、徽章、菜单等
@@ -84,34 +84,35 @@ PI-Desktop 的行为类似于桌面应用程序 shell，因此意外拖动
 
 ### 3. 3 产品标识和标志
 
-可见的产品标识是 **PI-Desktop**，即使外壳借用了
+可见的产品标识是 **WcSdAi**，即使外壳借用了
 法典作为视觉参考。身份契约故意很小：
 
 - 侧边栏外壳名称、设置副本和输入框占位符使用
-  `PI-Desktop`； `Codex` 保留用于外部会话导入源或
+  `WcSdAi`； `Codex` 保留用于外部会话导入源或
 历史设计参考文本。
-- `build/icon_1024.png` 是规范的 shell 徽标母版；渲染器导入由其派生的
-  192x192 标记，位于 `src/assets/brand/`（ADR 0125）。 `BrandLogo` 导入它们
-  通过Vite所以渲染器捆绑，开发Dock，并打包
-  应用程序都使用相同的视觉资产。
-- 在 macOS 上，开发和打包发布均将 `PI-Desktop` 公开为
-  本机应用程序菜单名称。本机“关于”面板使用 PI-Desktop
-  名称、版本和规范图标；没有可见库存 Electron 名称或图标。
+- `build/wcsdai-symbol.svg` 是随附品牌图形的规范矢量来源。生成器派生
+  `src/assets/brand/` 下的 192x192 黑白标记，以及白色圆角、外缘透明的
+  `build/icon_1024.png` 应用图标。`BrandLogo` 通过 Vite 导入标记；渲染器、
+  开发 Dock、托盘和打包应用共享同一图形。品牌图形仅使用黑色或白色，
+  背景和边缘抗锯齿使用中性色。
+- 在 macOS 上，开发和打包启动均使用 `WcSdAi` 原生应用菜单名称。
+  原生“关于”面板显示 WcSdAi 名称、版本和规范图标，不显示默认 Electron 品牌。
+  Electron 内部 `app.getName()` 仅为保留操作系统加密身份而继续使用 `PI-Desktop`；
+  用户可见菜单和“关于”标签均显式设置。
   开发启动使用生成的品牌主机包，因为 AppKit
   从主机包而不是 Electron 运行时 API 中读取此标识。
-- 在 Windows、Electron 主寄存器上，规范的 `net.aiuo.pi-desktop`
+- 在 Windows、Electron 主寄存器上，规范的 `com.example.wcsdai`
   准备就绪之前的 AppUserModelID。运行时 ID、打包的可执行文件名称、
   和 NSIS 快捷方式标识保持一致，以便本机通知，
-  通知设置和任务栏组将应用程序标识为 `PI-Desktop`
+  通知设置和任务栏组将应用程序标识为 `WcSdAi`
   而不是 Electron。
-- 空首页英雄使用 100px 的 `HomeMascotLogo` GIF：由浅色和深色八帧挥手
-  动作合成，首帧短暂停留后循环播放。CSS 根据
+- 空首页使用 100px 的 `HomeMascotLogo` GIF：从随附矢量图形生成八帧黑白
+  WcSdAi 标记，以轻微缩放循环播放，首帧短暂停留。CSS 根据
   `document.documentElement[data-theme]` 选择对应资源，非 `light` 时使用
   深色稿。播放由 GIF 自身完成，没有随机姿势、JavaScript 定时器或悬停
   加速。减少动态效果时切换为对应首帧 PNG，槽位仍为 100px。
-  `BrandLogo` 在 expanded/collapsed 侧边栏中保留 20px/18px，在
-  启动水花。 Composer 提示行不呈现领先品牌图标
-在主模式或线程对接模式下。
+  `BrandLogo` 在展开/收起侧边栏中保持 20px/18px，启动画面中保持 64px。
+  首页和会话停靠模式下的 Composer 提示行均不显示前置品牌图标。
 - 新会话控件使用 15–16 像素的专用消息加图标。的
   通用加号图标保留用于非会话添加，例如添加
   一个项目。

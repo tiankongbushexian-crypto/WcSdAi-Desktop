@@ -1,13 +1,15 @@
 ---
 title: Start here
-description: A short orientation to the PI-Desktop product and its documentation.
+description: A short orientation to the WcSdAi product and its documentation.
 ---
 
 # Start here
 
-PI-Desktop is a local-first AI coding agent desktop client. The app keeps the
+WcSdAi is a local-first AI coding agent desktop client. The app keeps the
 workspace, host process, agent runtime, and provider configuration visible and
 inspectable while still making everyday coding work feel direct.
+
+WcSdAi is a fork of [PI-Desktop](https://github.com/vastsa/PI-Desktop). The upstream LGPLv3 license and copyright notices are retained. The default interface language is Simplified Chinese; technical package names, plugin contracts, and model protocols remain compatible.
 
 ## Choose a path
 

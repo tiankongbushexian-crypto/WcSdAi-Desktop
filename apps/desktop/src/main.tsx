@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { flattenCatalog } from "@pi-desktop/i18n/locale-info";
-import { en } from "@pi-desktop/i18n/locales/en";
+import { defaultLocale } from "@pi-desktop/i18n/locale-info";
+import { loadRendererResources } from "./lib/renderer-catalogs";
 import { MAC_TRAFFIC_LIGHT_EDGE_DIP } from "@pi-desktop/shared";
 import App from "./App";
 import { ErrorBoundary, RoutePending } from "./features/app/chrome";
@@ -70,18 +70,12 @@ const LiveVoiceWidget = React.lazy(() =>
 async function startRenderer(): Promise<void> {
   const root = ReactDOM.createRoot(rootContainer);
   await i18n.use(initReactI18next).init({
-    lng: "en",
+    lng: defaultLocale,
     fallbackLng: "en",
-    resources: {
-      en: {
-        translation: flattenCatalog(
-          en as unknown as Record<string, unknown>,
-        ),
-      },
-    },
+    resources: await loadRendererResources(defaultLocale),
     interpolation: { escapeValue: false },
   });
-  document.documentElement.lang = "en";
+  document.documentElement.lang = defaultLocale;
   root.render(
     <React.StrictMode>
       <RoutePending />

@@ -5647,6 +5647,116 @@ mod tests {
         );
     }
 
+    #[cfg(unix)]
+    #[test]
+    fn fork_preserves_moved_root_alias_inputs_independently() {
+        use std::os::unix::fs::symlink;
+
+        let dir = tempfile::tempdir().unwrap();
+        let old_root = dir.path().join("old-data");
+        let new_root = dir.path().join("new-data");
+        let db = Database::open_in_dir(&old_root).unwrap();
+        let source = create_session(
+            &db,
+            Some("Historical attachments".into()),
+            None,
+            None,
+            None,
+            None,
+        )
+        .unwrap();
+        let pasted = crate::scratch::session_dir(db.data_dir(), &source.id)
+            .unwrap()
+            .join("pasted");
+        std::fs::create_dir_all(&pasted).unwrap();
+        let historical_file = pasted.join("input.txt");
+        std::fs::write(&historical_file, "historical bytes").unwrap();
+        let historical_text = format!("Read @\"{}\"", historical_file.display());
+        append_message(
+            &db,
+            &source.id,
+            &user_msg("historical", &historical_text, "2026-10-02T00:00:00Z"),
+            None,
+        )
+        .unwrap();
+        drop(db);
+
+        std::fs::rename(&old_root, &new_root).unwrap();
+        symlink(&new_root, &old_root).unwrap();
+        let db = Database::open_in_dir(&old_root).unwrap();
+        assert_eq!(db.data_dir(), old_root);
+        let canonical_text = format!(
+            "Read @\"{}\"",
+            historical_file.canonicalize().unwrap().display()
+        );
+        append_message(
+            &db,
+            &source.id,
+            &user_msg("canonical", &canonical_text, "2026-10-02T00:00:01Z"),
+            None,
+        )
+        .unwrap();
+        let ForkSessionResult::Created(child) =
+            fork_session_through(&db, &source.id, None, None).unwrap()
+        else {
+            panic!("expected child")
+        };
+        let child_file = crate::scratch::session_dir(db.data_dir(), &child.summary.id)
+            .unwrap()
+            .join("pasted/input.txt");
+        assert_eq!(
+            std::fs::read_to_string(&child_file).unwrap(),
+            "historical bytes"
+        );
+        assert_eq!(child.messages.len(), 2);
+        for message in &child.messages {
+            assert_eq!(
+                message.content,
+                format!("Read @\"{}\"", child_file.display())
+            );
+        }
+        assert!(child_file
+            .canonicalize()
+            .unwrap()
+            .starts_with(new_root.canonicalize().unwrap()));
+        std::fs::write(&child_file, "independent child bytes").unwrap();
+        assert_eq!(
+            std::fs::read_to_string(&historical_file).unwrap(),
+            "historical bytes"
+        );
+        let original = get_session(&db, &source.id).unwrap().unwrap();
+        assert_eq!(original.messages[0].content, historical_text);
+        assert_eq!(original.messages[1].content, canonical_text);
+        delete_session(&db, &source.id).unwrap();
+        crate::scratch::remove_session_dir(db.data_dir(), &source.id);
+        drop(db);
+
+        let db = Database::open_in_dir(&old_root).unwrap();
+        assert!(get_session(&db, &source.id).unwrap().is_none());
+        assert_eq!(
+            std::fs::read_to_string(&child_file).unwrap(),
+            "independent child bytes"
+        );
+        let ForkSessionResult::Created(grandchild) =
+            fork_session_through(&db, &child.summary.id, None, None).unwrap()
+        else {
+            panic!("expected grandchild")
+        };
+        let grandchild_file = crate::scratch::session_dir(db.data_dir(), &grandchild.summary.id)
+            .unwrap()
+            .join("pasted/input.txt");
+        assert_eq!(
+            std::fs::read_to_string(&grandchild_file).unwrap(),
+            "independent child bytes"
+        );
+        for message in &grandchild.messages {
+            assert_eq!(
+                message.content,
+                format!("Read @\"{}\"", grandchild_file.display())
+            );
+        }
+    }
+
     #[test]
     fn fork_session_clones_active_transcript_and_configuration() {
         let dir = tempfile::tempdir().unwrap();

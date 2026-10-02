@@ -45,6 +45,7 @@ const copy = computed(() =>
         ],
         modesTitle: '三种节奏，\n同一种工作台。',
         galleryTitle: '看见它如何工作。',
+        screenshotNotice: '以下图片为上游 PI-Desktop 历史截图，保留用于功能参考；WcSdAi 当前界面截图将在独立验证后更新。',
         gallery: [
           { src: shot('session-orchestrator-overview.webp'), alt: 'Session Orchestrator' },
           { src: shot('session-orchestrator-worker.webp'), alt: 'Worker Session' },
@@ -57,9 +58,9 @@ const copy = computed(() =>
         steps: ['下载安装', '连接模型', '打开项目', '开始工作'],
         ctaTitle: '把 Agent\n放进工作台。',
         ctaBody: 'macOS · Windows · Linux',
-        download: '立即下载',
+        download: '发布准备',
         docs: '使用文档',
-        downloadHref: 'https://github.com/vastsa/PI-Desktop/releases/latest',
+        downloadHref: '/wcsdai/release-checklist',
         docsHref: '/zh-CN/guide/',
       }
     : {
@@ -100,6 +101,7 @@ const copy = computed(() =>
         ],
         modesTitle: 'Three rhythms.\nOne workspace.',
         galleryTitle: 'See it work.',
+        screenshotNotice: 'These archived PI-Desktop screenshots illustrate upstream functionality. Current WcSdAi screenshots will be captured after independent verification.',
         gallery: [
           { src: shot('session-orchestrator-overview.webp'), alt: 'Session Orchestrator' },
           { src: shot('session-orchestrator-worker.webp'), alt: 'Worker Session' },
@@ -113,9 +115,9 @@ const copy = computed(() =>
         steps: ['Download', 'Connect a model', 'Open a project', 'Start working'],
         ctaTitle: 'Put agents\nin a workspace.',
         ctaBody: 'macOS · Windows · Linux',
-        download: 'Download',
+        download: 'Release status',
         docs: 'Documentation',
-        downloadHref: 'https://github.com/vastsa/PI-Desktop/releases/latest',
+        downloadHref: '/wcsdai/release-checklist',
         docsHref: '/guide/',
       }
 )
@@ -123,6 +125,7 @@ const copy = computed(() =>
 
 <template>
   <div class="launch">
+    <p class="archive-notice">{{ copy.screenshotNotice }}</p>
     <section
       v-for="(story, index) in copy.stories"
       :key="story.eyebrow"

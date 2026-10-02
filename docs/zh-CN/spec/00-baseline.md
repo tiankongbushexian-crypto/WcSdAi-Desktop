@@ -91,12 +91,26 @@
 > D375 将 SSH 隧道远端 Host 排在首位，Gateway 与浏览器访问不排期。
 > 当前基线仍排除远程 Gateway / WebUI 控制。
 
+## WcSdAi fork 修订（2026-10-02）
+
+[WcSdAi 身份 ADR](/adr/wcsdai-brand-identity) 修订产品品牌、原生应用包标识、
+未设置语言时的默认值，以及后续明确授权的物理数据目录迁移。新安装使用 WcSdAi
+目录；未迁移的旧目录仍可回退使用，旧 Host 根若为指向同一新物理根的 alias，
+则继续保留其历史逻辑路径。路径选择器不会自行移动或合并数据。
+运行时、protocol 11、Host SQLite schema **21**（当前 `db.rs`）、内部加密身份、
+模型供应商和权限机制保持兼容。共享 schema 常量 16 是另一项元数据，不是当前数据库
+版本。下方原始决策保留其上游历史背景，历史 schema 版本说明不作改写。
+
+负责人随后选择了[未签名团队安装包](/wcsdai/team-distribution)。手动团队工作流
+提供 macOS arm64/x64 和 Windows x64 原生产物，并附带源码与校验码；
+不需要发行者签名凭据，也不启用自动更新源。签名公开发布通道继续独立保留。
+
 ## 冻结的决定
 
-1.产品名称：**PI-Desktop**
+1. 产品名称：本 fork 为 **WcSdAi**（上游：PI-Desktop）
 2. 桌面外壳：**Electron**
 3. 用户界面：**React + TypeScript + Vite + Tailwind**
-4. UI语言默认：**英语**
+4. UI 语言默认：未设置时为**简体中文**；已保存的具体语言和显式 Auto 行为保持不变
 5. 文档/问题/提交语言：**英语为主**
 6. Agent 引擎：**pi (`pi-ai` + `pi-agent-core`)**
 7.后端主机核：**Rust**

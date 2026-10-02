@@ -1,17 +1,26 @@
 import { en, type EnglishCatalog } from "../en/index.js";
 
 export const fr = {
+  brand: {
+    aboutTitle: "À propos de WcSdAi",
+    copyright: "Copyright 2026 量动科技",
+    licenseTitle: "Licences et attribution",
+    upstreamAttribution: "WcSdAi est un fork de PI-Desktop sous licence GNU LGPL v3.0. Les mentions de droits d’auteur et de licence d’origine sont conservées.",
+    sourceCode: "Code source et licences",
+    website: "Site officiel",
+    support: "Assistance technique",
+  },
   "app": {
-    "shellName": "PI-Desktop",
-    "tagline": "Partenaire de codage IA local",
-    "starting": "Démarrage de PI-Desktop…",
+    "shellName": "WcSdAi",
+    "tagline": "Simplifier l’IA",
+    "starting": "Démarrage de WcSdAi…",
     "loadingView": "Chargement de la vue…",
     "uiCrashed": "Un problème s'est produit avec l'interface"
   },
   "startup": {
     "slowTitle": "Démarrage toujours en cours…",
-    "slowBody": "PI-Desktop met plus de temps que d'habitude à joindre votre service local. Le démarrage peut encore aboutir de lui-même — vous pouvez patienter ou récupérer d'abord les journaux.",
-    "stalledTitle": "PI-Desktop n'a pas pu terminer son démarrage",
+    "slowBody": "WcSdAi met plus de temps que d'habitude à joindre votre service local. Le démarrage peut encore aboutir de lui-même — vous pouvez patienter ou récupérer d'abord les journaux.",
+    "stalledTitle": "WcSdAi n'a pas pu terminer son démarrage",
     "stalledBody": "Cette fenêtre n'a jamais reçu vos discussions ni vos paramètres, donc rien ne peut encore s'afficher. Rien n'a été supprimé — vos données sont toujours sur le disque.",
     "retrying": "Nouvelle tentative…",
     "copyDiagnostics": "Copier les diagnostics",
@@ -36,12 +45,12 @@ export const fr = {
     "unread": "Non lues",
     "pinned": "Épinglées",
     "viewMore": "Voir plus…",
-    "open": "Ouvrir PI-Desktop",
-    "quit": "Quitter PI-Desktop",
-    "askTitle": "Garder PI-Desktop en arrière-plan ?",
-    "askBody": "Lorsque vous fermez la fenêtre, PI-Desktop peut continuer à s'exécuter dans la barre d'état système afin que rien ne soit perdu. Vous pouvez modifier cela à tout moment dans les paramètres.",
+    "open": "Ouvrir WcSdAi",
+    "quit": "Quitter WcSdAi",
+    "askTitle": "Garder WcSdAi en arrière-plan ?",
+    "askBody": "Lorsque vous fermez la fenêtre, WcSdAi peut continuer à s'exécuter dans la barre d'état système afin que rien ne soit perdu. Vous pouvez modifier cela à tout moment dans les paramètres.",
     "closeToTray": "Près du bac",
-    "confirmQuitTitle": "Quitter PI-Desktop ?",
+    "confirmQuitTitle": "Quitter WcSdAi ?",
     "confirmQuitBody": "Êtes-vous sûr de vouloir arrêter ? Toutes les sessions en cours seront arrêtées et les modifications non enregistrées risquent d'être perdues.",
     "confirmQuit": "Quitter"
   },
@@ -75,6 +84,9 @@ export const fr = {
     "dismissHint": "Échap pour fermer"
   },
   "menu": {
+    aboutApp: "À propos de WcSdAi",
+    hideApp: "Masquer WcSdAi",
+    quitApp: "Quitter WcSdAi",
     "file": "Fichier",
     "edit": "Modifier",
     "view": "Afficher",
@@ -92,7 +104,7 @@ export const fr = {
     "zoomOut": "Zoom arrière",
     "toggleFullScreen": "Basculer en plein écran",
     "toggleDevTools": "Outils de développement",
-    "appHelp": "Aide PI-Desktop",
+    "appHelp": "Aide WcSdAi",
     "openLogs": "Journaux ouverts",
     "checkForUpdates": "Rechercher les mises à jour…"
   },
@@ -124,7 +136,7 @@ export const fr = {
     "manualHint": "Téléchargez la nouvelle version à partir de la page des versions.",
     "error": "Impossible de vérifier les mises à jour : {{message}}",
     "dismiss": "Ignorer",
-    "devDisabled": "Les mises à jour sont désactivées dans les versions de développement."
+    "devDisabled": "Les mises à jour sont indisponibles dans les versions de développement ou sans source de mise à jour configurée."
   },
   "nav": {
     "pinnedSessions": "Épinglées",
@@ -246,7 +258,7 @@ export const fr = {
     "emptyTitle": "Que puis-je vous aider à créer ?",
     "emptyTitleInProject": "Que pouvons-nous construire dans {{project}} ?",
     "emptyTitleTemporary": "Qu'aimeriez-vous explorer temporairement ?",
-    "placeholder": "Demandez à PI-Desktop de vous aider pour tout",
+    "placeholder": "Demandez à WcSdAi de vous aider pour tout",
     "placeholderHome": "Demandez n'importe quoi",
     "placeholderHint": "Tapez / pour les commandes · @ pour les fichiers",
     "placeholderHomeHint": "Tapez / pour les commandes · @ pour les fichiers",
@@ -608,7 +620,7 @@ export const fr = {
   "settings": {
     "power": "Alimentation",
     "keepAwakeWhileRunning": "Garder l'ordinateur éveillé",
-    "keepAwakeWhileRunningDesc": "Empêche la veille due à l'inactivité pendant l'exécution de PI-Desktop. L'écran peut s'éteindre ; la veille manuelle et la fermeture du capot restent possibles.",
+    "keepAwakeWhileRunningDesc": "Empêche la veille due à l'inactivité pendant l'exécution de WcSdAi. L'écran peut s'éteindre ; la veille manuelle et la fermeture du capot restent possibles.",
     "imageModel": "Modèle de génération d’images",
     "imageModelUnset": "Non configuré",
     "imageModelUnavailable": "Indisponible pour le moment",
@@ -706,7 +718,7 @@ sklm: {
       "Ce fournisseur provient du plugin « {{plugin}} », qui fournit son point de terminaison et ses modèles. Activez-le ou désactivez-le dans la page « Extensions ».",
     "pluginProviderKey": "Clé API",
     "pluginProviderKeyHint":
-      "Stockée dans PI-Desktop et utilisée par l'environnement d'exécution. Le plugin ne la reçoit jamais.",
+      "Stockée dans WcSdAi et utilisée par l'environnement d'exécution. Le plugin ne la reçoit jamais.",
     "pluginProviderKeyRemove": "Supprimer la clé",
     "pluginProviderKeySaved": "Clé API enregistrée",
     "pluginProviderKeyRemoved": "Clé API supprimée",
@@ -1676,7 +1688,7 @@ sklm: {
     "noProjects": "Aucun projet pour l'instant"
   },
   "scheduled": {
-    "description": "Exécutez des tâches récurrentes tant que PI-Desktop est ouvert.",
+    "description": "Exécutez des tâches récurrentes tant que WcSdAi est ouvert.",
     "edit": "Modifier la tâche",
     "hourlyHint": "Exécution toutes les heures, une heure après enregistrement ou activation. Redémarrer l’application relance cet intervalle.",
     "morning": "Matin",
@@ -1690,7 +1702,7 @@ sklm: {
     "legacyHint": "Modifiez et enregistrez la planification pour activer les exécutions automatiques.",
     "time": "Heure",
     "weekday": "Jour de la semaine",
-    "localTimeHint": "Utilise le fuseau horaire local. Gardez PI-Desktop ouvert ; les exécutions manquées sont ignorées.",
+    "localTimeHint": "Utilise le fuseau horaire local. Gardez WcSdAi ouvert ; les exécutions manquées sont ignorées.",
     "projectHint": "Le projet actuel est enregistré. Le modèle par défaut est utilisé.",
     "autoPermissionHint": "Le mode Auto peut exécuter des actions restreintes sans confirmation. Utilisez-le uniquement pour des tâches fiables.",
     "unavailableModel": "{{provider}} / {{model}} (indisponible)",
@@ -2147,9 +2159,9 @@ sklm: {
       "agent.prompt.inject": "Peut modifier les instructions envoyées à l'agent IA.",
       "agent.complete": "Peut dépenser votre quota de modèle pour une réalisation unique. Le plugin ne reçoit jamais vos clés API.",
       "agent.extension": "Exécute des modules ExtensionAPI dans le processus de l'agent avec le même accès que ses propres outils. N'activez que du code auquel vous faites confiance.",
-      "renderer.extension": "Charge le module de rendu de ce plugin dans la fenêtre de l'app pour dessiner des composants d'interface (barres d'actions des messages, extras de réponse, cartes d'outils, rendus de blocs de code, contrôles du composeur). Le module s'exécute dans le même document que PI-Desktop. N'activez que du code de confiance.",
-      "provider.register": "Ajoute les fournisseurs définis par ce plugin à la liste des fournisseurs des Paramètres. Le plugin fournit le point de terminaison et les modèles ; votre clé API reste dans PI-Desktop.",
-      "desktop.control": "Permet d'appeler le catalogue PI-Desktop contrôlé ; les opérations destructrices exigent toujours confirm=true et le bearer token MCP n'est pas exposé.",
+      "renderer.extension": "Charge le module de rendu de ce plugin dans la fenêtre de l'app pour dessiner des composants d'interface (barres d'actions des messages, extras de réponse, cartes d'outils, rendus de blocs de code, contrôles du composeur). Le module s'exécute dans le même document que WcSdAi. N'activez que du code de confiance.",
+      "provider.register": "Ajoute les fournisseurs définis par ce plugin à la liste des fournisseurs des Paramètres. Le plugin fournit le point de terminaison et les modèles ; votre clé API reste dans WcSdAi.",
+      "desktop.control": "Permet d'appeler le catalogue WcSdAi contrôlé ; les opérations destructrices exigent toujours confirm=true et le bearer token MCP n'est pas exposé.",
       "models.list": "Peut voir pour quels modèles vous vous êtes connecté. Il ne reçoit pas de clés.",
       "session.read": "Peut lire la conversation sur laquelle l'appel d'outil actuel fonctionne, y compris les résultats de l'outil.",
       "net.fetch": "Peut effectuer des requêtes réseau sortantes.",
@@ -2162,7 +2174,7 @@ sklm: {
       "audio.capture.background": "Capture le microphone pendant que le plugin s'exécute en arrière-plan, sans panneau ouvert.",
       "audio.playback.background": "Lit l'audio diffusé par le plugin, même lorsqu'aucun panneau n'est ouvert.",
       "speech.adapter.register": "Peut ajouter un protocole de transcription ou de synthèse qui réutilise vos clés fournisseur. Le plugin ne voit jamais la clé.",
-      "keyboard.globalShortcut": "Enregistre des raccourcis clavier système qui déclenchent les commandes propres à ce plugin lorsque PI-Desktop n'est pas au premier plan.",
+      "keyboard.globalShortcut": "Enregistre des raccourcis clavier système qui déclenchent les commandes propres à ce plugin lorsque WcSdAi n'est pas au premier plan.",
       "net.websocket": "Ouvre des connexions bidirectionnelles en temps réel vers les hôtes déclarés par le plugin.",
       "net.anyHost": "Peut joindre n'importe quel serveur en HTTP(S) ou WebSocket(S), y compris les adresses auto-hébergées saisies par l'utilisateur. Les points de terminaison de métadonnées cloud restent bloqués.",
       "bus.publish": "Peut envoyer des messages sur les sujets qu'il a déclarés.",
@@ -2389,7 +2401,7 @@ sklm: {
     "unsupportedGlibc":
       "Cette version Linux nécessite glibc 2.35 ou plus récent (Ubuntu 22.04, Debian 12, Fedora 36+).",
     "dbSchemaTooNew":
-      "Cette version de PI-Desktop est plus ancienne que vos données locales (schéma de données {{found}}, cette version prend en charge {{supported}}). Installez la version plus récente de PI-Desktop qui a ouvert ces données en dernier, ou une version ultérieure.",
+      "Cette version de WcSdAi est plus ancienne que vos données locales (schéma de données {{found}}, cette version prend en charge {{supported}}). Installez la version plus récente de WcSdAi qui a ouvert ces données en dernier, ou une version ultérieure.",
     "archMismatch":
       "Ceci est la version {{buildArch}} exécutée sur une machine {{machineArch}} ; elle tourne par traduction et est plus lente. Installez plutôt la version {{machineArch}}.",
     "dismissArchMismatch": "Ignorer",

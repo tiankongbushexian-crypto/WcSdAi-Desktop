@@ -11,6 +11,7 @@ Run: python3 scripts/make-dmg-background.py
 from __future__ import annotations
 
 import math
+import random
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -88,9 +89,14 @@ def _paste(base: Image.Image, layer: Image.Image, cx: float, cy: float) -> None:
 
 
 def _grain(size: tuple[int, int]) -> Image.Image:
-    noise = Image.effect_noise(size, 18).convert("L")
+    # Keep artwork reproducible across repeated branding exports.
+    rng = random.Random(0)
+    noise = Image.frombytes(
+        "L", size,
+        bytes(10 if rng.gauss(128, 18) > 140 else 0 for _ in range(size[0] * size[1])),
+    )
     layer = Image.new("RGBA", size, (255, 255, 255, 0))
-    layer.putalpha(noise.point(lambda value: 10 if value > 140 else 0))
+    layer.putalpha(noise)
     return layer
 
 
@@ -135,7 +141,7 @@ def _wordmark(base: Image.Image) -> None:
     zh_font = _font("/System/Library/Fonts/Hiragino Sans GB.ttc", 12, index=0)
 
     draw = ImageDraw.Draw(base)
-    title = "PI-Desktop"
+    title = "WcSdAi"
     x0, y0, x1, y1 = draw.textbbox((0, 0), title, font=title_font)
     gap = _px(10)
     cluster_w = mark_size + gap + (x1 - x0)

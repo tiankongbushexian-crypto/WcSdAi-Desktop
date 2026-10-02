@@ -22,7 +22,7 @@
 # published checksum before installing on the remote machine (rollout
 # 06-delivery/07-remote-control-rollout.md §6 acceptance 4; D375 / ADR 0284).
 
-name: Release
+name: WcSdAi Release
 
 on:
   push:
@@ -66,6 +66,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: WcSdAi release readiness
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          WCSDAI_RELEASE_READY: ${{ vars.WCSDAI_RELEASE_READY }}
+        run: node scripts/check-wcsdai-release.mjs
 
       - name: Build workspace packages
         run: pnpm build:js
@@ -169,14 +175,25 @@ jobs:
             exit 1
           fi
 
-      - name: Validate bundled models.dev catalog
+      - name: Detect configured update feed
+        id: update_feed
+        # An unsigned debug build with publish:null intentionally has no feed.
+        # Tagged releases already require an approved fork feed in verify.
+        run: |
+          node --input-type=module - <<'NODE' >> "$GITHUB_OUTPUT"
+          import { readFileSync } from 'node:fs';
+          const { build } = JSON.parse(readFileSync('apps/desktop/package.json', 'utf8'));
+          console.log(`configured=${Array.isArray(build.publish) && build.publish.length > 0}`);
+          NODE
+
+      - name: Validate settings operation metadata
         run: |
           node --input-type=module - <<'NODE'
           import { readFile } from 'node:fs/promises';
-          const path = 'apps/desktop/resources/models.dev/api.json';
+          const path = 'apps/desktop/electron/main/settings-operation-metadata.json';
           const catalog = JSON.parse(await readFile(path, 'utf8'));
-          const valid = catalog && !Array.isArray(catalog) && typeof catalog === 'object' &&
-            Object.values(catalog).some((provider) => provider && typeof provider === 'object' && provider.models);
+          const valid = Array.isArray(catalog) && catalog.length > 0 &&
+            catalog.every(model => model.vendor && model.id && model.modalities?.output?.length);
           if (!valid) throw new Error(`${path} contains no provider model records`);
           console.log(`${path} is valid`);
           NODE
@@ -207,13 +224,33 @@ jobs:
           wait "$host_build_pid"
           trap - EXIT
 
+      - name: Require Windows release signing
+        if: matrix.platform == 'windows' && startsWith(github.ref, 'refs/tags/v')
+        env:
+          WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          [[ -n "${WIN_CSC_LINK}" && -n "${WIN_CSC_KEY_PASSWORD}" ]] || {
+            echo "::error::Windows release signing secrets are required."
+            exit 1
+          }
+
       - name: Package installers (${{ matrix.dist }})
         if: matrix.platform != 'macos'
+        env:
+          WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
         # The dist scripts pass --publish never themselves: electron-builder
         # must not self-publish on tag builds (no token; softprops owns it).
         # The explicit architecture keeps the package and native Rust sidecar
         # aligned with the runner selected by this matrix entry.
-        run: pnpm --filter @pi-desktop/desktop run ${{ matrix.dist }} -- --${{ matrix.arch }}
+        run: |
+          signing=()
+          if [[ "${{ matrix.platform }}" == "windows" && "$GITHUB_REF" == refs/tags/v* ]]; then
+            signing+=(-c.win.forceCodeSigning=true)
+          fi
+          pnpm --filter @pi-desktop/desktop run ${{ matrix.dist }} -- --${{ matrix.arch }} "${signing[@]}"
 
       - name: Package unsigned macOS installer
         if: matrix.platform == 'macos' && env.MACOS_SIGN_RELEASE != 'true'
@@ -242,6 +279,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          MAC_SIGNING_IDENTITY: ${{ vars.MAC_SIGNING_IDENTITY }}
         run: |
           set -euo pipefail
           missing=()
@@ -250,13 +288,14 @@ jobs:
           [[ -n "${APPLE_ID}" ]] || missing+=(APPLE_ID)
           [[ -n "${APPLE_APP_SPECIFIC_PASSWORD}" ]] || missing+=(APPLE_APP_SPECIFIC_PASSWORD)
           [[ -n "${APPLE_TEAM_ID}" ]] || missing+=(APPLE_TEAM_ID)
+          [[ -n "${MAC_SIGNING_IDENTITY}" ]] || missing+=(MAC_SIGNING_IDENTITY)
           if ((${#missing[@]} > 0)); then
             echo "::error::Missing GitHub Actions secrets for macOS signing/notarization: ${missing[*]}"
             echo "::error::Add them under Settings → Secrets and variables → Actions. See docs/spec/06-delivery/06-release-runbook.md."
             exit 1
           fi
-          if [[ "${APPLE_TEAM_ID}" != "DUV63RKYTW" ]]; then
-            echo "::error::APPLE_TEAM_ID must be DUV63RKYTW (XingYu Liu Developer ID team)."
+          if [[ ! "${APPLE_TEAM_ID}" =~ ^[A-Z0-9]{10}$ ]]; then
+            echo "::error::APPLE_TEAM_ID must contain 10 uppercase letters or digits."
             exit 1
           fi
 
@@ -268,11 +307,12 @@ jobs:
           # electron-builder rejects the "Developer ID Application:" prefix on
           # identity names and resolves the certificate itself, so CSC_NAME
           # carries the bare common name only.
-          CSC_NAME: "XingYu Liu (DUV63RKYTW)"
+          CSC_NAME: ${{ vars.MAC_SIGNING_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          # electron-builder prints one "signing PI-Desktop.app" line and then
+          MAC_SIGNING_IDENTITY: ${{ vars.MAC_SIGNING_IDENTITY }}
+          # electron-builder prints one "signing WcSdAi.app" line and then
           # goes quiet: @electron/osx-sign walks Contents and codesigns every
           # Mach-O serially, builder-util silently retries a failing pass up to
           # three times, and @electron/notarize zips, uploads, and waits for
@@ -319,6 +359,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          MAC_SIGNING_IDENTITY: ${{ vars.MAC_SIGNING_IDENTITY }}
           # 20 minutes bounds the second Apple wait; the packaging phase owns
           # the first one.
           PI_SIGNING_TIMEOUT_SECONDS: "1200"
@@ -333,6 +374,8 @@ jobs:
 
       - name: Verify signed and notarized macOS installer
         if: matrix.platform == 'macos' && env.MACOS_SIGN_RELEASE == 'true'
+        env:
+          MAC_SIGNING_IDENTITY: ${{ vars.MAC_SIGNING_IDENTITY }}
         run: scripts/verify-macos-release.sh apps/desktop/release
 
       - name: Verify Linux host-core glibc floor
@@ -349,7 +392,7 @@ jobs:
         # same names electron-updater requests on those architectures — so the
         # two lanes cannot overwrite each other's feed when the publish job
         # merges their artifacts.
-        if: matrix.platform == 'linux'
+        if: matrix.platform == 'linux' && steps.update_feed.outputs.configured == 'true'
         run: |
           set -euo pipefail
           feed="apps/desktop/release/${{ matrix.feed }}"
@@ -364,16 +407,16 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          expected_dmg=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}.dmg)
-          expected_dmg_blockmap=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}.dmg.blockmap)
-          expected_zip=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}-mac.zip)
-          expected_zip_blockmap=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}-mac.zip.blockmap)
+          expected_dmg=(apps/desktop/release/WcSdAi-*-${{ matrix.arch }}.dmg)
+          expected_dmg_blockmap=(apps/desktop/release/WcSdAi-*-${{ matrix.arch }}.dmg.blockmap)
+          expected_zip=(apps/desktop/release/WcSdAi-*-${{ matrix.arch }}-mac.zip)
+          expected_zip_blockmap=(apps/desktop/release/WcSdAi-*-${{ matrix.arch }}-mac.zip.blockmap)
           if [[ "${#expected_dmg[@]}" -ne 1 || "${#expected_dmg_blockmap[@]}" -ne 1 || "${#expected_zip[@]}" -ne 1 || "${#expected_zip_blockmap[@]}" -ne 1 ]]; then
             echo "::error::Expected exactly one ${{ matrix.arch }} DMG, DMG blockmap, ZIP, and ZIP blockmap."
             printf '%s\n' apps/desktop/release/* || true
             exit 1
           fi
-          for artifact in apps/desktop/release/PI-Desktop-*; do
+          for artifact in apps/desktop/release/WcSdAi-*; do
             case "$artifact" in
               *-${{ matrix.arch }}.dmg|*-${{ matrix.arch }}.dmg.blockmap|*-${{ matrix.arch }}-mac.zip|*-${{ matrix.arch }}-mac.zip.blockmap) ;;
               *)
@@ -384,7 +427,7 @@ jobs:
           done
 
       - name: Disambiguate macOS update metadata
-        if: matrix.platform == 'macos'
+        if: matrix.platform == 'macos' && steps.update_feed.outputs.configured == 'true'
         run: mv apps/desktop/release/latest-mac.yml apps/desktop/release/latest-mac-${{ matrix.arch }}.yml
 
       - name: Upload artifacts
@@ -568,6 +611,7 @@ jobs:
           # feeds that drive electron-updater on each platform (in-app for
           # Windows NSIS and Linux AppImage; macOS and Windows ZIP remain
           # manual-delivery by product policy).
+          name: WcSdAi ${{ github.ref_name }}
           files: dist/*
           generate_release_notes: true
           prerelease: ${{ contains(github.ref_name, '-') }}

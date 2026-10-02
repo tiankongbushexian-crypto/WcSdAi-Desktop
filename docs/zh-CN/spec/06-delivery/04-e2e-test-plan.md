@@ -9194,3 +9194,43 @@ the latest destination. These assertions measure work counts, not device FPS.
 - **验收：** 缓存路径、迁移和清理单测通过；Windows task-candidate 验证应覆盖更新源传输、安装器交接和文件系统行为，且不连接真实发布源。
 - **里程碑：** M6+
 - **状态：** 单测和源码契约覆盖（`update-cache.test.mjs`、`auto-update.test.mjs`）；仍需 Windows 安装器/E2E 验证。
+
+## E2E-WCSDAI-brand-and-existing-state
+
+- **标题：** WcSdAi 品牌、语言和既有状态保留
+- **前提：** 当前 fork 候选基于最新 origin/main 构建；隔离的 userData/Host
+  数据目录、fixture 项目，不使用真实模型服务凭据。
+- **步骤：** 启动 Electron，检查窗口标题和首页 Logo；打开设置的信息页；
+  创建项目和 Session，显式选择一种语言，退出后重新打开。
+  运行启动探针、Host 冒烟测试和存储目录回归测试。
+- **预期：** 标题、版本和“关于”显示 WcSdAi，品牌资产仅黑白；未设置语言时
+  使用简体中文，版权归属和支持信息可见；缺少更新地址时禁用更新。
+  重启后保留项目、Session 和显式语言偏好。Electron 内部名称继续为
+  PI-Desktop，以保留钥匙串兼容性。新安装使用 WcSdAi 目录，未迁移的配置
+  回退到旧目录；在另行授权的物理迁移后，匹配的旧 Host alias 继续保留逻辑根。
+  显式覆盖值仍优先。原有工具、权限、插件和 MCP 合约通过验证；路径选择本身
+  不会移动或合并用户数据。
+- **规格：** 基线 fork 修订、i18n、设置信息架构和 WcSdAi 身份 ADR。
+- **验收：** 不重命名 schema、protocol 或技术依赖；不删除用户状态；
+  不调用真实 Provider、生产服务、更新或发布操作。
+- **里程碑：** WcSdAi 1.0.1 工程准备。
+- **自动化：** `pnpm test:e2e:wcsdai-brand`、`pnpm test:e2e:boot`、
+  `pnpm test:e2e`，以及桌面 profile/About/branding/update 测试。
+- **状态：** 品牌场景已实现；前一构建的证据保留在 [验证报告](/wcsdai/verification-report)。
+  后续 resolver 和物理迁移验收需单独记录，参见 [本地数据迁移](/wcsdai/local-data-migration)。
+- **追溯：** E2E-WCSDAI-brand-and-existing-state 对应上述规格与测试套件；
+  各平台签名升级仍是发布清单中的独立验收项。
+
+## E2E-WCSDAI-team-installer-download
+
+- **前置条件：** 已提交且包含手动 `team-builds.yml` 的 WcSdAi 候选版本；
+  macOS arm64/x64 和 Windows x64 原生运行器。远程执行与产物上传需要负责人明确授权。
+- **步骤：** 从 README 对应平台入口进入成功的 Team Installers 运行，下载并解压
+  artifact，核验校验码、对应源码及构建信息，然后在代表性设备上安装并重新打开原配置。
+- **预期：** 下载包含具名 DMG 或 NSIS 安装器、对应提交的源码、许可证及有效校验码。
+  产物明确标注未签名，不需要签名凭据，不创建 GitHub Release 或更新源，
+  不修改操作系统防护或应用权限策略。
+- **自动化：** `node --test apps/desktop/test/team-installers.test.mjs` 使用真实临时
+  Git/归档 fixture 验证源码 → 构建计划 → 收集及失败边界。本机 macOS 打包和只读
+  DMG 检查验证实际包内容；线上下载链路及 Windows/Intel 安装待远程执行后验收。
+- **规格：** [团队分发](/wcsdai/team-distribution)、fork 基线修订及发布手册。

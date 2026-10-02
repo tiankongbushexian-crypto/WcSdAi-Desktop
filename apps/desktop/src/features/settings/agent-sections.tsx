@@ -136,6 +136,7 @@ export function UpdatesRow({
     action = (
       <Button
         variant="secondary"
+        disabled={!update.releasesUrl}
         onClick={() => void api.updatesOpenReleases().catch(() => undefined)}
       >
         {t("updates.viewRelease")}

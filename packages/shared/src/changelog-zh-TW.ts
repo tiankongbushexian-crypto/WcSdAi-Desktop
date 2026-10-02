@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const zhTWEntries: ChangelogEntry[] = [
   {
+    version: "1.0.1",
+    highlights: [
+      "WcSdAi 1.0.1 基於 PI-Desktop 0.16.0，目前仍在準備發佈。",
+      "加入黑白圖示、WcSdAi 品牌，預設介面語言為簡體中文。",
+      "保留既有資料目錄、對話、供應商、外掛、MCP 與權限確認。",
+      "加入上游歸屬和第三方授權聲明；更新來源設定前不檢查更新。"
+],
+  },
+  {
     version: "0.16.0",
     date: "2026-10-02",
     highlights: [

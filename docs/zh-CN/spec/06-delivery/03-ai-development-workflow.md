@@ -19,15 +19,14 @@
 
 - 改变可观察行为的每个代码、配置或 UX 更改都必须在更改之前或同时更新相关的 `docs/spec/` 文档。
 - 架构边界变更（进程模型、IPC 合约、存储所有权、安全边界）也需要 ADR — 请参阅 `docs/adr/README.md`。
-- 保留行为和 API 合约的纯重构不需要规范更新，但仍必须提交（R2）。
+- 保留行为和 API 合约的纯重构不需要规范更新，提交遵循用户授权范围（R2）。
 
-### R2 — 每次更改提交
+### R2 — Commit only on request
 
-> **每个已完成的逻辑更改都必须进行 git 提交。**
-
-- 没有大量未提交的工作。每个逻辑工作单元——一个功能、一个修复、一个规范更新、一个杂务——都有自己的提交。
-- 会话结束时未提交的工作违反了此规则。
-- 如果更改不完整，请将其作为带有 `WIP:` 前缀的草稿提交或回滚。
+AGENTS.md §17 is authoritative: commit only when the user asks. Stage explicit
+paths, preserve unrelated work and keep authorized commits coherent. Without
+commit authorization, retain the task worktree and record its base plus diff.
+Do not roll back useful work merely to satisfy a mandatory-commit rule.
 
 ### R3 — E2E 覆盖文档
 
@@ -403,7 +402,7 @@ D164 与 D260。 GitHub 发行说明并不能替代。
 | 练习 | 为什么 |
 |---|---|
 | 犯下秘密 | 违反安全规定 |
-| 未提交的较大差异 | 违反 R2；粒度损失 |
+| 未提交的较大差异 | Review coherence and user-authorized delivery scope |
 | 无需更新规范即可更改行为 | 违反 R1；规格变得不可靠 |
 | 跳过 e2e 文档以进行用户可见的更改 | 违反 R3；可追溯性差距 |
 | 代码变更未成功通过相关 E2E 就集成到本地或远程 `main` | 违反 R7，跨进程行为未经验证 |

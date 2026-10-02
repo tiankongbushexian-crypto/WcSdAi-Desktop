@@ -53,7 +53,7 @@ test("macOS installs a standard application menu before window creation", () => 
   }
   assert.match(menuSource, /role:\s*"help"/);
   assert.match(menuSource, /resolveLocale\(locale\)/);
-  assert.match(mainSource, /app\.setName\(APP_NAME\)/);
+  assert.match(mainSource, /app\.setName\(LEGACY_ENCRYPTION_APP_NAME\)/);
   assert.match(mainSource, /locale:\s*app\.getLocale\(\)/);
   assert.match(menuSource, /Menu\.buildFromTemplate\(template\)/);
   assert.match(menuSource, /Menu\.setApplicationMenu/);
@@ -303,7 +303,7 @@ test("menu and window IPC reject actions outside their shared allowlists", () =>
   );
 });
 
-test("Windows/Linux explicit minimize paths use the native taskbar", () => {
+test("Windows/Linux explicit minimize paths use the native taskbar", async () => {
   assert.match(mainSource, /import \{[\s\S]*Tray[\s\S]*\} from "electron"/);
   assert.match(mainSource, /function createTray\(\)/);
   assert.match(mainSource, /join\(resourceRoot, "tray-icon-mac\.png"\)/);
@@ -339,7 +339,8 @@ test("Windows/Linux explicit minimize paths use the native taskbar", () => {
     },
   ]);
   assert.match(iconScriptSource, /tray-icon-mac\.png/);
-  assert.match(iconScriptSource, /ImageChops\.multiply/);
+  const trayPng = await readFile(new URL("../build/tray-icon-mac.png", import.meta.url));
+  assert.equal(trayPng[25], 6, "tray template retains an RGBA alpha channel");
 });
 
 test("Windows taskbar minimize keeps the taskbar entry", () => {
@@ -381,7 +382,7 @@ test("macOS activation resurfaces a tray-hidden window", () => {
   );
 });
 
-test("desktop packaging builds the native host before every local target", () => {
+test("desktop packaging builds the native host before every local target", async () => {
   assert.match(
     packageJson.scripts["build:host-release"],
     /cargo build --release .* -p host-core/,
@@ -400,6 +401,7 @@ test("desktop packaging builds the native host before every local target", () =>
   assert.equal(packageJson.build.win.extraResources[0].to, "bin/pi-desktop-host-core.exe");
   assert.equal(packageJson.build.linux.extraResources[0].to, "bin/pi-desktop-host-core");
   assert.equal(packageJson.build.mac.extraResources[0].to, "bin/pi-desktop-host-core");
-  assert.match(iconScriptSource, /package_icon = BUILD \/ "icon\.png"/);
-  assert.match(iconScriptSource, /shutil\.which\("iconutil"\)/);
+  const icns = await readFile(new URL("../build/icon.icns", import.meta.url));
+  assert.equal(icns.subarray(0, 4).toString(), "icns");
+  assert.equal(icns.readUInt32BE(4), icns.length);
 });

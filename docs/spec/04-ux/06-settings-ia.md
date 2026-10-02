@@ -928,3 +928,11 @@ the current window width:
 | Card radius | ~14px elevated stroke |
 | Toggle | **32×20** thumb 16, neutral accent on (not green) |
 | Open-target pill | leading VS Code glyph |
+
+## WcSdAi Info amendment
+
+Info shows WcSdAi 1.0.1, Copyright 2026 量动科技, the provided website and
+confirmed support email, original PI-Desktop / GNU LGPL v3.0 attribution and
+the fork source link. An absent update endpoint disables checking and the
+release-link action, with localized explanation. No settings or data format
+is changed.

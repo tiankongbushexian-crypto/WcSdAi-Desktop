@@ -10,7 +10,7 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 !apps/desktop/build/
 apps/desktop/build/icon.iconset/
-target/
+/target
 *.tsbuildinfo
 apps/desktop/out/
 apps/desktop/dist-electron/
@@ -61,3 +61,5 @@ electron.vite.config.*.mjs
 
 .playwright-cli
 worktrees
+# Isolated local validation evidence
+.artifacts/

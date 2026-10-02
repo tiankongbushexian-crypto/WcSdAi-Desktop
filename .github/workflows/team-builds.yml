@@ -1,0 +1,107 @@
+name: WcSdAi Team Installers
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source:
+    name: Corresponding source
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact-name: ${{ steps.source.outputs.artifact-name }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Archive the exact candidate and notices
+        id: source
+        run: node scripts/team-installers.mjs source
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.source.outputs.artifact-name }}
+          path: ${{ steps.source.outputs.artifact-path }}
+          if-no-files-found: error
+          retention-days: 30
+
+  installers:
+    name: ${{ matrix.platform }} ${{ matrix.arch }} unsigned
+    needs: source
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            platform: macos
+            arch: arm64
+          - os: macos-15-intel
+            platform: macos
+            arch: x64
+          - os: windows-latest
+            platform: windows
+            arch: x64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.source.outputs.artifact-name }}
+          path: ${{ runner.temp }}/wcsdai-team/source-input
+      - name: Install locked dependencies on the clean runner
+        run: pnpm install --frozen-lockfile
+      - name: Check team packaging workflow and collection
+        run: node --test apps/desktop/test/team-installers.test.mjs
+      - name: Check release version and documentation consistency
+        run: pnpm --config.verify-deps-before-run=false check:release-docs
+      - name: Build native unsigned installer without publishing
+        run: node scripts/team-installers.mjs build ${{ matrix.platform }} ${{ matrix.arch }}
+      - name: Verify macOS ad-hoc bundle integrity
+        if: matrix.platform == 'macos'
+        shell: bash
+        env:
+          TEAM_MAC_ARCH: ${{ matrix.arch }}
+        run: |
+          set -euo pipefail
+          case "$TEAM_MAC_ARCH" in
+            arm64) app_dir=mac-arm64 ;;
+            x64) app_dir=mac ;;
+            *) echo "::error::Unsupported macOS architecture"; exit 1 ;;
+          esac
+          app="apps/desktop/release/$app_dir/WcSdAi.app"
+          [[ -d "$app" ]] || { echo "::error::Packaged WcSdAi.app is missing"; exit 1; }
+          codesign --verify --deep --strict --verbose=2 "$app"
+          signature_info="$(codesign -dv --verbose=4 "$app" 2>&1)"
+          printf '%s\n' "$signature_info"
+          if [[ "$signature_info" != *"Signature=adhoc"* || "$signature_info" != *"TeamIdentifier=not set"* ]]; then
+            echo "::error::Expected an ad-hoc bundle seal without a publisher certificate"
+            exit 1
+          fi
+      - name: Typecheck the built desktop candidate
+        run: pnpm --config.verify-deps-before-run=false --filter @pi-desktop/desktop typecheck
+      - name: Collect installer, corresponding source, notices and checksums
+        id: installer
+        run: node scripts/team-installers.mjs installer ${{ matrix.platform }} ${{ matrix.arch }}
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.installer.outputs.artifact-name }}
+          path: ${{ steps.installer.outputs.artifact-path }}
+          if-no-files-found: error
+          retention-days: 30

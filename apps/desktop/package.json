@@ -1,18 +1,18 @@
 {
   "name": "@pi-desktop/desktop",
-  "version": "0.16.0",
-  "desktopName": "pi-desktop.desktop",
+  "version": "1.0.1",
+  "desktopName": "wcsdai.desktop",
   "private": true,
-  "description": "PI-Desktop Electron application",
-  "homepage": "https://github.com/vastsa/PI-Desktop",
+  "description": "WcSdAi Electron application",
+  "homepage": "https://wanchuangsd.cn",
   "author": {
-    "name": "vastsa",
-    "email": "hhxk666@gmail.com"
+    "name": "量动科技",
+    "email": "2222223323@qq.com"
   },
   "main": "./out/main/index.js",
   "type": "module",
   "scripts": {
-    "build:deps": "pnpm --filter '@pi-desktop/desktop^...' build",
+    "build:deps": "pnpm --filter \"@pi-desktop/desktop^...\" build",
     "predev": "pnpm run build:deps && cargo build --manifest-path ../../Cargo.toml -p host-core",
     "dev": "node ../../scripts/dev-electron.mjs",
     "build": "electron-vite build",
@@ -80,18 +80,12 @@
     "zustand": "^5.0.15"
   },
   "build": {
-    "appId": "net.aiuo.pi-desktop",
-    "productName": "PI-Desktop",
+    "appId": "com.example.wcsdai",
+    "productName": "WcSdAi",
     "directories": {
       "output": "release"
     },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "vastsa",
-        "repo": "PI-Desktop"
-      }
-    ],
+    "publish": null,
     "extraMetadata": {
       "piDistribution": "installed"
     },
@@ -135,10 +129,30 @@
       {
         "from": "resources/plugins",
         "to": "plugins"
+      },
+      {
+        "from": "../../LICENSE",
+        "to": "licenses/LICENSE"
+      },
+      {
+        "from": "../../NOTICE.md",
+        "to": "licenses/NOTICE.md"
+      },
+      {
+        "from": "../../THIRD_PARTY_NOTICES.md",
+        "to": "licenses/THIRD_PARTY_NOTICES.md"
+      },
+      {
+        "from": "../../LICENSES",
+        "to": "licenses/LICENSES"
+      },
+      {
+        "from": "node_modules/electron/dist/LICENSES.chromium.html",
+        "to": "licenses/Electron-LICENSES.chromium.html"
       }
     ],
     "mac": {
-      "artifactName": "PI-Desktop-${version}-${arch}-mac.${ext}",
+      "artifactName": "WcSdAi-${version}-${arch}-mac.${ext}",
       "target": [
         {
           "target": "dmg"
@@ -154,8 +168,8 @@
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
       "extendInfo": {
-        "NSLocalNetworkUsageDescription": "PI-Desktop needs local network access so agents can reach OpenAI-compatible providers, Ollama, and other AI endpoints running on your LAN. / PI-Desktop 需要本地网络访问权限，以便助手请求同一局域网中的 OpenAI 兼容服务、Ollama 等本地 AI 端点。",
-        "NSMicrophoneUsageDescription": "PI-Desktop uses the microphone for Live voice calls and authorized plugin audio access. / PI-Desktop 使用麦克风进行实时语音通话，以及你已授权的插件音频访问。",
+        "NSLocalNetworkUsageDescription": "WcSdAi needs local network access so agents can reach OpenAI-compatible providers, Ollama, and other AI endpoints running on your LAN. / WcSdAi 需要本地网络访问权限，以便助手请求同一局域网中的 OpenAI 兼容服务、Ollama 等本地 AI 端点。",
+        "NSMicrophoneUsageDescription": "WcSdAi uses the microphone for Live voice calls and authorized plugin audio access. / WcSdAi 使用麦克风进行实时语音通话，以及你已授权的插件音频访问。",
         "NSBonjourServices": [
           "_http._tcp",
           "_https._tcp"
@@ -173,7 +187,7 @@
       ]
     },
     "dmg": {
-      "artifactName": "PI-Desktop-${version}-${arch}.${ext}",
+      "artifactName": "WcSdAi-${version}-${arch}.${ext}",
       "background": "build/dmg-background.png",
       "icon": "build/icon.icns",
       "window": {
@@ -196,8 +210,8 @@
       ]
     },
     "win": {
-      "executableName": "PI-Desktop",
-      "artifactName": "PI-Desktop-Portable-${version}.${ext}",
+      "executableName": "WcSdAi",
+      "artifactName": "WcSdAi-Portable-${version}.${ext}",
       "target": [
         {
           "target": "nsis",
@@ -233,28 +247,28 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "shortcutName": "PI-Desktop",
-      "artifactName": "PI-Desktop-Setup-${version}.${ext}"
+      "shortcutName": "WcSdAi",
+      "artifactName": "WcSdAi-Setup-${version}.${ext}"
     },
     "portable": {
-      "artifactName": "PI-Desktop-Portable-${version}.${ext}"
+      "artifactName": "WcSdAi-Portable-${version}.${ext}"
     },
     "deb": {
-      "packageName": "pi-desktop",
-      "artifactName": "pi-desktop_${version}_${arch}.${ext}"
+      "packageName": "wcsdai",
+      "artifactName": "wcsdai_${version}_${arch}.${ext}"
     },
     "rpm": {
-      "packageName": "pi-desktop",
-      "artifactName": "pi-desktop-${version}-${arch}.${ext}",
+      "packageName": "wcsdai",
+      "artifactName": "wcsdai-${version}-${arch}.${ext}",
       "fpm": [
         "--rpm-rpmbuild-define",
         "_build_id_links none"
       ]
     },
     "linux": {
-      "executableName": "pi-desktop",
+      "executableName": "wcsdai",
       "syncDesktopName": true,
-      "artifactName": "PI-Desktop-${version}-linux-${arch}.${ext}",
+      "artifactName": "WcSdAi-${version}-linux-${arch}.${ext}",
       "target": [
         {
           "target": "AppImage"
@@ -283,6 +297,12 @@
     ],
     "asar": {
       "smartUnpack": false
-    }
+    },
+    "copyright": "Copyright 2026 量动科技; original PI-Desktop and third-party copyrights retained"
+  },
+  "license": "LGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop.git"
   }
 }

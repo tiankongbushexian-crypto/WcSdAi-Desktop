@@ -1,6 +1,6 @@
 import type { EnglishCatalog } from "./locales/en/index.js";
 
-export const defaultLocale = "en";
+export const defaultLocale = "zh-CN";
 
 /**
  * Shipped UI locales. Native names are endonyms and must stay untranslated

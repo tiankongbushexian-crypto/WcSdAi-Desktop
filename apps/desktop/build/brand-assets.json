@@ -1,0 +1,258 @@
+{
+  "source_package": "WcSdAi-logo-refined/symbol/svg/symbol-black.svg",
+  "source_sha256": "b8608e607e057df97b8485ac158e7e0aeb9e51e551ea71e9548e335103a315c8",
+  "canonical_source": "apps/desktop/build/wcsdai-symbol.svg",
+  "canonical_sha256": "556e07599bd6284ed53faf348c73c280db0624f5e3f03e16ed3504ced3a0bd46",
+  "source_rights": "User supplied; license and trademark authorization pending confirmation before release.",
+  "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile.",
+  "outputs": [
+    {
+      "path": "apps/desktop/build/icon_1024.png",
+      "sha256": "ad9b766b8802e9c612e09ac5c52d4f69851803a8a4d02cdc5044193d22e32f93",
+      "sizes": [
+        [
+          1024,
+          1024
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/build/icon.png",
+      "sha256": "ca1a5fcffc6c641cfd5c41f992f13ea5cd3a5995e79a0612f9adcca6ad3d3aa4",
+      "sizes": [
+        [
+          512,
+          512
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "docs/public/app-icon.png",
+      "sha256": "ad9b766b8802e9c612e09ac5c52d4f69851803a8a4d02cdc5044193d22e32f93",
+      "sizes": [
+        [
+          1024,
+          1024
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "docs/image/readme/logo.png",
+      "sha256": "ca1a5fcffc6c641cfd5c41f992f13ea5cd3a5995e79a0612f9adcca6ad3d3aa4",
+      "sizes": [
+        [
+          512,
+          512
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/src/assets/brand/logo-light.png",
+      "sha256": "bb75799ad06bc2fc353d1f6475b204ed80a0e7722090478a6adbab12c2e9e06a",
+      "sizes": [
+        [
+          192,
+          192
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/src/assets/home-mascot-still-light.png",
+      "sha256": "e78bcef5729e3ae9eb3e26783a206b9ab252391828bf38ade28d70f80bb1bd78",
+      "sizes": [
+        [
+          200,
+          200
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/src/assets/home-mascot-light.gif",
+      "sha256": "dd164eff0c916a762ea36582c50d7aafc658b7045c268a1fb456a1ba6f764997",
+      "sizes": [
+        [
+          200,
+          200
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": [
+        900,
+        180,
+        180,
+        180,
+        180,
+        180,
+        180,
+        240
+      ]
+    },
+    {
+      "path": "apps/desktop/src/assets/brand/logo-dark.png",
+      "sha256": "d824e1bd84f06ea82d9b7ac3dd90c6edd05bd5483f512392d7cc52b0f2d817c4",
+      "sizes": [
+        [
+          192,
+          192
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/src/assets/home-mascot-still-dark.png",
+      "sha256": "e17ff0c952bc8d1f4d15a8e5fdbf15a7f49ebbd58fcc58d8c4471489b6c479c3",
+      "sizes": [
+        [
+          200,
+          200
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/src/assets/home-mascot-dark.gif",
+      "sha256": "e5effec4a85f3a1220e6938acc32be1e5b3cfcd68682c99428a3176ce8612992",
+      "sizes": [
+        [
+          200,
+          200
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": [
+        900,
+        180,
+        180,
+        180,
+        180,
+        180,
+        180,
+        240
+      ]
+    },
+    {
+      "path": "apps/desktop/build/logo_dark.png",
+      "sha256": "2605471d5def5dd7204514252bbf15c549e0f2393d8364acbe2ffd172d4fe8d0",
+      "sizes": [
+        [
+          1024,
+          1024
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/build/tray-icon-mac.png",
+      "sha256": "ab78b0c59b5fed254e4c2f3085535c195e2869325bdc792f40572bbe3c3635a3",
+      "sizes": [
+        [
+          1024,
+          1024
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/build/icon.ico",
+      "sha256": "cd6af00735d80dd693b7bec0e41826dc8a0f1b33195b35579060bf7031e002b6",
+      "sizes": [
+        [
+          16,
+          16
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          64,
+          64
+        ],
+        [
+          128,
+          128
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/build/icon.icns",
+      "sha256": "28b41404daf1cdf960eaab0dec0528d84cbd71401a6d3551f4ca60fee378c0be",
+      "sizes": [
+        [
+          1024,
+          1024
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    }
+  ]
+}

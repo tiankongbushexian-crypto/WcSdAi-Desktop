@@ -2,6 +2,7 @@ import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
 import {
+  APP_NAME,
   isUserSuppliedHostname,
   type McpOAuthLoginEvent,
   type McpServerRecord,
@@ -619,7 +620,7 @@ export class McpOAuthManager {
             res.end(
               this.renderHtml(
                 true,
-                "Authorization successful! You can close this tab and return to PI-Desktop.",
+                `Authorization successful! You can close this tab and return to ${APP_NAME}.`,
               ),
             );
 

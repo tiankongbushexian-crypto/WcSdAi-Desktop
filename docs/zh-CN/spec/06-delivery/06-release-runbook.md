@@ -3,6 +3,13 @@
 > **翻译说明：** 本页是与 [英文源规格](/spec/06-delivery/06-release-runbook) 一一对应的机器辅助翻译。代码、协议字段和标识符保持原文；如翻译与英文源事实有歧义，以英文版本为准。
 
 
+> WcSdAi fork：负责人当前选择的是[未签名团队安装包](/wcsdai/team-distribution)，
+> 使用 macOS arm64/x64 和 Windows x64 原生运行器，并附带对应源码与校验码。
+> 此通道不需要签名凭据，只上传 Actions 构建产物，更新源保持未配置。
+> 请使用 [fork 发布清单](/wcsdai/release-checklist)。下文签名标签/公开发布通道
+> 是独立的可选流程；旧身份和 URL 保留为 PI-Desktop 历史记录，
+> 上游证书身份和历史签名声明不适用于本 fork。
+
 > 范围：macOS arm64、Intel x64、Windows x64 和 Linux x64 及 arm64 的 D126/D285/D603 标记工件，
 > 包括 Linux 系统 Electron ASAR 资产；
 > macOS signing/notarization 保留下面的详细资格通道。

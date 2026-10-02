@@ -1,8 +1,9 @@
-import { mkdir, mkdtemp, realpath, rm, symlink, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, realpath, rename, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, expect, it } from "vitest";
 import {
+  readOpenableFile,
   readOpenableImage,
   resolveOpenablePath,
   resolveRealOpenablePath,
@@ -62,6 +63,56 @@ it("opens a canonicalized path under a root that is still an alias", async (ctx)
   expect(await resolveRealOpenablePath(canonicalAlias, aliasRoot, [])).toBe(
     canonicalAlias,
   );
+});
+
+it("reads historical attachments after moving the data root behind its old alias", async (ctx) => {
+  if (process.platform === "win32") ctx.skip();
+  const base = await tempDir("pi-ws-moved-root-");
+  const oldRoot = join(base, "old-data");
+  const newRoot = join(base, "new-data");
+  const scratch = join(oldRoot, "scratch", "source", "pasted");
+  const attachments = join(oldRoot, "attachments");
+  const hash = "b".repeat(64);
+  await mkdir(scratch, { recursive: true });
+  await mkdir(attachments);
+  const historicalImage = join(scratch, "input.png");
+  const historicalText = join(scratch, "input.txt");
+  await writeFile(historicalImage, PNG);
+  await writeFile(historicalText, "historical attachment bytes");
+  await writeFile(join(attachments, hash), PNG);
+  await rename(oldRoot, newRoot);
+  if (!(await linkOrSkip(newRoot, oldRoot))) {
+    ctx.skip();
+    return;
+  }
+
+  // The host retains the old logical roots; newly recorded paths may be canonical.
+  const allowed = [scratch, attachments];
+  for (const ref of [historicalImage, await realpath(historicalImage), `attachments/${hash}`]) {
+    expect(await readOpenableImage(ref, null, allowed, "image/png")).toMatchObject({
+      kind: "image",
+      dataUrl: `data:image/png;base64,${PNG.toString("base64")}`,
+      size: PNG.length,
+    });
+  }
+  for (const ref of [historicalText, await realpath(historicalText)]) {
+    expect(await readOpenableFile(ref, null, allowed)).toMatchObject({
+      kind: "text",
+      content: "historical attachment bytes",
+    });
+  }
+
+  const outside = join(base, "outside.png");
+  await writeFile(outside, PNG);
+  const escape = join(scratch, "escape.png");
+  await symlink(outside, escape);
+  for (const ref of [escape, await realpath(outside)]) {
+    expect(await readOpenableImage(ref, null, allowed)).toEqual({
+      kind: "missing",
+      errorCode: "PATH_OUTSIDE_ALLOWED_ROOT",
+    });
+    await expect(readOpenableFile(ref, null, allowed)).rejects.toThrow("path outside allowed roots");
+  }
 });
 
 it("stores a generated image reference that the reader can open", async (ctx) => {
