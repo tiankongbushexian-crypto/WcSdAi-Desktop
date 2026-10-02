@@ -37,27 +37,27 @@
 
 ## 团队下载
 
-**当前发布线：1.0.x。下一目标版本：1.0.3（准备中）。下方已验证的团队下载仍为 1.0.2。尚未发布 WcSdAi GitHub Release。**
+**当前发布线：1.0.x。当前团队版本：1.0.3。下方三个平台安装包均已验证并可下载。尚未发布 WcSdAi GitHub Release。**
 
-1.0.3 候选版本放大并光学居中 macOS 菜单栏 Logo，增加 Retina 高清图像。新安装包和从 1.0.2 检查更新、下载并手动安装 1.0.3 的真实流程仍待验证；新包验证完成前，公共更新清单继续保持 1.0.2。见[1.0.3 验证计划](docs/wcsdai/1.0.3-verification.md)。
+**1.0.3 新增内容：**放大并光学居中 macOS 菜单栏 Logo，增加 Retina 高清图像。三个安装包及 Apple Silicon 隔离启动、恢复检查均已通过；负责人本机从已安装 1.0.2 手动升级至 1.0.3 的流程仍是单独待验收项。见[1.0.3 验证报告](docs/wcsdai/1.0.3-verification.md)。
 
 WcSdAi — **让ai更简单** — 是面向团队使用的 AI 桌面工作台，由 **量动科技**的 **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** 维护。原创贡献版权：**Copyright 2026 量动科技**。官网：[wanchuangsd.cn](https://wanchuangsd.cn)；技术支持：[2222223323@qq.com](mailto:2222223323@qq.com)。
 
-**1.0.2 新增内容：**
+**保留的 1.0.2 功能：**
 
 - 联网检查新版本，展示版本号和更新内容，并打开对应下载页供手动安装。
 - 放大黑白应用图标中的 Logo，改善其在圆角白底中的视觉居中。
 - 首页欢迎语与 Logo 居中对齐，新建任务或刷新时随机更换；增加两种 Logo 动画、三种文字入场效果，并支持减少动态效果。
 
-已经安装的 1.0.1 需要先手动升级一次到具备更新提醒功能的版本，之后才能收到后续提醒。下方链接现已提供完成验证的 1.0.2 安装包，可用于这次手动升级。具体行为见[更新提醒说明](docs/wcsdai/update-notifications.md)。
+已经安装的 1.0.1 需要先手动升级一次到具备更新提醒功能的版本，之后才能收到后续提醒。下方链接提供完成验证的 1.0.3 安装包，可用于这次手动升级。已安装 1.0.2 的用户可通过**检查更新**发现 1.0.3、阅读说明并打开对应下载页，安装仍由用户手动完成。具体行为见[更新提醒说明](docs/wcsdai/update-notifications.md)。
 
-| 平台 | 下载入口 | 1.0.2 版本的 Actions artifact | ZIP 内的安装包 |
+| 平台 | 下载入口 | 1.0.3 版本的 Actions artifact | ZIP 内的安装包 |
 | --- | --- | --- | --- |
-| macOS Apple Silicon（arm64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237592457) | `WcSdAi-1.0.2-macos-arm64-unsigned` | `WcSdAi-1.0.2-macos-arm64-unsigned.dmg` |
-| macOS Intel（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11238118163) | `WcSdAi-1.0.2-macos-x64-unsigned` | `WcSdAi-1.0.2-macos-x64-unsigned.dmg` |
-| Windows（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473/artifacts/11237882914) | `WcSdAi-1.0.2-windows-x64-unsigned` | `WcSdAi-1.0.2-windows-x64-unsigned.exe` |
+| macOS Apple Silicon（arm64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425/artifacts/11242851443) | `WcSdAi-1.0.3-macos-arm64-unsigned` | `WcSdAi-1.0.3-macos-arm64-unsigned.dmg` |
+| macOS Intel（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425/artifacts/11242722796) | `WcSdAi-1.0.3-macos-x64-unsigned` | `WcSdAi-1.0.3-macos-x64-unsigned.dmg` |
+| Windows（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425/artifacts/11242038049) | `WcSdAi-1.0.3-windows-x64-unsigned` | `WcSdAi-1.0.3-windows-x64-unsigned.exe` |
 
-**构建与下载状态：**三个安装包均已构建并可下载，来自成功的[原生构建运行 37031890473](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473)，源码提交为 [`9403cf853caa`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/9403cf853caaffbe50be4a0b8a34d670e80f5e79)。三个原生构建任务及桌面端类型检查均已通过，三个平台下载包的校验值、应用标识与内置许可证均已核验。下载的 Apple Silicon 应用已通过两次隔离启动，在重启后恢复全部 800 个测试 Session，并成功检查公共更新清单。Intel 和 Windows 安装包已通过静态核验，对应实机的安装与旧数据升级仍待验证。产物检查和验证范围见[1.0.2 验证报告](docs/wcsdai/1.0.2-verification.md)。
+**构建与下载状态：**三个安装包均已构建并可下载，来自成功的[原生构建运行 37040371425](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425)，源码提交为 [`eddfb2ae2035`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/eddfb2ae203511f537cc8ea875d50c9f385a3c37)。三个原生构建任务及桌面端类型检查均已通过，三个平台下载包的校验值、应用标识与内置许可证均已核验。下载的 Apple Silicon 应用已通过两次隔离启动，在重启后恢复全部 800 个测试 Session，并成功检查公共更新清单。Intel 和 Windows 安装包已通过静态核验，对应实机的安装与旧数据升级仍待验证。两个 macOS 包均已验证包含 1x/2x 菜单栏图像。产物检查和验证范围见[1.0.3 验证报告](docs/wcsdai/1.0.3-verification.md)；[1.0.2 报告](docs/wcsdai/1.0.2-verification.md)保留上次构建的历史记录。
 
 1. 登录 GitHub，使用对本仓库有读取权限的账号。
 2. 点击上表对应平台的直接下载链接，或打开成功的运行，在运行摘要底部找到 **Artifacts**。
@@ -69,7 +69,7 @@ WcSdAi — **让ai更简单** — 是面向团队使用的 AI 桌面工作台，
 
 默认产品语言为简体中文，保留原有模型供应商配置、插件市场和技术包名。全新安装使用 `~/.wcsdai` 存放 Host 数据，Electron 配置目录名为 `WcSdAi`；已有 PI-Desktop 数据通过旧路径回退和迁移兼容别名保持可用。迁移现有数据前请阅读[数据迁移与兼容说明](docs/wcsdai/local-data-migration.md)。
 
-[品牌迁移](docs/wcsdai/brand-migration.md) · [1.0.2 验证](docs/wcsdai/1.0.2-verification.md) · [发布清单](docs/wcsdai/release-checklist.md)
+[品牌迁移](docs/wcsdai/brand-migration.md) · [1.0.3 验证](docs/wcsdai/1.0.3-verification.md) · [发布清单](docs/wcsdai/release-checklist.md)
 
 本文继承的 PI-Desktop 截图用于说明工作流，可能包含上游历史品牌，并非当前 WcSdAi 构建的截图。
 
