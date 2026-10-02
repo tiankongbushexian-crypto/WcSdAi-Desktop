@@ -1,11 +1,13 @@
 ---
 title: 快速开始
-description: PI-Desktop 产品和文档结构的中文导览。
+description: WcSdAi 产品和文档结构的中文导览。
 ---
 
 # 快速开始
 
-PI-Desktop 是一个本地优先的 AI 编程代理桌面客户端。它让工作区、宿主进程、代理运行时和模型配置保持可见、可检查，同时让日常编码保持直接。
+WcSdAi 是一个本地优先的 AI 编程代理桌面客户端。它让工作区、宿主进程、代理运行时和模型配置保持可见、可检查，同时让日常编码保持直接。
+
+WcSdAi 基于 [PI-Desktop](https://github.com/vastsa/PI-Desktop) 分支开发，保留上游 LGPLv3 许可证及版权声明。默认界面语言为简体中文；技术包名、插件与模型协议保持兼容。
 
 ## 从哪里开始
 

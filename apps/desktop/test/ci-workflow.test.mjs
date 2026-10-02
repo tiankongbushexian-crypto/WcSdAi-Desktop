@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 
 const read = (path) => readFile(new URL(path, import.meta.url), "utf8");
@@ -118,6 +121,61 @@ test("release artifacts bypass redundant Actions compression", () => {
   );
 });
 
+test("pending update feeds allow debug packaging while tagged releases retain their gate", async () => {
+  const detectStep = releaseWorkflowSource.match(
+    /- name: Detect configured update feed[\s\S]*?(?=\n      - name:)/,
+  )?.[0];
+  assert.ok(detectStep, "debug packaging must detect whether metadata is configured");
+  const script = detectStep.match(/import \{ readFileSync \}[\s\S]*?(?=\n          NODE)/)?.[0];
+  assert.ok(script, "the feed detection step must execute its package configuration");
+  const root = await mkdtemp(join(tmpdir(), "wcsdai-feed-check-"));
+  try {
+    const packageDir = join(root, "apps", "desktop");
+    await mkdir(packageDir, { recursive: true });
+    for (const [publish, expected] of [
+      [null, "false"],
+      [[], "false"],
+      [[{ provider: "github", owner: "tiankongbushexian-crypto", repo: "WcSdAi-Desktop" }], "true"],
+    ]) {
+      await writeFile(join(packageDir, "package.json"), JSON.stringify({ build: { publish } }));
+      const result = spawnSync(process.execPath, ["--input-type=module"], {
+        cwd: root, input: script, encoding: "utf8",
+      });
+      assert.equal(result.status, 0, result.stderr);
+      assert.equal(result.stdout.trim(), `configured=${expected}`);
+    }
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+  assert.match(
+    releaseWorkflowSource,
+    /name: Verify the Linux update feed[\s\S]*?if: matrix\.platform == 'linux' && steps\.update_feed\.outputs\.configured == 'true'/,
+  );
+  assert.match(
+    releaseWorkflowSource,
+    /name: Disambiguate macOS update metadata\n\s+if: matrix\.platform == 'macos' && steps\.update_feed\.outputs\.configured == 'true'/,
+  );
+  assert.match(
+    releaseWorkflowSource,
+    /name: WcSdAi release readiness\n\s+if: startsWith\(github\.ref, 'refs\/tags\/v'\)[\s\S]*?run: node scripts\/check-wcsdai-release\.mjs/,
+  );
+  assert.match(releaseWorkflowSource, /expected_dmg_blockmap[\s\S]*?expected_zip_blockmap/);
+  assert.match(releaseWorkflowSource, /abort "Expected both macOS updater feeds" unless paths == expected_paths/);
+});
+
+test("Windows tag builds require the configured signing credentials and a signed package", () => {
+  const signingStep = releaseWorkflowSource.match(
+    /- name: Require Windows release signing[\s\S]*?(?=\n      - name:)/,
+  )?.[0];
+  assert.ok(signingStep, "Windows release signing gate is missing");
+  assert.match(signingStep, /matrix\.platform == 'windows' && startsWith\(github\.ref, 'refs\/tags\/v'\)/);
+  assert.match(signingStep, /WIN_CSC_LINK: \$\{\{ secrets\.WIN_CSC_LINK \}\}/);
+  assert.match(signingStep, /WIN_CSC_KEY_PASSWORD: \$\{\{ secrets\.WIN_CSC_KEY_PASSWORD \}\}/);
+  assert.match(signingStep, /exit 1/);
+  assert.match(releaseWorkflowSource, /signing\+=\(-c\.win\.forceCodeSigning=true\)/);
+  assert.match(releaseWorkflowSource, /--\$\{\{ matrix\.arch \}\} "\$\{signing\[@\]\}"/);
+});
+
 test("manual Linux package validation covers the RPM desktop identity", () => {
   assert.match(linuxPackageWorkflowSource, /^on:\s*\n\s+workflow_dispatch:/m);
   assert.match(linuxPackageWorkflowSource, /runs-on: ubuntu-22\.04/);
@@ -137,10 +195,10 @@ test("manual Linux package validation covers the RPM desktop identity", () => {
   assert.match(linuxPackageWorkflowSource, /build-id/);
   assert.match(
     linuxPackageWorkflowSource,
-    /usr\/share\/applications\/pi-desktop\.desktop/,
+    /usr\/share\/applications\/wcsdai\.desktop/,
   );
-  assert.match(linuxPackageWorkflowSource, /Icon=pi-desktop/);
-  assert.match(linuxPackageWorkflowSource, /StartupWMClass=pi-desktop/);
+  assert.match(linuxPackageWorkflowSource, /Icon=wcsdai/);
+  assert.match(linuxPackageWorkflowSource, /StartupWMClass=wcsdai/);
   assert.match(
     linuxPackageWorkflowSource,
     /uses: actions\/upload-artifact@v7[\s\S]*path: apps\/desktop\/release\/\*\.rpm/,
@@ -159,7 +217,7 @@ test("release workflow publishes the Linux ASAR beside installers", () => {
   );
   assert.match(
     releaseAsarScriptSource,
-    /PI-Desktop-\$\{releaseVersion\}-linux-\$\{releaseArch\}\.asar/,
+    /WcSdAi-\$\{releaseVersion\}-linux-\$\{releaseArch\}\.asar/,
   );
 });
 
@@ -211,8 +269,8 @@ test("the Linux package config lets the workflow choose the architecture", () =>
     /-linux-\$\{arch\}\.\$\{ext\}$/,
     "the AppImage name carries its architecture",
   );
-  assert.equal(build.deb.artifactName, "pi-desktop_${version}_${arch}.${ext}");
-  assert.equal(build.rpm.artifactName, "pi-desktop-${version}-${arch}.${ext}");
+  assert.equal(build.deb.artifactName, "wcsdai_${version}_${arch}.${ext}");
+  assert.equal(build.rpm.artifactName, "wcsdai-${version}-${arch}.${ext}");
 });
 
 test("release matrix packages both native macOS architectures", () => {
@@ -226,16 +284,16 @@ test("release matrix packages both native macOS architectures", () => {
   );
   assert.match(
     releaseWorkflowSource,
-    /name: Package installers \(\$\{\{ matrix\.dist \}\}\)[\s\S]*?if: matrix\.platform != 'macos'[\s\S]*?run: pnpm --filter @pi-desktop\/desktop run \$\{\{ matrix\.dist \}\} -- --\$\{\{ matrix\.arch \}\}/,
+    /name: Package installers \(\$\{\{ matrix\.dist \}\}\)[\s\S]*?if: matrix\.platform != 'macos'[\s\S]*?run: \|[\s\S]*?pnpm --filter @pi-desktop\/desktop run \$\{\{ matrix\.dist \}\} -- --\$\{\{ matrix\.arch \}\}/,
   );
   assert.equal(
     JSON.parse(desktopPackageSource).build.mac.artifactName,
-    "PI-Desktop-${version}-${arch}-mac.${ext}",
+    "WcSdAi-${version}-${arch}-mac.${ext}",
     "macOS ZIP names include the target architecture",
   );
   assert.equal(
     JSON.parse(desktopPackageSource).build.dmg.artifactName,
-    "PI-Desktop-${version}-${arch}.${ext}",
+    "WcSdAi-${version}-${arch}.${ext}",
     "macOS DMG names include the target architecture",
   );
   assert.match(
@@ -284,7 +342,9 @@ test("macOS release signing is required on tag pushes", () => {
     releaseWorkflowSource,
     /Require macOS signing and notarization secrets[\s\S]*?Missing GitHub Actions secrets for macOS signing/,
   );
-  assert.match(releaseWorkflowSource, /APPLE_TEAM_ID must be DUV63RKYTW/);
+  assert.match(releaseWorkflowSource, /APPLE_TEAM_ID must contain 10 uppercase letters or digits/);
+  assert.match(releaseWorkflowSource, /missing\+=\(MAC_SIGNING_IDENTITY\)/);
+  assert.doesNotMatch(releaseWorkflowSource, /XingYu Liu|DUV63RKYTW/);
 
   const signedBlock = releaseWorkflowSource.match(
     /- name: Package signed and notarized macOS installer[\s\S]*?(?=\n      - name:)/,
@@ -303,11 +363,11 @@ test("macOS release signing is required on tag pushes", () => {
   // electron-builder throws InvalidConfigurationError when an identity name
   // keeps the "Developer ID Application:" prefix, so CSC_NAME carries the bare
   // common name and the CLI must not pass -c.mac.identity.
-  assert.match(signedBlock, /CSC_NAME: "XingYu Liu \(DUV63RKYTW\)"/);
+  assert.match(signedBlock, /CSC_NAME: \$\{\{ vars\.MAC_SIGNING_IDENTITY \}\}/);
   assert.doesNotMatch(signedBlock, /-c\.mac\.identity=/);
   assert.doesNotMatch(signedBlock, /CSC_NAME: "Developer ID Application:/);
   assert.match(signedBlock, /-c\.mac\.notarize=true/);
-  // The single "signing PI-Desktop.app" line electron-builder prints does not
+  // The single "signing WcSdAi.app" line electron-builder prints does not
   // tell walking, per-file codesign, silent retries, and the Apple
   // notarization wait apart; the signing trace and the watchdog carry the rest.
   assert.match(
@@ -365,7 +425,9 @@ test("the signed local macOS lane selects the native runner architecture", () =>
   assert.match(releaseMacScriptSource, /MAC_ARCH="\$\{MAC_ARCH:-\$DEFAULT_MAC_ARCH\}"/);
   assert.match(releaseMacScriptSource, /must match the host/);
   assert.match(releaseMacScriptSource, /electron-builder --mac "--\$\{MAC_ARCH\}"/);
-  assert.match(releaseMacScriptSource, /XingYu Liu \(DUV63RKYTW\)/);
+  assert.match(releaseMacScriptSource, /MAC_SIGNING_IDENTITY="\$\{MAC_SIGNING_IDENTITY:\?Set the WcSdAi Developer ID certificate common name\}"/);
+  assert.match(releaseMacScriptSource, /APPLE_TEAM_ID="\$\{APPLE_TEAM_ID:\?Set the WcSdAi Apple Developer Team ID\}"/);
+  assert.doesNotMatch(releaseMacScriptSource, /XingYu Liu|DUV63RKYTW/);
   assert.match(
     releaseMacScriptSource,
     /MAC_SIGNING_IDENTITY="\$\{MAC_SIGNING_IDENTITY#Developer ID Application: \}"/,

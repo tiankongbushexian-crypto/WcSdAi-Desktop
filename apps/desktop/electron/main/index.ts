@@ -14,7 +14,6 @@ import {
 import { installInsecureEndpointNotice } from "./network-notice";
 import {
   APP_ID,
-  APP_NAME,
   APP_VERSION,
   IPC,
   IPC_WHITELIST,
@@ -47,7 +46,7 @@ import {
 } from "./work-panel-window";
 import { InflightCheckpointer } from "@pi-desktop/host-runtime";
 import { withGitBranch } from "./workspace-git";
-import { applyDevelopmentUserData, desktopDataDir } from "./data-paths";
+import { LEGACY_ENCRYPTION_APP_NAME, applyDevelopmentUserData, desktopDataDir } from "./data-paths";
 import { createPlanUiProbe } from "./plan-ui-probe";
 import { registerIpcHandlers } from "./ipc/register";
 import { createVoiceService } from "./voice-service";
@@ -93,7 +92,8 @@ installMainProcessErrorHandlers();
 const isDevelopmentBuild =
   process.env.PI_DESKTOP_DEV === "1" || !app.isPackaged;
 
-app.setName(APP_NAME);
+// Electron uses this internal name for OS encryption keys. Display surfaces use APP_NAME.
+app.setName(LEGACY_ENCRYPTION_APP_NAME);
 applyDevelopmentUserData(app, isDevelopmentBuild);
 if (process.platform === "win32") {
   app.setAppUserModelId(APP_ID);

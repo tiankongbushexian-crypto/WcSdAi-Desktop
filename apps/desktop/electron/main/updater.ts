@@ -17,7 +17,7 @@
  * beside the installation; `PI_DESKTOP_UPDATE_CACHE_DIR` relocates it, and
  * `./update-cache` owns what may be reclaimed from it (#1098).
  */
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { app, shell } from "electron";
@@ -72,7 +72,8 @@ function createRelocatedUpdater(
   return platform === "win32" ? new RelocatedNsisUpdater(baseCachePath) : null;
 }
 
-export const RELEASES_URL = "https://github.com/vastsa/PI-Desktop/releases/latest";
+// Set together with electron-builder publish metadata after release endpoint approval.
+export const RELEASES_URL = "";
 
 const AUTO_CHECK_INITIAL_DELAY_MS = 15_000;
 const AUTO_CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
@@ -105,6 +106,8 @@ export type UpdaterOptions = {
   /** Overrides for tests. */
   platform?: NodeJS.Platform;
   isPackaged?: boolean;
+  /** Tests may supply a configured feed without accessing packaged resources. */
+  updateFeedConfigured?: boolean;
   distribution?: WindowsDistribution;
 };
 
@@ -114,6 +117,7 @@ export class AppUpdaterController {
   private readonly getLocale: () => string | null | undefined;
   private readonly platform: NodeJS.Platform;
   private readonly isPackaged: boolean;
+  private readonly updateFeedConfigured: boolean;
   private readonly env: NodeJS.ProcessEnv;
   private readonly distribution?: WindowsDistribution;
   private readonly defaultPreference: UpdatePreference;
@@ -182,6 +186,8 @@ export class AppUpdaterController {
         : undefined);
     this.platform = platform;
     this.isPackaged = isPackaged;
+    this.updateFeedConfigured = options.updateFeedConfigured ??
+      (Boolean(RELEASES_URL) && existsSync(join(process.resourcesPath, "app-update.yml")));
     this.env = process.env;
     this.distribution = distribution;
     this.defaultPreference = resolveDefaultUpdatePreference(
@@ -191,7 +197,7 @@ export class AppUpdaterController {
       distribution,
     );
     this.preference = this.defaultPreference;
-    this.automaticSupported = supportsAutomaticUpdates(
+    this.automaticSupported = this.updateFeedConfigured && supportsAutomaticUpdates(
       platform,
       isPackaged,
       this.env,
@@ -204,6 +210,7 @@ export class AppUpdaterController {
       this.env,
       distribution,
       this.preference,
+      this.updateFeedConfigured,
     );
     const defaultCacheBasePath = defaultUpdateCacheBasePath({
       platform,
@@ -321,6 +328,7 @@ export class AppUpdaterController {
       this.env,
       this.distribution,
       effectivePreference,
+      this.updateFeedConfigured,
     );
     const preferenceChanged =
       effectivePreference !== this.preference || mode !== previousMode;
@@ -483,7 +491,7 @@ export class AppUpdaterController {
   async check(options: { manual?: boolean } = {}): Promise<UpdateState> {
     await this.ensureSettingsLoaded();
     if (this.state.mode === "disabled") {
-      throw new Error("updates are disabled in development builds");
+      throw new Error("updates are not configured for this build");
     }
     if (
       this.state.status === "checking" ||

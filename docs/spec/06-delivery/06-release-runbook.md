@@ -1,5 +1,14 @@
 # 06. Desktop Release Runbook
 
+> WcSdAi fork: the current owner-selected lane is
+> [unsigned team installers](../../wcsdai/team-distribution.md), using native
+> macOS arm64/x64 and Windows x64 runners, with source and checksums included.
+> It requires no signing credentials, uploads Actions artifacts only and leaves
+> the update feed unconfigured. Use [the fork release checklist](../../wcsdai/release-checklist.md).
+> The signed tag/public-release lane below is separate and optional. Legacy
+> identities/URLs describe historical PI-Desktop releases; no upstream
+> certificate identity or production signing claim applies to this fork.
+
 > Scope: D126/D285/D603 tag artifacts for macOS arm64 and Intel x64, Windows x64,
 > and Linux x64 and arm64, including the Linux system-Electron ASAR assets;
 > macOS signing/notarization remains the detailed qualification lane below.

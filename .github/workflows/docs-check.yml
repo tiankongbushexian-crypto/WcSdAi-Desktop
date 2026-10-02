@@ -1,4 +1,4 @@
-name: Docs check
+name: WcSdAi Docs check
 
 # ci.yml ignores docs/** and **/*.md, so documentation drift was never caught.
 # This workflow runs the documentation checks: the English/Chinese pair check,

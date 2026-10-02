@@ -17,7 +17,7 @@ test("the single-instance lock is taken before anything touches the data directo
   // appends. A duplicate launch must be gone before either happens.
   const lock = mainSource.indexOf("app.requestSingleInstanceLock()");
   assert.ok(lock > 0, "main must request the single-instance lock");
-  assert.ok(mainSource.indexOf("app.setName(APP_NAME)") < lock);
+  assert.ok(mainSource.indexOf("app.setName(LEGACY_ENCRYPTION_APP_NAME)") < lock);
   assert.ok(lock < mainSource.indexOf("new Logger("));
   assert.ok(lock < mainSource.indexOf("new PersistenceOutbox("));
 });

@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import {
+  defaultLocale,
   flattenCatalog,
   isAppLocale,
   resolveLocale,
@@ -26,11 +27,12 @@ export function resolveOsLocale(): string {
   );
 }
 
-/** Concrete locale for a stored language setting; `auto`/absent follows the OS. */
+/** Preserve explicit preferences; only an absent setting uses the product default. */
 export function resolveAppLanguage(
   language: AppSettings["language"],
 ): AppLocale {
-  if (language && language !== "auto" && isAppLocale(language)) return language;
+  if (!language) return defaultLocale;
+  if (language !== "auto" && isAppLocale(language)) return language;
   return resolveLocale(resolveOsLocale());
 }
 

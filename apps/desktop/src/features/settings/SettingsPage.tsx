@@ -62,6 +62,7 @@ import { ImportSection } from "./import-page";
 import { PromptEnhancementCard } from "./prompt-enhancement-card";
 import { CloseBehaviorSection, DeveloperSection } from "./developer-sections";
 import { PluginScenicThemesDestination } from "../../components/settings/PluginScenicThemesDestination";
+import { AboutBrandInfo } from "./AboutBrandInfo";
 import { ConfigSyncPage } from "../../components/settings/ConfigSyncPage";
 
 type SettingsTab = ReturnType<typeof useAppStore.getState>["settingsTab"];
@@ -579,11 +580,12 @@ export function SettingsPage() {
 
           {tab === "about" && (
             <div className="settings-stack">
+              <AboutBrandInfo />
               <SettingsCard>
                 <SettingsRow title={t("settings.application")}>
                   <div className="settings-about-meta">
                     <div className="font-medium">
-                      {version?.name || "PI-Desktop"} {version?.version}
+                      {version?.name || t("app.shellName")} {version?.version}
                     </div>
                     <div className="font-mono text-xs-plus text-text-muted">
                       protocol {version?.protocolVersion} · host {version?.hostVersion}

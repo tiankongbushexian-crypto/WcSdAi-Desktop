@@ -168,7 +168,7 @@ export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, cer
       };
       await send("Runtime.enable");
       await send("Page.enable");
-      return { evaluate, click, clickSelector, clickText, input, invoke, screenshot };
+      return { send, evaluate, click, clickSelector, clickText, input, invoke, screenshot };
     };
     const isMainWindow = (entry) => entry.url.includes("index.html") &&
       !entry.url.includes("plugin-launcher") && !entry.url.includes("live-voice-widget");

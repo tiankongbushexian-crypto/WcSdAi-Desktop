@@ -3,3 +3,6 @@
 # Generated diffs encode an empty context line as one significant space.
 # Keep other whitespace diagnostics enabled; source-file checks are unchanged.
 patches/*.patch whitespace=-blank-at-eol
+
+# Preserve the collected third-party legal notices exactly as supplied.
+LICENSES/third-party-notices.txt -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

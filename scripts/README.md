@@ -22,8 +22,9 @@ disagrees, so a green `check:release-docs` is a precondition, not a substitute.
 
 | Script | Alias | Purpose |
 |---|---|---|
+| `team-installers.mjs` | `node scripts/team-installers.mjs source`, `build <macos\|windows> <arm64\|x64>`, `installer <macos\|windows> <arm64\|x64>` | Manual team workflow: archive a clean committed candidate, invoke native unsigned packaging, then collect only the named installer, matching source, notices and checksums; no publisher credentials or release upload |
 | `notarize-and-staple-macos-release-dmg.sh` | `scripts/notarize-and-staple-macos-release-dmg.sh [release-dir]` | Submit the single DMG a native macOS job produced to Apple's notary service (`xcrun notarytool submit --wait`), require `status: Accepted`, then attach and validate the ticket (`xcrun stapler staple` / `validate`); run by the Release workflow when `sign_macos` is set. electron-builder only notarizes the `.app`, so the DMG needs this separate submission |
-| `verify-macos-release.sh` | `scripts/verify-macos-release.sh [release-dir]` | Fail unless the one `PI-Desktop.app` and DMG under the release directory are Developer ID-signed, notarized, and stapled; run by the Release workflow after stapling |
+| `verify-macos-release.sh` | `scripts/verify-macos-release.sh [release-dir]` | Fail unless the one `WcSdAi.app` and DMG under the release directory are Developer ID-signed, notarized, and stapled; run by the Release workflow after stapling |
 | `macos-signing-diagnostics.sh` | `scripts/macos-signing-diagnostics.sh [--require-identity]` | Print the non-secret signing baseline before packaging (system, `codesign`, keychain identities/list/default, Xcode notary tools, Apple timestamp reachability). Informational by default, because the Developer ID identity is imported from `CSC_LINK` during packaging; `--require-identity` makes a missing Developer ID fatal |
 | `macos-bundle-inventory.mjs` | `node scripts/macos-bundle-inventory.mjs <app-or-release-dir>` | Count what the signing phase has to touch: entries, Mach-O binaries, `.dylib`/`.node`/frameworks/nested bundles, per-directory cost, and the largest binaries (`signing-candidates`). Informational; run after every macOS package build |
 | `macos-signing-watchdog.mjs` | `node scripts/macos-signing-watchdog.mjs [options] -- <command>` | Run a long silent phase (`electron-builder` signing, `notarytool submit --wait`) with a heartbeat, phase tracking, stall diagnostics (last file, `ps` state, codesign log tail), per-file codesign timings, and a hard timeout that fails instead of hanging; it forwards the child output and exit code unchanged and redacts `CSC_KEY_PASSWORD`/`APPLE_APP_SPECIFIC_PASSWORD`/`CSC_LINK` values plus `--password` arguments |
@@ -31,7 +32,7 @@ disagrees, so a green `check:release-docs` is a precondition, not a substitute.
 | `export-linux-asar.mjs` | `node scripts/export-linux-asar.mjs` | Copy the Linux `linux-unpacked/resources/app.asar` into the versioned release asset used for system-Electron repackaging |
 | `build-desktop-release.mjs` | called by the desktop `dist` / `dist:win` scripts | Build the native runner target without publishing; Windows runs separate NSIS and ZIP passes and stamps their updater distribution metadata |
 | `check-linux-host-glibc.mjs` | `node scripts/check-linux-host-glibc.mjs [bin]` | Fail a Linux host-core binary whose needed glibc is above 2.35 |
-| `make-icon.py` | `python3 scripts/make-icon.py` | Derive the package PNG, the macOS tray template, and the iconset/ICNS from the canonical PNG |
+| `make-icon.py` | `python3 scripts/make-icon.py` | Render package/renderer/tray PNG, home motion/stills, ICO and ICNS from `build/wcsdai-symbol.svg`; reuse Pillow + Node sharp (`NODE_PATH` supported) |
 | `publish-screenshots.py` | `python3 scripts/publish-screenshots.py` | Publish documentation screenshots |
 
 ## Development

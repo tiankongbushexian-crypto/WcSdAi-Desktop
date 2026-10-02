@@ -16123,3 +16123,52 @@ renderer's durable transcript reads. No real model or provider is contacted.
 - Installed Electron, real account/paid API and cross-version rollback are
   separate release qualification. No MCP, Codemode or virtual-router migration
   is included. See `docs/project/pi-0991-adoption.md` for candidate evidence.
+
+## E2E-WCSDAI-brand-and-existing-state
+
+- **Title:** WcSdAi brand, locale and preserved state
+- **Preconditions:** Current fork candidate built against latest origin/main;
+  isolated userData/host roots, fixture project, no live provider credentials.
+- **Steps:** Boot Electron; inspect window title/home logo; open Settings Info;
+  create a project and session; select an explicit locale; quit and reopen.
+  Run boot probe, host smoke and storage-profile regressions.
+- **Expected:** WcSdAi title/version/About and black/white assets, Chinese
+  when unset, attribution/support visible, missing update source disabled,
+  project/session/explicit language retained after restart. Internal Electron
+  name is PI-Desktop for keychain compatibility. Fresh profiles use WcSdAi
+  directories, unmigrated profiles retain legacy fallback, and a matching legacy
+  Host alias keeps its logical root after the separately authorized physical
+  migration. Explicit overrides still win. Existing tool/permission/plugin/MCP
+  contracts pass; path selection itself never moves or merges user data.
+- **Specs:** baseline fork amendment; i18n; Settings IA; WcSdAi identity ADR.
+- **Acceptance:** No schema/protocol/dependency rename; no user-state deletion;
+  no real provider, production service, update or publish action.
+- **Milestone:** WcSdAi 1.0.1 preparation.
+- **Automation:** `pnpm test:e2e:wcsdai-brand`, `pnpm test:e2e:boot`,
+  `pnpm test:e2e`, desktop profile/About/branding/update tests.
+- **Status:** Brand scenario implemented; its earlier build evidence remains in
+  wcsdai/verification-report.md. Later resolver and physical-migration acceptance
+  require separate evidence; see [local data migration](../../wcsdai/local-data-migration.md).
+- **Traceability:** E2E-WCSDAI-brand-and-existing-state maps to the same specs
+  and suite list above; signed platform upgrades remain release checklist items.
+
+## E2E-WCSDAI-team-installer-download
+
+- **Preconditions:** A committed WcSdAi candidate containing the manual
+  `team-builds.yml`; native macOS arm64/x64 and Windows x64 runners. Remote
+  execution and artifact upload require the owner's explicit authorization.
+- **Steps:** Open the README's platform download entry, select a successful
+  Team Installers run, download and extract the matching artifact, validate
+  its checksums and matching source/build information, then install on a
+  representative device and reopen the existing profile.
+- **Expected:** The download contains the named DMG or NSIS installer,
+  corresponding committed source, legal notices and valid checksums. It is
+  explicitly unsigned, needs no signing credentials, creates no GitHub Release
+  or update feed, and never changes OS protections or app permission policy.
+- **Automation:** `node --test apps/desktop/test/team-installers.test.mjs`
+  covers source → build-plan → collection with real temporary Git/archival
+  fixtures and failure boundaries. Native macOS packaging plus read-only DMG
+  inspection validates the actual package resources. The hosted download path
+  and Windows/Intel installation remain pending until remote execution.
+- **Specs:** [team distribution](../../wcsdai/team-distribution.md), fork
+  baseline amendment and release runbook.

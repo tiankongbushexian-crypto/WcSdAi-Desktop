@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "vitest";
 import {
   catalogs,
+  defaultLocale,
   en,
   flattenCatalog,
   listedLocales,
@@ -225,7 +226,7 @@ test("the locale registry lists English first, then other locales by English nam
   assert.equal(traditional["settings.languageAuto"], "跟隨系統");
   assert.equal(traditional["nav.projects"], "專案");
   assert.equal(traditional["nav.temporarySessions"], "臨時對話");
-  assert.match(traditional["app.tagline"], /程式設計/);
+  assert.equal(traditional["app.tagline"], "讓 AI 更簡單");
   assert.equal(flattenCatalog(catalogs.es)["settings.language"], "Idioma");
   assert.equal(flattenCatalog(catalogs.fr)["settings.language"], "Langue");
   assert.equal(flattenCatalog(catalogs.de)["settings.language"], "Sprache");
@@ -283,4 +284,20 @@ test("inline review cards expose localized accessible labels", () => {
     chinese["panel.review.rollbackConflict"],
     "该文件在此消息之后又发生了变化，已跳过回退。",
   );
+});
+
+
+test("WcSdAi catalogs keep product identity separate from upstream attribution", () => {
+  assert.equal(defaultLocale, "zh-CN");
+  for (const [id, catalog] of Object.entries(catalogs)) {
+    const flat = flattenCatalog(catalog);
+    assert.equal(flat["app.shellName"], "WcSdAi", id);
+    assert.match(flat["brand.upstreamAttribution"], /PI-Desktop/);
+    assert.match(flat["brand.upstreamAttribution"], /GNU LGPL v3\.0/);
+    for (const [key, text] of Object.entries(flat)) {
+      if (key !== "brand.upstreamAttribution") {
+        assert.doesNotMatch(text, /PI[- ]Desktop|AIUO/, `${id} ${key}`);
+      }
+    }
+  }
 });

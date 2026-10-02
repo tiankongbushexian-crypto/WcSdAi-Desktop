@@ -1,14 +1,16 @@
 ---
 title: 界面截图
-description: PI-Desktop 的每个界面，全部取自运行中的应用。
+description: PI-Desktop 历史截图，用于 WcSdAi 上游功能参考。
 ---
 
 # 界面截图
 
+> 历史截图说明：本页保留 PI-Desktop 上游截图及原始品牌，供功能参考，并非 WcSdAi 1.0.1 的界面验收证据。新的 WcSdAi 截图需在独立测试环境完成验证后重新采集。
+
 下面每一张都来自支撑 [E2E 测试计划](/zh-CN/spec/06-delivery/04-e2e-test-plan)
 的截图装置：应用以 `PI_DESKTOP_CAPTURE=1` 在一个临时数据目录上启动，自行走过每个
 界面并写出 PNG，再由 `scripts/publish-screenshots.py` 转换成本页的图片。因此这些
-截图展示的是实际发布的界面，而不是设计稿——包括全新安装时看到的空态。
+截图展示的是上游采集时实际运行的界面，而不是设计稿——包括全新安装时看到的空态。
 
 会话标题和对话内容来自截图装置的样例数据。
 [English version](/guide/screenshots) 是同样的界面配英文界面语言。

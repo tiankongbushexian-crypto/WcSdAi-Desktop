@@ -76,7 +76,7 @@ export function buildApplicationMenuTemplate({
     template.push({
       label: APP_NAME,
       submenu: [
-        { role: "about" },
+        { role: "about", label: labels.menu.aboutApp },
         appCommand(labels.menu.checkForUpdates, "checkForUpdates", dispatch),
         { type: "separator" },
         appCommand(
@@ -88,11 +88,11 @@ export function buildApplicationMenuTemplate({
         { type: "separator" },
         { role: "services" },
         { type: "separator" },
-        { role: "hide" },
+        { role: "hide", label: labels.menu.hideApp },
         { role: "hideOthers" },
         { role: "unhide" },
         { type: "separator" },
-        { role: "quit" },
+        { role: "quit", label: labels.menu.quitApp },
       ],
     });
   }

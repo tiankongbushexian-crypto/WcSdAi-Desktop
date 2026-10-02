@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { spawn } from "node:child_process";
+import { once } from "node:events";
 import { createServer } from "node:http";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -244,34 +246,41 @@ test("a stdio server that cannot start fails the handshake, not the process", as
   assert.match(String(failure.message), /exited with code/);
 });
 
-test("a slow server times out instead of hanging the load", async () => {
+test("a slow server times out instead of hanging the load", { timeout: 10_000 }, async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
   const dir = stdioPlugin();
-  const pidFile = join(dir, "pid");
   writeFileSync(
     join(dir, "server.mjs"),
-    'import { writeFileSync } from "node:fs";\nwriteFileSync(process.env.STUB_PID_FILE, String(process.pid));\nsetInterval(() => {}, 1000);\n',
+    'process.stdout.write("ready\\n");\nsetInterval(() => {}, 1000);\n',
   );
+  let ready;
+  let exited;
   const client = new McpServerClient({
     pluginId: "com.example.mcp",
     rootPath: dir,
     server: { id: "stub", transport: "stdio", command: "node", args: ["./server.mjs"] },
-    values: { STUB_PID_FILE: pidFile },
+    values: {},
     connectTimeoutMs: 250,
+    spawnImpl: (...args) => {
+      const child = spawn(...args);
+      ready = once(child.stdout, "data");
+      exited = once(child, "exit");
+      return child;
+    },
   });
-  await assert.rejects(client.connect(), (error) => {
+  t.after(() => client.close());
+  const rejected = assert.rejects(client.connect(), (error) => {
     assert.equal(error.code, "TIMEOUT");
     return true;
   });
-  const pid = Number(readFileSync(pidFile, "utf8"));
-  for (let attempt = 0; attempt < 40; attempt += 1) {
-    try {
-      process.kill(pid, 0);
-    } catch {
-      return;
-    }
-    await new Promise((r) => setTimeout(r, 50));
-  }
-  assert.fail("timed-out stdio mcp child survived handshake cleanup");
+  // The fixture must be running before advancing the handshake deadline;
+  // real child startup can take longer than 250 ms under a parallel suite.
+  const [output] = await ready;
+  assert.equal(String(output), "ready\n");
+  t.mock.timers.tick(250);
+  await rejected;
+  await exited;
+  assert.equal(client.isConnected(), false);
 });
 
 /** Streamable-HTTP stub: JSON for the handshake, SSE for discovery. */

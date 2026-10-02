@@ -2,7 +2,7 @@
 
 ## 1. Goals
 
-1. Provide a **single source of truth** for visual tokens, component foundations, and layout metrics across PI-Desktop
+1. Provide a **single source of truth** for visual tokens, component foundations, and layout metrics across WcSdAi
 2. Ensure **high readability and contrast** in both light and dark themes — this is a developer workstation, not a marketing surface
 3. Map all design decisions to **Tailwind CSS tokens** so that spec → implementation is unambiguous
 4. Enable **future shadcn-like primitive extraction** without re-specifying foundations
@@ -43,7 +43,7 @@ AI-generated page surfaces use concise, task-oriented copy:
 
 ### 3.2 Text selection
 
-PI-Desktop behaves like a desktop application shell, so accidental drag
+WcSdAi behaves like a desktop application shell, so accidental drag
 selection is suppressed for chrome by default. The selection contract is:
 
 - Navigation, titlebar chrome, buttons, labels, badges, menus, and other
@@ -103,29 +103,33 @@ empty rail outside the panel surface.
 
 ### 3.4 Product identity and marks
 
-The visible product identity is **PI-Desktop**, even where the shell borrows
+The visible product identity is **WcSdAi**, even where the shell borrows
 Codex as a visual reference. The identity contract is deliberately small:
 
 - The sidebar shell name, settings copy, and composer placeholder use
-  `PI-Desktop`; `Codex` is reserved for the external session-import source or
+  `WcSdAi`; `Codex` is reserved for the external session-import source or
   historical design-reference text.
-- `build/icon_1024.png` is the canonical shell logo master; the renderer
-  imports the 192x192 marks derived from it under `src/assets/brand/`
-  (ADR 0125). `BrandLogo` imports those
-  through Vite so the renderer bundle, development Dock, and packaged
-  application all use the same visual asset.
-- On macOS, both development and packaged launches expose `PI-Desktop` as the
-  native application-menu name. The native About panel uses the PI-Desktop
+- `build/wcsdai-symbol.svg` is the canonical supplied mark geometry. The
+  generator derives black/white 192x192 renderer marks under `src/assets/brand/`
+  and `build/icon_1024.png`, whose white rounded tile has transparent padding.
+  `BrandLogo` imports the marks through Vite; the renderer, development Dock,
+  tray, and packaged application share the geometry. Brand marks use only
+  black or white, with neutral backgrounds and edge antialiasing.
+- On macOS, both development and packaged launches expose `WcSdAi` as the
+  native application-menu name. The native About panel uses the WcSdAi
   name, version, and canonical icon; no stock Electron name or icon is visible.
+  Electron's internal `app.getName()` remains `PI-Desktop` only to preserve
+  OS encryption identity; user-visible menu and About labels are explicit.
   Development launches use a generated branded host bundle because AppKit
   reads this identity from the host bundle rather than Electron runtime APIs.
-- On Windows, Electron Main registers the canonical `net.aiuo.pi-desktop`
+- On Windows, Electron Main registers the canonical `com.example.wcsdai`
   AppUserModelID before readiness. The runtime ID, packaged executable name,
   and NSIS shortcut identity stay aligned so native notifications,
-  notification settings, and taskbar groups identify the app as `PI-Desktop`
+  notification settings, and taskbar groups identify the app as `WcSdAi`
   rather than Electron.
-- The empty-home hero uses a 100px `HomeMascotLogo` GIF: an eight-frame waving
-  mascot compiled from the supplied light and dark action sets, with a short
+- The empty-home hero uses a 100px `HomeMascotLogo` GIF: an eight-frame monochrome
+  WcSdAi mark rendered from the supplied vector geometry, with a gentle scale
+  pulse and a short
   idle hold on the first frame. CSS selects the pair from
   `document.documentElement[data-theme]`; anything other than `light` uses the
   dark artwork. Playback is native to the GIF. There is no random pose

@@ -110,12 +110,29 @@
 > while Gateway and browser access stay unscheduled. None of them changes the
 > current exclusion.
 
+## WcSdAi fork amendment (2026-10-02)
+
+[WcSdAi identity ADR](../adr/wcsdai-brand-identity.md) amends the brand, native
+package identity, absent-language default and subsequently authorized physical
+data-root migration. New profiles use WcSdAi directories; unmigrated legacy
+profiles remain usable, and a legacy Host alias to the exact new physical root
+retains its historical logical spelling. The resolver never moves or merges data.
+The runtime, protocol 11, Host SQLite schema **21** (current `db.rs`), internal
+encryption name, providers and permissions remain compatible. The shared schema
+constant 16 is a separate metadata surface. Original decisions below retain their
+upstream history; historical schema-version descriptions are not rewritten.
+
+The owner subsequently selected [unsigned team installers](../wcsdai/team-distribution.md).
+The manual team workflow provides native macOS arm64/x64 and Windows x64
+packages with source and checksums, without publisher signing credentials or
+an automatic-update feed. The signed public-release lane remains separate.
+
 ## Frozen Decisions
 
-1. Product name: **PI-Desktop**
+1. Product name: **WcSdAi** in this fork (upstream: PI-Desktop)
 2. Desktop shell: **Electron**
 3. UI: **React + TypeScript + Vite + Tailwind**
-4. UI language default: **English**
+4. UI language default: **Simplified Chinese** when unset; explicit saved languages/Auto retained
 5. Docs / issues / commits language: **English primary**
 6. Agent engine: **pi (`pi-ai` + `pi-agent-core`)**
 7. Backend host core: **Rust**

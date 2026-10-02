@@ -2,9 +2,10 @@
 
 ## 1. Policy
 
-PI-Desktop is a global product.
+WcSdAi retains the upstream English-source translation architecture.
 
-- **Default locale:** `en`
+- **Default locale:** `zh-CN` when no preference exists; explicit `auto` follows
+  the OS and explicit saved locales are retained. English remains fallback.
 - **Source language:** English
 - **Authoring language for specs/UI/source strings:** English
 - Other locales are translations of English sources
@@ -97,10 +98,11 @@ required for flat identity fields.
 
 ## 6. Acceptance
 
-1. App boots in English by default
+1. An unset language boots in Simplified Chinese (`zh-CN`); explicit saved
+   locales are retained, explicit `auto` follows the OS, and English remains fallback
 2. Locale files exist for English source catalog
 3. Switching architecture supports additional locales
-4. No Chinese hard dependency in core UI path
+4. Core UI uses catalog keys rather than hard-coded Chinese text
 5. Catalog tests reject missing keys or mismatched interpolation variables
 6. Import, Projects, and Temporary sessions expose localized visible and
    accessible labels in every shipped locale

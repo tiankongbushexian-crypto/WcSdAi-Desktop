@@ -209,6 +209,11 @@ test("packaging keeps only shipped locales and excludes non-runtime artifacts", 
       from: "resources/plugins",
       to: "plugins",
     },
+    { from: "../../LICENSE", to: "licenses/LICENSE" },
+    { from: "../../NOTICE.md", to: "licenses/NOTICE.md" },
+    { from: "../../THIRD_PARTY_NOTICES.md", to: "licenses/THIRD_PARTY_NOTICES.md" },
+    { from: "../../LICENSES", to: "licenses/LICENSES" },
+    { from: "node_modules/electron/dist/LICENSES.chromium.html", to: "licenses/Electron-LICENSES.chromium.html" },
   ]);
   assert.doesNotMatch(JSON.stringify(packageJson.build), /node-pty/);
 });

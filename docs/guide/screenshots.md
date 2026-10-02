@@ -1,15 +1,17 @@
 ---
 title: Screens
-description: Every PI-Desktop surface, captured from the running app.
+description: Archived PI-Desktop captures for WcSdAi upstream feature reference.
 ---
 
 # Screens
+
+> Archive notice: These retained PI-Desktop screenshots preserve upstream branding and illustrate upstream functionality. They are not acceptance evidence for WcSdAi 1.0.1. New WcSdAi captures require verification in an isolated test environment.
 
 Every frame below comes from the capture rig that backs the
 [E2E test plan](/spec/06-delivery/04-e2e-test-plan): the app runs with
 `PI_DESKTOP_CAPTURE=1` against a throwaway data directory, drives itself through
 each surface, and writes the PNGs that `scripts/publish-screenshots.py` converts
-for this page. The screenshots therefore show the shipped shell rather than a
+for this page. The screenshots therefore show the upstream shell at the time of capture rather than a
 mockup, including the empty states a fresh install starts from.
 
 Session titles and transcripts come from the capture fixture, so the chrome is

@@ -1,11 +1,18 @@
-# Contributing to PI-Desktop
+# Contributing to WcSdAi
 
-Thanks for helping improve PI-Desktop. This guide applies to human and AI
-contributors working on the repository.
+Thanks for helping improve WcSdAi. This guide applies to human and AI
+contributors working on the [WcSdAi-Desktop repository](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop).
 
-PI-Desktop is released software with real users. Prefer small, reviewable
-changes that preserve existing behavior, user data, security boundaries, and
-public interfaces.
+- Maintainer: [tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)
+- Organization: 量动科技
+- Website: <https://wanchuangsd.cn>
+- Contact: <2222223323@qq.com>
+- Copyright 2026 量动科技 for original WcSdAi contributions; see [NOTICE.md](NOTICE.md).
+
+WcSdAi is based on [PI-Desktop](https://github.com/vastsa/PI-Desktop).
+Treat changes as production maintenance: preserve existing behavior, user data,
+security boundaries, public interfaces, and upstream and third-party notices.
+Prefer small, reviewable changes.
 
 ## Before You Start
 
@@ -56,26 +63,23 @@ git status --short
 git fetch origin main
 ```
 
-If the primary `main` worktree is clean, synchronize it before creating the
-request worktree:
+Create the request branch and worktree directly from the fetched `origin/main`:
 
 ```bash
-git switch main
-git fetch origin main
-git merge --ff-only origin/main
 git worktree add -b <type>/<short-description> \
-  ../PI-Desktop-worktrees/<short-description> origin/main
-cd ../PI-Desktop-worktrees/<short-description>
+  ../WcSdAi-Desktop-worktrees/<short-description> origin/main
+cd ../WcSdAi-Desktop-worktrees/<short-description>
 ```
 
-That fast-forward fails once local `main` carries its own integration merge of
-a delivered request; synchronize with `git merge origin/main` instead, and
-resolve the divergence before starting new work without discarding commits.
+Leave the primary checkout and unrelated work untouched. Do not merge task code
+into local `main` to prepare a candidate. Refresh and resolve conflicts only in
+the request worktree, following `AGENTS.md`.
 
-If the primary checkout has uncommitted work or is being used for another
-branch, leave it untouched and create the request worktree directly from the
-fetched `origin/main` instead. Never discard unrelated work to satisfy this
-sequence.
+Reuse the already provisioned Node/pnpm toolchain, compatible dependencies,
+Electron, Cargo targets, and build caches. Isolate mutable test profiles, data,
+ports and logs. Do not reinstall dependencies solely for E2E; install or rebuild
+only when the existing host environment is missing or incompatible, recording
+that reason.
 
 ## Plan and Implement
 
@@ -122,14 +126,20 @@ cargo clippy -p host-core --all-targets
 ```
 
 Run only the relevant subset when the change is low risk. Documentation-only
-changes normally need no runtime tests; at minimum, review the rendered
-Markdown and run `git diff --check`.
+changes normally need no runtime tests; verify links, paths and documented
+commands, review the Markdown, and run `git diff --check`.
 
 Code-bearing changes require the relevant E2E suite on a candidate that
 contains latest `origin/main` before the request branch is pushed and the pull
 request is opened. A run on a stale request branch is useful for debugging but
 does not replace that gate. Record any unavailable required suite as `NOT RUN`
-with its reason, alternative validation, and remaining risk.
+with its reason, alternative validation, and remaining risk. Record the tested
+commit, base revision and environment; for an uncommitted candidate, also record
+the diff fingerprint and relevant new-file hashes.
+
+Use isolated fixtures. Real providers, paid APIs, production services and a
+user's running Desktop instance require explicit authorization. AI agents must
+not run `verify:ui:*` unless the user requests it in the current task.
 
 ## Pull Request Acceptance Scope (temporary)
 
@@ -151,7 +161,7 @@ The restriction governs outside contributions only. Maintainers — accounts wit
 write access to this repository, plus the branches and automated agent work they
 direct — keep every change type. A `feat`, `refactor`, `docs`, `test`, `chore`,
 `build`, or `ci` pull request for planned maintainer work remains a valid
-delivery path under `AGENTS.md` R1–R7.
+delivery path under `AGENTS.md` and the development workflow.
 
 - Feature ideas: open an issue with the feature request form instead of a pull
   request. Features are planned and delivered by the maintainers here; an
@@ -171,13 +181,19 @@ inside a pull request.
 
 ## Commit and Pull Request
 
-Use one logical commit where practical and follow Conventional Commits:
+Use one logical commit where practical and follow Conventional Commits for the
+subject:
 
 ```text
 docs(security): clarify vulnerability reporting
 fix(host-core): preserve session ownership during restart
 feat(composer): add model selection shortcut
 ```
+
+Each commit message also needs a blank line and a short body explaining why
+the change is needed. AI agents commit only when the user explicitly asks;
+commit authorization does not authorize a push, tag, release or deployment.
+Stage explicit paths and inspect `git status` before committing.
 
 Before committing, review the complete diff. Never commit:
 
@@ -195,8 +211,7 @@ against `main` with:
 
 - a concise summary and rationale;
 - affected specs, ADRs, and E2E scenarios;
-- An outside pull request of any other change type — `feat`, `refactor`,
-  `docs`, `test`,
+- checks actually run, results, and any unavailable verification;
 - compatibility, migration, security, and remaining-risk notes when relevant.
 
 Do not force-push contributor branches, bypass required checks, or merge a
@@ -210,15 +225,18 @@ From a clean primary checkout:
 ```bash
 git fetch origin main
 git switch main
-git merge origin/main
-git worktree remove ../PI-Desktop-worktrees/<short-description>
+git merge --ff-only origin/main
+git worktree remove ../WcSdAi-Desktop-worktrees/<short-description>
 git branch -d <type>/<short-description>
 git worktree prune
 ```
 
-After a remote merge, local `main` is synchronized with `git merge --ff-only
-origin/main` (or `git merge origin/main` if it has diverged). Do not merge the
-request branch into local `main` merely to open a PR.
+Synchronize local `main` only after authorized remote integration. If the
+fast-forward fails, inspect the divergence and use an explicitly reviewed,
+non-destructive integration strategy; do not discard commits or unrelated work.
+Remove only the request's own worktree and merged branch after verifying the
+remote merge. Do not merge the request branch into local `main` merely to open a
+PR.
 
 For code-bearing changes, record the required E2E result from a candidate that
 contains latest `origin/main` before the pull request is opened, and rerun the
@@ -227,7 +245,8 @@ from that commit.
 
 ## Issue and Security Reports
 
-Use the repository issue forms for reproducible bugs and feature requests. Do
+Use the [WcSdAi issue forms](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/issues/new/choose)
+for reproducible bugs and feature requests. Do
 not use public issues for vulnerabilities, credential exposure, sandbox or
 permission bypasses, or other security-sensitive reports. Send those reports
 privately as described in [`SECURITY.md`](SECURITY.md).

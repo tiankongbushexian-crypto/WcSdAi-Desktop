@@ -330,6 +330,7 @@ test("McpOAuthManager: executes full authorization flow with DCR, PKCE, 127.0.0.
   const callbackRes = await simulateCallback(`/callback?code=valid-code&state=${encodeURIComponent(state)}`);
   assert.equal(callbackRes.statusCode, 200);
   assert.ok(callbackRes.body.includes("Authorization successful!"));
+  assert.ok(callbackRes.body.includes("return to WcSdAi."));
 
   // Verify RFC 8707 resource on token exchange request
   const tokenReq = tokenRequests.find((r) => r.grant_type === "authorization_code");

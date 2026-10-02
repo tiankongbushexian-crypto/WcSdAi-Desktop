@@ -1,5 +1,6 @@
 import { readMainSource, readMainModule } from "./helpers/source-contracts.mjs";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import {
   mkdir,
   mkdtemp,
@@ -44,19 +45,19 @@ test("Windows runtime registers the canonical native application identity", () =
   const appId = protocolSource.match(/APP_ID = "([^"]+)"/)?.[1];
   assert.equal(appId, packageJson.build.appId);
   assert.ok(startupSource.includes("app.whenReady()"), "main process readiness hook");
-  assert.match(mainIndexSource, /app\.setName\(APP_NAME\)/);
+  assert.match(mainIndexSource, /app\.setName\(LEGACY_ENCRYPTION_APP_NAME\)/);
   assert.match(
     mainIndexSource,
     /process\.platform === "win32"[\s\S]*app\.setAppUserModelId\(APP_ID\)/,
   );
 });
 
-test("Windows packages pin PI-Desktop executable and shortcut names", () => {
-  assert.equal(packageJson.build.win.executableName, "PI-Desktop");
-  assert.equal(packageJson.build.nsis.shortcutName, "PI-Desktop");
+test("Windows packages pin WcSdAi executable and shortcut names", () => {
+  assert.equal(packageJson.build.win.executableName, "WcSdAi");
+  assert.equal(packageJson.build.nsis.shortcutName, "WcSdAi");
 });
 
-test("Windows packages and windows use the canonical PI-Desktop icon", () => {
+test("Windows packages and windows use the canonical WcSdAi icon", () => {
   assert.equal(packageJson.build.win.icon, "build/icon.ico");
   assert.deepEqual(
     packageJson.build.win.extraResources.find((resource) => resource.to === "app-icon.ico"),
@@ -76,11 +77,11 @@ test("Windows packages and windows use the canonical PI-Desktop icon", () => {
 });
 
 test("Linux packages align the desktop entry with the Wayland app identity", () => {
-  assert.equal(packageJson.desktopName, "pi-desktop.desktop");
+  assert.equal(packageJson.desktopName, "wcsdai.desktop");
   assert.equal(packageJson.build.linux.syncDesktopName, true);
 });
 
-test("macOS development uses the canonical PI-Desktop Dock icon", () => {
+test("macOS development uses the canonical WcSdAi Dock icon", () => {
   assert.match(
     brandingSource,
     /process\.platform !== "darwin" \|\| !isDevelopmentBuild \|\| !app\.dock/,
@@ -101,13 +102,18 @@ test("macOS development uses the canonical PI-Desktop Dock icon", () => {
   );
 });
 
-test("macOS icon derivation preserves the canonical renderer asset", () => {
-  assert.match(iconScriptSource, /SOURCE = BUILD \/ "icon_1024\.png"/);
-  assert.match(iconScriptSource, /with Image\.open\(SOURCE\) as source/);
-  assert.doesNotMatch(
-    iconScriptSource,
-    /\.save\(BUILD \/ "icon_1024\.png"\)/,
-  );
+test("generated brand assets match the canonical monochrome vector manifest", async () => {
+  const manifest = JSON.parse(await readFile(new URL("../build/brand-assets.json", import.meta.url), "utf8"));
+  assert.equal(manifest.canonical_source, "apps/desktop/build/wcsdai-symbol.svg");
+  const svg = await readFile(new URL("../build/wcsdai-symbol.svg", import.meta.url), "utf8");
+  assert.match(svg, /#000000/);
+  assert.doesNotMatch(svg, /#111827/);
+  for (const asset of manifest.outputs) {
+    const bytes = await readFile(new URL(`../../../${asset.path}`, import.meta.url));
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), asset.sha256, asset.path);
+    if (asset.path.endsWith("icon_1024.png")) assert.deepEqual(asset.sizes, [[1024, 1024]]);
+    if (asset.path.endsWith(".gif")) assert.deepEqual(asset.frames_ms, [900, 180, 180, 180, 180, 180, 180, 240]);
+  }
 });
 
 test("development launcher resolves Electron before platform-specific setup", () => {
@@ -226,8 +232,8 @@ test(
         ),
         "macOS-tray-icon",
       );
-      assert.match(plist, /<string>PI-Desktop<\/string>/);
-      assert.match(plist, /<string>net\.aiuo\.pi-desktop\.dev<\/string>/);
+      assert.match(plist, /<string>WcSdAi<\/string>/);
+      assert.match(plist, /<string>com\.example\.wcsdai\.dev<\/string>/);
       assert.equal(prepareMacDevelopmentBundle(options), brandedExecutable);
 
       await writeFile(trayIconMacPath, "updated-macOS-tray-icon");

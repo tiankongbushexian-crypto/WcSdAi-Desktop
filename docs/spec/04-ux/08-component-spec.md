@@ -677,7 +677,7 @@ visually distinct from list content.
   empty-home hero uses `HomeMascotLogo` as a 100px eight-frame GIF. Light and
   dark themes each have a dedicated GIF plus still PNG. CSS follows
   `document.documentElement[data-theme]` without a reload; anything other than
-  `light` uses the dark artwork. The mascot loops a processed wave with a
+  `light` uses the dark artwork. The monochrome WcSdAi mark loops a gentle scale pulse with a
   short idle hold on the first frame. Playback is native to the GIF and does
   not change on pointer hover; reduced motion swaps to the matching still
   first-frame PNG. The expanded/collapsed sidebar remains 20px/18px and the

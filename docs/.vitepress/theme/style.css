@@ -1,5 +1,5 @@
 /*
-  PI-Desktop docs — Apple keynote register.
+  WcSdAi docs — neutral desktop presentation.
   Black canvas, extreme type scale, floating product stills, no card chrome.
 */
 
@@ -889,4 +889,17 @@ body {
   *::after {
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Archive captions identify preserved upstream screenshots. */
+.archive-notice,
+.hero-visual__caption {
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.hero-visual__caption {
+  position: relative;
+  margin: 16px 0 0;
+  text-align: center;
 }

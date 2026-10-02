@@ -87,3 +87,11 @@ test("Settings → Info saves only valid automatic/manual preferences", async ()
   assert.match(updateSettingsSource, /persistUpdatePreference\(value, saveSettings\)/);
   assert.match(updateBannerSource, /manualReminder === true/);
 });
+
+
+test("unconfigured release feeds stay disabled on every packaged platform", () => {
+  for (const platform of ["darwin", "win32", "linux"]) {
+    assert.equal(resolveUpdateMode(platform, true, { APPIMAGE: "/tmp/app.AppImage" }, "installed", "automatic", false), "disabled");
+    assert.equal(resolveUpdateMode(platform, true, {}, "zip", "manual", false), "disabled");
+  }
+});

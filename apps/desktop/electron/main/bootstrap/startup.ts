@@ -452,7 +452,8 @@ export function registerApplicationStartup(deps: StartupDependencies): void {
               );
             }
             probe.ctrlRBlocked = ctrlRPrevented;
-            probe.appName = app.getName();
+            probe.appName = APP_NAME;
+            probe.storageName = app.getName();
             probe.menuCount = Menu.getApplicationMenu()?.items.length ?? 0;
             if (!host || !window) throw new Error("session-list probe requires a healthy desktop");
             probe.sessionList = await runSessionListProbe({

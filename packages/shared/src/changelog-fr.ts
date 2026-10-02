@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const frEntries: ChangelogEntry[] = [
   {
+    version: "1.0.1",
+    highlights: [
+      "WcSdAi 1.0.1 repose sur PI-Desktop 0.16.0 et reste en préparation.",
+      "Icônes monochromes, identité WcSdAi et chinois simplifié par défaut.",
+      "Les données, sessions, fournisseurs, extensions, MCP et autorisations sont conservés.",
+      "Ajout des mentions de provenance et de licence ; les mises à jour attendent une source configurée."
+],
+  },
+  {
     "version": "0.16.0",
     "date": "2026-10-02",
     "highlights": [

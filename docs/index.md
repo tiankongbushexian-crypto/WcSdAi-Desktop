@@ -1,15 +1,15 @@
 ---
 layout: home
-title: PI-Desktop
+title: WcSdAi
 titleTemplate: A modular desktop workspace for AI agents
 hero:
-  name: PI-Desktop
-  text: A desktop workspace for AI agents.
+  name: WcSdAi
+  text: Make AI simpler.
   tagline: Bring projects, agents, models, plugins, and workflows into one persistent desktop environment.
   actions:
     - theme: brand
-      text: Download
-      link: https://github.com/vastsa/PI-Desktop/releases/latest
+      text: Release status
+      link: /wcsdai/release-checklist
     - theme: alt
       text: Documentation
       link: /guide/

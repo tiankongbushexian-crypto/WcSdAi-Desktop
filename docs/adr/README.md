@@ -23,6 +23,7 @@ Each ADR includes:
 | pi-ai-core-0991-authority | [Pi 0.99.1 account model authority](pi-ai-core-0991-authority.md) | Accepted for current migration candidate |
 | plan-tool-declarations-and-execution-denials | [Keep known tool declarations while denying contract-mode execution](plan-tool-declarations-and-execution-denials.md) | Accepted for implementation |
 | trusted-extension-operation-ownership | [Trusted extension operation ownership](trusted-extension-operation-ownership.md) | Implemented candidate |
+| wcsdai-brand-identity | [WcSdAi display brand with preserved storage identity](wcsdai-brand-identity.md) | Accepted for this fork |
 | scheduled-desktop-automations | [Desktop automation scheduling](scheduled-desktop-automations.md) | Accepted for implementation |
 | subagent-model-fallback | [Ordered subagent model fallback](subagent-model-fallback.md) | Accepted for implementation |
 | subagent-model-opt-in | [Separate Subagent Model Opt-In from Definition Pins](subagent-model-opt-in.md) | Accepted for implementation |

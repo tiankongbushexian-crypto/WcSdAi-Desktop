@@ -16,6 +16,7 @@
  * configuration and agent.
  */
 import {
+  APP_NAME,
   ErrorCodes,
   IPC,
   type RemoteHostBootstrapRequest,
@@ -91,7 +92,7 @@ export function registerRemoteHostIpc(options: RegisterRemoteHostIpcOptions): vo
   const { registrar } = options;
   const getRemoteHostsBoot = options.getRemoteHostsBoot ?? getActiveRemoteHostsBoot;
   const clientInfo =
-    options.clientInfo ?? { name: app.getName(), version: app.getVersion() };
+    options.clientInfo ?? { name: APP_NAME, version: app.getVersion() };
   const log = options.log ?? (() => undefined);
 
   registrar.handle(

@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const koEntries: ChangelogEntry[] = [
   {
+    version: "1.0.1",
+    highlights: [
+      "WcSdAi 1.0.1은 PI-Desktop 0.16.0 기반이며 출시 준비 중입니다.",
+      "흑백 아이콘과 WcSdAi 브랜드를 적용하고 기본 언어를 중국어 간체로 설정합니다.",
+      "기존 데이터, 세션, 공급자, 플러그인, MCP 및 권한 확인을 유지합니다.",
+      "원본 출처와 라이선스 고지를 추가하며 업데이트 원본 설정 전에는 업데이트를 확인하지 않습니다."
+],
+  },
+  {
     "version": "0.16.0",
     "date": "2026-10-02",
     "highlights": [

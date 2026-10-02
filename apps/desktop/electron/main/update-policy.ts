@@ -48,8 +48,9 @@ export function resolveUpdateMode(
   env: NodeJS.ProcessEnv = process.env,
   distribution?: WindowsDistribution,
   preference?: UpdatePreference,
+  feedConfigured = true,
 ): UpdateMode {
-  if (!isPackaged) return "disabled";
+  if (!isPackaged || !feedConfigured) return "disabled";
   if (!supportsAutomaticUpdates(platform, isPackaged, env)) return "manual";
   const selected =
     preference ??
