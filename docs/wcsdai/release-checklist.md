@@ -1,4 +1,4 @@
-# WcSdAi 1.0.1 release checklist
+# WcSdAi 1.0.2 release checklist
 
 Current target: **unsigned team installers**, explicitly selected by the owner
 on 2026-10-02. The owner subsequently authorized committing, pushing, integrating
@@ -16,9 +16,9 @@ distribution is an optional future lane, not a prerequisite for team packages.
 - [x] Download the hosted macOS arm64 artifact, launch it twice in an isolated profile and restore all 800 fixture Sessions after restart.
 - [x] Keep automatic installation disabled and use manual replacement for team versions; 1.0.2 adds notification-only checks.
 - [x] Owner authorizes commit/push/integration and remote workflow execution/artifact upload.
-- [x] Complete macOS arm64, macOS Intel x64 and Windows x64 native build jobs and desktop typechecks in [run 37018547778](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37018547778).
-- [x] Include corresponding source from commit `6dc7fc9ebc63448f15a65b78542abe9505aabca3`, build information, license notices and checksums with all three uploaded installers.
-- [x] Verify all three downloaded installers' checksums, bundled resources and exact corresponding source; all four artifacts remain available through 2026-11-01.
+- [x] Complete macOS arm64, macOS Intel x64 and Windows x64 native build jobs and desktop typechecks in [run 37031890473](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37031890473).
+- [x] Include corresponding source from commit `9403cf853caaffbe50be4a0b8a34d670e80f5e79`, build information, license notices and checksums with all three uploaded installers.
+- [x] Verify all three downloaded installers' checksums, bundled resources and exact corresponding source; the installer artifacts expire on 2026-11-02 in Asia/Shanghai (exact platform times in team-distribution.md).
 - [ ] Test the resulting installers and existing-data upgrades on representative team Macs and Windows PCs.
 - [x] Publish the successful Actions run's three direct artifact links in both READMEs and the team distribution guide.
 
@@ -28,7 +28,7 @@ publisher identity; it does not require disabling OS security or app approvals.
 
 ## Optional signed public-release checklist
 
-- [x] Target version is 1.0.1; shared/JS/Cargo version surfaces synchronized.
+- [x] Target version is 1.0.2; shared/JS/Cargo version surfaces synchronized.
 - [x] Product display name WcSdAi; technical Pi identifiers retained.
 - [x] Black/white icons and rounded app tile generated.
 - [ ] Confirm com.example.wcsdai as the final macOS Bundle ID (placeholder risk).
@@ -43,7 +43,7 @@ publisher identity; it does not require disabling OS security or app approvals.
 - [ ] Make exact corresponding modified source available with each binary.
 - [ ] Resolve missing dependency license metadata and plugin/artwork provenance.
 - [ ] Review and approve privacy/terms/user-agreement drafts, then publish URLs.
-- [x] Full pnpm test, workspace typechecks and lint pass; detailed scope is in verification-report.md.
+- [x] Complete the 1.0.2 workspace JS tests serially, including the full desktop, shared and i18n suites; JS build, workspace typechecks, lint, cargo check and host-core build pass. This does not claim a complete Rust test run; exact scope is in 1.0.2-verification.md.
 - [x] Reviewed tracked/new files and added lines for supplied server data and credential formats; no actual secrets found.
 - [ ] Supply WcSdAi macOS Developer ID and notarization credentials.
 - [ ] Supply Windows Code Signing credentials and verify Authenticode.
@@ -53,7 +53,7 @@ publisher identity; it does not require disabling OS security or app approvals.
 - [ ] Test upgrade, uninstall, rollback, OS permission prompts and notifications.
 - [ ] Test upstream-existing data and OS-protected credentials with signed binaries.
 - [x] English and Chinese READMEs updated with fork attribution.
-- [x] 1.0.1 release-note drafts added to all nine in-app catalogs.
+- [x] 1.0.2 release notes added to all nine in-app catalogs.
 - [ ] Run an explicitly authorized real-provider response and external MCP smoke before claiming those integrations qualified.
 - [ ] Include matching pi-host release archives/checksums before remote-host automatic installation is advertised.
 - [ ] Owner authorizes commit, push, tag, GitHub Release and upload explicitly.
@@ -84,7 +84,7 @@ The native architecture matrix is inherited from the upstream release lanes,
 not cross-compiled from this Mac. Do not label an arm64 local build as tested
 on Intel, Windows or Linux.
 
-## 1.0.2 notification and motion candidate
+## 1.0.2 notification and motion delivery
 
 - [x] Owner approved icon A: 12% larger, 27/1024px optical downward offset.
 - [x] Owner approved both new logo motions, three text entrances and randomized greetings.
@@ -92,10 +92,13 @@ on Intel, Windows or Linux.
 - [x] Notification metadata parser and real Main controller tested against offline,
   timeout, malformed/oversized feed, unsupported target, expired download and disposal.
 - [x] Automatic binary download/install remains off for unsigned team packages.
-- [x] Current `updates/stable.json` initially advertises only verified 1.0.1 artifacts.
-- [ ] Complete final candidate and PR integration checks before merging.
-- [ ] Build, download and verify three native 1.0.2 installers and corresponding source.
-- [ ] Update the manifest and README links only after those artifacts are verified.
+- [x] Bootstrap `updates/stable.json` advertised verified 1.0.1 artifacts while the 1.0.2 native packages were still being qualified.
+- [x] Complete final candidate and PR integration checks; PR #5 merged as `9403cf853caaffbe50be4a0b8a34d670e80f5e79`.
+- [x] Build, download and verify three native 1.0.2 installers and corresponding source.
+- [x] Update README links to the verified 1.0.2 artifacts.
+- [x] Prepare the verified 1.0.2 manifest for gated publication; the public response is checked after merge.
+- [x] Successfully check the public manifest from the downloaded Apple Silicon app.
+- [x] Honor the owner's decision to upgrade the local 1.0.1 application later; isolated validation does not stop or replace it.
 
 Existing 1.0.1 users must install 1.0.2 manually once. The checker cannot be
 retroactively added to an already installed executable. No server deployment,
