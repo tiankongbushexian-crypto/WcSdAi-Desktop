@@ -12,6 +12,7 @@ distribution is an optional future lane, not a prerequisite for team packages.
 - [x] Keep original LGPL license text and third-party attribution; team use does not introduce a different license.
 - [x] Provide separate macOS Apple Silicon, macOS Intel and Windows x64 download entries in both READMEs.
 - [x] Prepare a manual native build workflow without Developer ID, notarization or Windows signing secrets.
+- [x] Validate the macOS arm64 ad-hoc app seal and packaged startup locally; this requires no publisher certificate. Hosted and Intel checks remain separate.
 - [x] Keep automatic updates disabled and use manual replacement for team versions.
 - [x] Owner authorizes commit/push/integration and remote workflow execution/artifact upload.
 - [ ] Execute the native macOS/Windows jobs and verify installer checksums and matching source artifacts.

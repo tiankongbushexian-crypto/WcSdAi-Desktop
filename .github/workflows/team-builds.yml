@@ -73,6 +73,27 @@ jobs:
         run: pnpm --config.verify-deps-before-run=false check:release-docs
       - name: Build native unsigned installer without publishing
         run: node scripts/team-installers.mjs build ${{ matrix.platform }} ${{ matrix.arch }}
+      - name: Verify macOS ad-hoc bundle integrity
+        if: matrix.platform == 'macos'
+        shell: bash
+        env:
+          TEAM_MAC_ARCH: ${{ matrix.arch }}
+        run: |
+          set -euo pipefail
+          case "$TEAM_MAC_ARCH" in
+            arm64) app_dir=mac-arm64 ;;
+            x64) app_dir=mac ;;
+            *) echo "::error::Unsupported macOS architecture"; exit 1 ;;
+          esac
+          app="apps/desktop/release/$app_dir/WcSdAi.app"
+          [[ -d "$app" ]] || { echo "::error::Packaged WcSdAi.app is missing"; exit 1; }
+          codesign --verify --deep --strict --verbose=2 "$app"
+          signature_info="$(codesign -dv --verbose=4 "$app" 2>&1)"
+          printf '%s\n' "$signature_info"
+          if [[ "$signature_info" != *"Signature=adhoc"* || "$signature_info" != *"TeamIdentifier=not set"* ]]; then
+            echo "::error::Expected an ad-hoc bundle seal without a publisher certificate"
+            exit 1
+          fi
       - name: Typecheck the built desktop candidate
         run: pnpm --config.verify-deps-before-run=false --filter @pi-desktop/desktop typecheck
       - name: Collect installer, corresponding source, notices and checksums

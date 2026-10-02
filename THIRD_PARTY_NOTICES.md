@@ -11,7 +11,7 @@ local evidence. The initial inventory covers 1,010 npm package versions and
 234 Cargo crate versions, including development and target-specific entries.
 
 Original texts collected from the host are in
-[`LICENSES/third-party-notices.txt`](LICENSES/third-party-notices.txt). Preserve
+[`LICENSES/components/third-party-notices.txt`](LICENSES/components/third-party-notices.txt). Preserve
 all copyright statements there. A missing local manifest is reported as
 `【待确认许可证：dependency-name】`; it is not assumed to use its parent package's
 license. The inventory is not a final shipped-binary SBOM or legal clearance.
@@ -23,7 +23,7 @@ license. The inventory is not a final shipped-binary SBOM or legal clearance.
 | Electron / Chromium / Node.js embedded components | Electron `43.6.0` declares MIT; its generated `LICENSES.chromium.html` includes additional bundled components with separate terms. | Include the original runtime license and Chromium HTML notice; inspect actual native packages on each platform. |
 | React, React DOM, Zustand, renderer and Markdown libraries | Per-version metadata and original texts in the generated inventory. | Match notices to the final bundled dependency graph. |
 | `lucide-react` icons | `1.31.0`, ISC metadata and original `LICENSE`. Brand-only artwork replacement does not replace general-purpose Lucide UI icons. | Retain ISC attribution for shipped icons. |
-| KaTeX math fonts | `katex 0.16.47` metadata is MIT; the actual installed TTF name records declare SIL OFL 1.1 and retain Design Science / Khan Academy copyright and reserved font names. | Preserve `LICENSES/OFL-1.1.txt` and the extracted original font notices when emitting KaTeX fonts. |
+| KaTeX math fonts | `katex 0.16.47` metadata is MIT; the actual installed TTF name records declare SIL OFL 1.1 and retain Design Science / Khan Academy copyright and reserved font names. | Preserve `LICENSES/components/OFL-1.1.txt` and the extracted original font notices when emitting KaTeX fonts. |
 | Interface fonts | Current `apps/desktop/src/lib/fonts.ts` uses installed system fonts, with no standalone tracked font files found. Earlier ADR text about bundled font families is historical; its amendment removes those assets. | Verify final output for additional font assets and retain their actual licenses. System fonts are not newly redistributed by this brand change. |
 | Bundled `pi.file-manager 0.5.2` | Existing MIT notice attributed to Tioit-Wang and pinned `UPSTREAM.md` preserved. That provenance record explicitly says the original upstream release supplied no license file and this repository added one. | Confirm licensing authority and source/embedded-dependency notices with the publisher before public distribution; do not treat the added notice as independent proof of permission. |
 | Bundled `pi.browser` and example plugins | In-tree source under the repository license unless a component explicitly supplies separate terms; original plugin IDs/authors retained. | Review embedded resources in independently distributed `.piplug` archives. |

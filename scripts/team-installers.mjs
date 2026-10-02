@@ -111,7 +111,7 @@ export function teamBuildPlan(platform, arch) {
     // it becomes an array in the builder parser, not the "never" policy.
     // publish:null remains the validated package value, not the CLI string "null".
     `--${arch}`, "-c.forceCodeSigning=false",
-    ...(platform === "macos" ? ["-c.mac.identity=null", "-c.mac.notarize=false"] : ["-c.win.signExecutable=false"]),
+    ...(platform === "macos" ? ["-c.mac.identity=-", "-c.mac.notarize=false"] : ["-c.win.signExecutable=false"]),
   ];
 }
 

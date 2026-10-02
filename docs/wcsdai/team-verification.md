@@ -98,6 +98,13 @@ helper must not attach the old HEAD source to this newer worktree binary.
   preserves those verbatim legal inputs and exempts only end-of-line/end-of-file
   whitespace diagnostics for that file. Source-file whitespace checks remain
   unchanged.
+- Initial GitHub inspection still reported the repository license as Other,
+  despite the root text matching LGPL. Stable Licensee also aggregates direct
+  children of `LICENSES/`; bundled GPL/OFL/component notices therefore created
+  an ambiguous project result. These companion notices and their index now live
+  under `LICENSES/components/`, with the original LGPL copy remaining directly
+  under `LICENSES/`. Generator, links and collection fixtures follow this layout.
+  The earlier local preview above predates this notice-layout adjustment.
 - GitHub read-only inspection confirmed the fork is public, has default branch
   `main`, and had no Releases at this check. “Team” describes intended use,
   not an access-control restriction.
@@ -109,3 +116,47 @@ helper must not attach the old HEAD source to this newer worktree binary.
   falsely claimed available. OS warnings on unsigned software remain possible.
 - The running WcSdAi installation, its data, credentials and compatibility
   aliases were not changed by this follow-up.
+
+## Follow-up: macOS bundle integrity and repository license detection
+
+The initial preview used `mac.identity=null`. Native strict verification found
+that its inherited linker signature did not seal the renamed app resources.
+The team lane now uses `mac.identity=-` to create an ad-hoc seal, requiring
+no publisher certificate or Apple account. Developer ID, notarization and
+Windows publisher signing remain disabled. Existing app entitlements were
+retained.
+
+An actual local arm64 package from the existing built outputs passed
+`codesign --verify --deep --strict` both before packaging and inside the
+read-only mounted DMG. Both copies show `Signature=adhoc`,
+`TeamIdentifier=not set`, and identifier `com.example.wcsdai`; their bundled
+Host also passed verification. The DMG SHA-256 is
+`36e943b797e04883492ebc03a9dbd652535cdc8b345ec53c9e857a5c3a7b500d`.
+Its ASAR remains
+`398663aef06e5a36ba877bd4a7171e9a8924405ebd8591f58dbbe47ac6340e76`.
+Current notices and the unchanged LGPL match their source files.
+
+The newly sealed packaged app passed two real isolated launches: boot probe
+and recovery of all 800 synthetic Sessions after restart. Owned processes and
+temporary directories were cleaned. No live model, user profile, installation
+or Gatekeeper download-approval test was performed. Local evidence is
+`.artifacts/wcsdai/team-adhoc-verification.json` and
+`.artifacts/wcsdai/team-packaged-smoke.json` (SHA-256
+`1956f51d166a4b169354b09bb688705a4670508eb9958df6106101f1e83026ec`).
+
+The workflow now rejects failed strict verification or a non-ad-hoc publisher
+identity before upload. Its preparation suite passed 14 tests, including
+executing the native verification step against controlled command fixtures.
+Earlier notice-layout and packaging coverage passed 22 tests. Stable Licensee
+v10.1.0's file selection and aggregation methods select only the two LGPL copies
+after the layout change; both match 100%. GitHub's actual result must also be
+checked after pushing.
+
+The initial committed candidate `85a3d23ce8014dbe3f21f8d0f4839072b190075f`
+passed all four PR checks, including 725 Rust tests on the Linux runner:
+[CI](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37007595412),
+[documentation](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37007595442),
+and [base ancestry](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37007595418).
+The local follow-up package above predates its follow-up commit. Final head
+checks and native installer availability are recorded by the subsequent PR
+and Team Installers workflow runs.

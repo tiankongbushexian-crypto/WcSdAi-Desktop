@@ -17,10 +17,16 @@ does not replace the Free Software Foundation's license-text copyright.
 The original text's SHA-256 is
 `e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118`.
 The attribution is one HTML comment, which Licensee removes before matching;
-the remaining content is exactly the original text. This preserves a standard
-matching input without changing the upstream license. GitHub's final displayed
-license remains subject to its server-side detector. See
-[GitHub license detection](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#detecting-a-license).
+the remaining content is exactly the original text. `LICENSES/LGPL-3.0.txt`
+is the only direct file in `LICENSES/`. Companion GPL/OFL texts, third-party
+notices and their index live under `LICENSES/components/`, so repository-level
+license detection does not mistake them for additional project licenses.
+All texts remain included in packages and source archives. Stable Licensee
+v10.1.0 scans the root and direct `LICENSES/` children, and reduces these two
+matching LGPL files to one license. GitHub's final displayed classification
+must still be checked after publication. See
+[GitHub license detection](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository#detecting-a-license)
+and [Licensee's project aggregation](https://github.com/licensee/licensee/blob/v10.1.0/lib/licensee/projects/project.rb).
 `Cargo.toml` declares `LGPL-3.0-or-later`; that declaration is retained.
 Existing per-file and third-party notices are retained. Copyright 2026 量动科技
 covers its original contributions, not upstream authors' work.
@@ -68,12 +74,12 @@ a release or changing the third-party licenses.
 | Material | Evidence | Result / remaining work |
 | --- | --- | --- |
 | LGPL text | `LICENSES/LGPL-3.0.txt` compared with the baseline Git blob; the LGPL body in root `LICENSE` compared with that copy | Original text preserved byte for byte; only the separate WcSdAi copyright attribution is new. |
-| GPL text | `LICENSES/GPL-3.0.txt`, fetched from GNU's canonical text URL | Added as the companion incorporated license. |
+| GPL text | `LICENSES/components/GPL-3.0.txt`, fetched from GNU's canonical text URL | Added as the companion incorporated license. |
 | npm dependency versions | Both YAML documents in `pnpm-lock.yaml`; exact installed package manifests in the existing pnpm store | Inventory includes package-manager binaries, direct, transitive, optional, build and docs packages. Missing metadata stays pending. |
 | Cargo dependencies | `Cargo.lock` and exact-version manifests in the local Cargo registry source cache | All registry lock entries included; uncached target/dev crates stay pending. |
-| Original third-party notice text | Root license/notice files and license directories from matched package versions | Deduplicated into `LICENSES/third-party-notices.txt`; original text is not rewritten. Nested embedded code still requires final package review. |
+| Original third-party notice text | Root license/notice files and license directories from matched package versions | Deduplicated into `LICENSES/components/third-party-notices.txt`; original text is not rewritten. Nested embedded code still requires final package review. |
 | Electron | Installed `43.6.0` MIT text and original `dist/LICENSES.chromium.html` | Inventory records Chromium notice SHA-256; packaging copies the original HTML directly from the installed runtime. |
-| KaTeX fonts | Twenty installed TTF font faces, original name-table copyright/license records | OFL 1.1 declarations and reserved font names preserved in the notices; canonical `LICENSES/OFL-1.1.txt` added. |
+| KaTeX fonts | Twenty installed TTF font faces, original name-table copyright/license records | OFL 1.1 declarations and reserved font names preserved in the notices; canonical `LICENSES/components/OFL-1.1.txt` added. |
 | General UI icons | `lucide-react 1.31.0` installed ISC notice | Preserved; general-purpose icons are separate from the product brand mark. |
 | System interface fonts | Current `fonts.ts`, tracked asset search, ADR 0298 | No standalone interface font assets added; KaTeX math fonts are handled separately. |
 | Bundled plugins | Existing `pi.file-manager` MIT notice and pinned `UPSTREAM.md`; in-tree `pi.browser` source | File-manager provenance states the upstream release had no LICENSE and this repo added one: publisher authority needs confirmation. |

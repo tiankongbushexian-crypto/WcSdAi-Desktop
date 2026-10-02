@@ -1,6 +1,6 @@
 # Dependency license inventory
 
-Generated from lockfiles and existing local package metadata. This is an inventory, not a legal clearance or an exact shipped-binary SBOM. All resolved platform/dev/optional packages are included; unavailable metadata stays pending. Original license texts collected on this host are in the repository’s LICENSES/ directory (see LICENSES/README.md). Regenerate with `node docs/wcsdai/generate-license-inventory.mjs <dependency-checkout>`.
+Generated from lockfiles and existing local package metadata. This is an inventory, not a legal clearance or an exact shipped-binary SBOM. All resolved platform/dev/optional packages are included; unavailable metadata stays pending. Original license texts collected on this host are in the repository’s LICENSES/ directory (see LICENSES/components/README.md). Regenerate with `node docs/wcsdai/generate-license-inventory.mjs <dependency-checkout>`.
 
 - npm versions: 1010
 - Cargo versions: 234

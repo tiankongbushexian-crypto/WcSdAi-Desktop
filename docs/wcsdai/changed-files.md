@@ -1,6 +1,6 @@
 # Changed files
 
-This manifest lists the complete uncommitted WcSdAi request diff against
+This manifest lists the complete WcSdAi request diff against the baseline
 `22dfb87a84056127fad07617e8d06974f927bebc`. It excludes ignored build outputs,
 dependencies and local verification artifacts. No unrelated primary checkout
 changes are included.
@@ -29,11 +29,11 @@ Total changed or added files: 194.
 - `Cargo.lock`
 - `Cargo.toml`
 - `LICENSE`
-- `LICENSES/GPL-3.0.txt`
 - `LICENSES/LGPL-3.0.txt`
-- `LICENSES/OFL-1.1.txt`
-- `LICENSES/README.md`
-- `LICENSES/third-party-notices.txt`
+- `LICENSES/components/GPL-3.0.txt`
+- `LICENSES/components/OFL-1.1.txt`
+- `LICENSES/components/README.md`
+- `LICENSES/components/third-party-notices.txt`
 - `NOTICE.md`
 - `README.md`
 - `README.zh-CN.md`

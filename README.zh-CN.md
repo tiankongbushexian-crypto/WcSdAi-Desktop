@@ -745,7 +745,7 @@ PI-Desktop 的开发过程中使用了来自多个 Provider 的模型。
 
 WcSdAi 基于 [PI-Desktop](https://github.com/vastsa/PI-Desktop) 的 `v0.16.0` 版本 fork。PI-Desktop 使用 **GNU Lesser General Public License v3.0**，Cargo workspace 标注为 `LGPL-3.0-or-later`。WcSdAi 保留 [LICENSE](LICENSE) 和 [LICENSES/LGPL-3.0.txt](LICENSES/LGPL-3.0.txt) 中的原始 LGPL 许可正文、上游版权声明及第三方归属。上游代码及其修改部分依照适用的 LGPLv3 要求提供；独立新增模块和第三方依赖按照各自明确的许可证处理，品牌改造不会改变上游代码的许可证。
 
-Copyright 2026 量动科技 仅适用于量动科技原创的 WcSdAi 贡献。详见 [NOTICE](NOTICE.md)、[第三方声明](THIRD_PARTY_NOTICES.md)、[许可证原文](LICENSES/README.md) 和 [合规计划](docs/wcsdai/licensing-compliance.md)。发布二进制包前必须按适用条款提供对应修改源码、构建说明、第三方声明及必要的安装或重新链接材料。团队内分发同样遵循这些许可要求；每个平台的团队 artifact 都附带对应构建的源码归档和声明。GitHub Releases 将在另行确认发布后提供。
+Copyright 2026 量动科技 仅适用于量动科技原创的 WcSdAi 贡献。详见 [NOTICE](NOTICE.md)、[第三方声明](THIRD_PARTY_NOTICES.md)、[许可证原文](LICENSES/components/README.md) 和 [合规计划](docs/wcsdai/licensing-compliance.md)。发布二进制包前必须按适用条款提供对应修改源码、构建说明、第三方声明及必要的安装或重新链接材料。团队内分发同样遵循这些许可要求；每个平台的团队 artifact 都附带对应构建的源码归档和声明。GitHub Releases 将在另行确认发布后提供。
 
 ---
 

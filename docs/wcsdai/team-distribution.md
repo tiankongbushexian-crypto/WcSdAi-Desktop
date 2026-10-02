@@ -52,9 +52,10 @@ The source/installer collection helper requires a clean committed candidate;
 an uncommitted local preview must not be labelled as matching an older commit's
 source archive. Ignored build outputs are not treated as source changes.
 
-macOS packages have no verified Developer ID or Apple notarization. A toolchain
-may still apply an ad-hoc executable signature required by the platform; that
-is not an authenticated publisher signature. Windows packages have no verified
+macOS packages have no verified Developer ID or Apple notarization. The build
+applies an ad-hoc app seal (`mac.identity=-`) and verifies it with native
+`codesign --verify --deep --strict`; this needs no account or certificate and
+does not authenticate a publisher. Windows packages have no verified
 publisher signature. The operating system or a team's device-management policy
 may warn or prevent installation. Noncommercial use does not create an OS
 exemption. No command in this workflow disables Gatekeeper, Defender, signature

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -23,22 +23,22 @@ function fixture(t, publish = null) {
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const put = (path, content) => writeFileSync(join(root, path), content);
   mkdirSync(join(root, "apps/desktop/release"), { recursive: true });
-  mkdirSync(join(root, "LICENSES"));
+  mkdirSync(join(root, "LICENSES/components"), { recursive: true });
   put("apps/desktop/package.json", JSON.stringify({ version: "1.0.1", build: { productName: "WcSdAi", publish } }));
-  for (const path of ["LICENSE", "NOTICE.md", "THIRD_PARTY_NOTICES.md", "LICENSES/fixture.txt"]) put(path, `Fixture notice: ${path}\n`);
-  put(".gitignore", "apps/desktop/release/\nprivate-local.txt\nuntracked.txt\nLICENSES/private-fixture.txt\nsource/\nartifact/\nempty-artifact/\nmissing-notice/\n");
+  for (const path of ["LICENSE", "NOTICE.md", "THIRD_PARTY_NOTICES.md", "LICENSES/LGPL-3.0.txt", "LICENSES/components/fixture.txt"]) put(path, `Fixture notice: ${path}\n`);
+  put(".gitignore", "apps/desktop/release/\nprivate-local.txt\nuntracked.txt\nLICENSES/components/private-fixture.txt\nsource/\nartifact/\nempty-artifact/\nmissing-notice/\n");
   function git(args) {
     const result = spawnSync("git", args, { cwd: root, encoding: "utf8" });
     assert.equal(result.status, 0, result.stderr);
     return result.stdout.trim();
   }
   git(["init", "-q"]);
-  git(["add", "--", "apps/desktop/package.json", "LICENSE", "NOTICE.md", "THIRD_PARTY_NOTICES.md", "LICENSES/fixture.txt", ".gitignore"]);
+  git(["add", "--", "apps/desktop/package.json", "LICENSE", "NOTICE.md", "THIRD_PARTY_NOTICES.md", "LICENSES/LGPL-3.0.txt", "LICENSES/components/fixture.txt", ".gitignore"]);
   git(["-c", "user.name=Team Build Fixture", "-c", "user.email=fixture@example.invalid", "-c", "commit.gpgsign=false", "commit", "-qm", "test: isolated source fixture"]);
   const commit = git(["rev-parse", "HEAD"]);
   put("private-local.txt", "LOCAL FIXTURE MUST NEVER SHIP\n");
   put("untracked.txt", "UNTRACKED FIXTURE MUST NEVER SHIP\n");
-  put("LICENSES/private-fixture.txt", "IGNORED LEGAL-DIRECTORY FIXTURE MUST NEVER SHIP\n");
+  put("LICENSES/components/private-fixture.txt", "IGNORED LEGAL-DIRECTORY FIXTURE MUST NEVER SHIP\n");
   return { root, commit, put };
 }
 
@@ -97,7 +97,7 @@ for (const [platform, arch, nativePlatform] of [["macos", "arm64", "darwin"], ["
     assert.ok(!args.includes("-c.publish=null"), "keep the validated null from package config, not the CLI string literal");
     assert.ok(args.includes("-c.forceCodeSigning=false"));
     if (platform === "macos") {
-      assert.ok(args.includes("-c.mac.identity=null"));
+      assert.ok(args.includes("-c.mac.identity=-"), "seal the bundle ad hoc without a publisher certificate");
       assert.ok(args.includes("-c.mac.notarize=false"));
     } else {
       assert.ok(args.includes("-c.win.signExecutable=false"));
@@ -106,6 +106,38 @@ for (const [platform, arch, nativePlatform] of [["macos", "arm64", "darwin"], ["
     assert.deepEqual(options.env, { GITHUB_SHA: commit, PATH: "fixture-path", CSC_IDENTITY_AUTO_DISCOVERY: "false" });
   });
 }
+
+test("macOS workflow rejects broken or publisher-signed bundles before collection", { skip: process.platform === "win32" }, (t) => {
+  const steps = workflow.jobs.installers.steps;
+  const step = steps.find((entry) => entry.name === "Verify macOS ad-hoc bundle integrity");
+  assert.equal(step.if, "matrix.platform == 'macos'");
+  assert.ok(steps.indexOf(step) > steps.findIndex((entry) => entry.run?.includes("team-installers.mjs build")));
+  assert.ok(steps.indexOf(step) < steps.findIndex((entry) => entry.run?.includes("team-installers.mjs installer")));
+  const root = mkdtempSync(join(tmpdir(), "wcsdai-seal-test-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  const bin = join(root, "bin");
+  mkdirSync(bin);
+  const stub = join(bin, "codesign");
+  writeFileSync(stub, [
+    "#!/usr/bin/env node",
+    "if (process.argv.at(-1) !== process.env.TEAM_EXPECTED_APP) process.exit(42);",
+    "if (process.argv.includes('--verify')) process.exit(Number(process.env.TEAM_VERIFY_EXIT || '0'));",
+    "process.stderr.write(process.env.TEAM_SIGNATURE);",
+  ].join("\n"));
+  chmodSync(stub, 0o755);
+  for (const [arch, appDir] of [["arm64", "mac-arm64"], ["x64", "mac"]]) {
+    const app = `apps/desktop/release/${appDir}/WcSdAi.app`;
+    mkdirSync(join(root, app), { recursive: true });
+    const run = (signature, verifyExit = "0") => spawnSync("bash", ["-c", step.run], {
+      cwd: root, encoding: "utf8", env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, TEAM_MAC_ARCH: arch, TEAM_EXPECTED_APP: app, TEAM_VERIFY_EXIT: verifyExit, TEAM_SIGNATURE: signature },
+    });
+    const valid = "Signature=adhoc\nTeamIdentifier=not set\n";
+    assert.equal(run(valid).status, 0);
+    assert.notEqual(run(valid, "1").status, 0, "failed deep/strict validation must stop collection");
+    assert.notEqual(run("Authority=Developer ID Application: Fixture\nTeamIdentifier=FIXTURE123\n").status, 0);
+    assert.notEqual(run("Signature=adhoc\nTeamIdentifier=FIXTURE123\n").status, 0);
+  }
+});
 
 test("real electron-builder parsing preserves publish never and the package's null feed", () => {
   const desktop = JSON.parse(readFileSync(join(repository, "apps/desktop/package.json")));
@@ -123,7 +155,7 @@ test("real electron-builder parsing preserves publish never and the package's nu
     const normalized = normalizeOptions(configureBuildCommand(createYargs()).parse([...entryArgs, ...forwarded]));
     assert.equal(normalized.publish, "never");
     assert.equal({ ...desktop.build, ...normalized.config }.publish, null);
-    if (platform === "macos") assert.equal(normalized.config.mac.identity, null);
+    if (platform === "macos") assert.equal(normalized.config.mac.identity, "-");
   }
 });
 
@@ -135,8 +167,8 @@ test("source archive contains exactly committed source, with a checksum and cand
   assert.equal(manifest.sourceSha256, digest(join(result.output, manifest.sourceFile)));
   const names = tarNames(join(result.output, manifest.sourceFile));
   assert.ok(names.some((name) => name.endsWith("/apps/desktop/package.json")));
-  assert.ok(names.some((name) => name.endsWith("/LICENSES/fixture.txt")));
-  assert.ok(!names.some((name) => name.endsWith("/LICENSES/private-fixture.txt")));
+  assert.ok(names.some((name) => name.endsWith("/LICENSES/components/fixture.txt")));
+  assert.ok(!names.some((name) => name.endsWith("/LICENSES/components/private-fixture.txt")));
   assert.ok(!names.some((name) => /private-local|untracked|\/release\//.test(name)));
 });
 
@@ -151,7 +183,8 @@ for (const [platform, arch, input] of [["macos", "arm64", "WcSdAi-1.0.1-arm64.dm
     const info = JSON.parse(readFileSync(join(result.output, "BUILD-INFO.json")));
     assert.equal(result.artifactName, `WcSdAi-1.0.1-${platform}-${arch}-unsigned`);
     assert.equal(readFileSync(join(result.output, info.installer), "utf8"), "INSTALLER FIXTURE BYTES");
-    assert.deepEqual(readdirSync(join(result.output, "LICENSES")), ["fixture.txt"]);
+    assert.deepEqual(readdirSync(join(result.output, "LICENSES")).sort(), ["LGPL-3.0.txt", "components"]);
+    assert.deepEqual(readdirSync(join(result.output, "LICENSES/components")), ["fixture.txt"]);
     assert.deepEqual(readdirSync(result.output).sort(), ["BUILD-INFO.json", "BUILD-INFO.md", "LICENSE", "LICENSES", "NOTICE.md", "SHA256SUMS", "THIRD_PARTY_NOTICES.md", info.installer, info.sourceFile].sort());
     const sums = readFileSync(join(result.output, "SHA256SUMS"), "utf8").trim().split("\n");
     for (const line of sums) {

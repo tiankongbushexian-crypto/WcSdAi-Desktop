@@ -39,8 +39,8 @@ current local work does not constitute a published source offer or an
 already-published release. See `docs/wcsdai/licensing-compliance.md` for the
 scope of the source-delivery review.
 
-See `LICENSE`, `LICENSES/GPL-3.0.txt`, `LICENSES/LGPL-3.0.txt`,
-`THIRD_PARTY_NOTICES.md`, and `LICENSES/third-party-notices.txt`.
+See `LICENSE`, `LICENSES/components/GPL-3.0.txt`, `LICENSES/LGPL-3.0.txt`,
+`THIRD_PARTY_NOTICES.md`, and `LICENSES/components/third-party-notices.txt`.
 Packaged builds also carry Electron's original Chromium notices as
 `licenses/Electron-LICENSES.chromium.html`.
 
