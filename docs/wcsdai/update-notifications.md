@@ -95,6 +95,15 @@ update, not a usable offer. An expired download for the already installed or
 older version does not prevent an up-to-date result. Releases pages can omit
 expiry. Actions downloads require GitHub login and repository read access.
 
+## Current team metadata
+
+The current manifest advertises **1.0.4** for macOS arm64, macOS x64 and
+Windows x64, using the three verified Actions artifacts and their exact expiry
+from the [team distribution guide](team-distribution.md). Existing 1.0.2 and
+1.0.3 installations can discover its version and notes, then open the matching
+download entry. Installation remains manual. Already installed 1.0.4 clients
+do not receive a newer-version offer for the same version.
+
 ## Operational sequence
 
 1. Review and approve the application changes, including visual changes.
@@ -133,7 +142,8 @@ locally built app does not demonstrate the check → download → manual-install
 journey. Until all new packages are verified, retain the previous manifest and
 verified download links. The [1.0.3 verification report](1.0.3-verification.md)
 records the completed 1.0.2 → 1.0.3 journey. Its visual result was subsequently
-rejected by the owner and is corrected in the [1.0.4 plan](1.0.4-verification.md).
+rejected by the owner; the [1.0.4 verification report](1.0.4-verification.md)
+records the approved correction and its package checks.
 For 1.0.4, the owner explicitly chose to install the new release themselves.
 The agent must not quit, replace, relaunch or grant security exceptions for the
 owner’s installed app as part of that publication; isolated test profiles remain
