@@ -2,7 +2,6 @@ import {
   app, BrowserWindow, Menu, nativeImage, nativeTheme, powerSaveBlocker, Tray,
   type MenuItemConstructorOptions,
 } from "electron";
-import { existsSync } from "node:fs";
 import { join } from "node:path";
 import {
   APP_MENU_COMMANDS,
@@ -20,7 +19,7 @@ import { catalogs, defaultLocale, resolveLocale } from "@pi-desktop/i18n";
 import { installApplicationMenu } from "../application-menu";
 import { isWindowFullScreen, setWindowFullScreen } from "../window-fullscreen";
 import { createTraySessions } from "../tray-sessions";
-import { prepareTrayImage } from "../tray-image";
+import { createTrayIconController } from "../tray-image";
 import { createTaskbarUnreadBadge } from "../taskbar-unread-badge";
 import { createWindow, type WindowLifecycleState } from "./window";
 import { windowToggleAction } from "./window-visibility";
@@ -126,6 +125,15 @@ export function createApplicationLifecycle({
     logger,
   });
   let trayActivationGeneration = 0;
+  const trayIcon = createTrayIconController({
+    platform: process.platform,
+    resourceRoot: app.isPackaged ? process.resourcesPath : join(app.getAppPath(), "build"),
+    packaged: app.isPackaged,
+    nativeTheme,
+    loadImage: (path) => nativeImage.createFromPath(path),
+    createNativeTray: (image) => new Tray(image),
+    logger,
+  });
 
   function applyDevelopmentBranding() {
     if (process.platform !== "darwin" || !isDevelopmentBuild || !app.dock) return;
@@ -140,17 +148,6 @@ export function createApplicationLifecycle({
     }
 
     app.dock.setIcon(icon);
-  }
-
-  function trayIconPath() {
-    const resourceRoot = app.isPackaged
-      ? process.resourcesPath
-      : join(app.getAppPath(), "build");
-    const candidates =
-      process.platform === "darwin"
-        ? [join(resourceRoot, "tray-icon-mac.png")]
-        : [join(resourceRoot, app.isPackaged ? "tray-icon.png" : "icon.png")];
-    return candidates.find((candidate) => existsSync(candidate)) ?? null;
   }
 
   function hasVisibleWindow(): boolean {
@@ -248,24 +245,8 @@ export function createApplicationLifecycle({
 
   function createTray() {
     if (state.tray) return;
-    const iconPath = trayIconPath();
-    if (!iconPath) {
-    logger.app("lifecycle", "warn", "tray icon missing", {
-        data: { packaged: app.isPackaged, resourcesPath: process.resourcesPath },
-      });
-      return;
-    }
-
-    const source = nativeImage.createFromPath(iconPath);
-    if (source.isEmpty()) {
-    logger.app("lifecycle", "warn", "tray icon could not be loaded", {
-        data: { iconPath },
-      });
-      return;
-    }
-    const icon = prepareTrayImage(source, process.platform);
-
-    state.tray = new Tray(icon);
+    state.tray = trayIcon.create();
+    if (!state.tray) return;
     state.tray.setToolTip(APP_NAME);
     // macOS single-click opens its attached menu without focusing/reading a conversation.
     // mouse-enter/move/leave replace the native NSStatusItem with a custom view,
@@ -281,6 +262,11 @@ export function createApplicationLifecycle({
     void taskbarUnreadBadge.refresh();
     // Window is live here; force-paint any count learned before the BrowserWindow existed.
     taskbarUnreadBadge.replay();
+  }
+
+  function disposeTray() {
+    trayIcon.dispose();
+    state.tray = null;
   }
 
 
@@ -674,6 +660,7 @@ export function createApplicationLifecycle({
     toggleMainWindow,
     updateTrayMenu,
     createTray,
+    disposeTray,
     resetMenuRendererReady,
     markMenuRendererReady,
     waitForMenuRenderer,

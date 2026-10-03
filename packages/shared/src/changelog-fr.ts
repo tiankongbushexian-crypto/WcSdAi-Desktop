@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const frEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "Réduire et centrer verticalement le logo de la barre de menus macOS pour mieux l’aligner avec les icônes voisines.",
+      "Agrandir les logos du bureau et de la barre des tâches Windows et remplacer le carré blanc par un fond transparent.",
+      "Afficher des icônes nettes dans la zone de notification Windows à chaque échelle et adapter leur couleur noire ou blanche à l’apparence du système.",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const esEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "Reducir y centrar verticalmente el logotipo de la barra de menús de macOS para equilibrarlo con los iconos vecinos.",
+      "Ampliar los logotipos del escritorio y la barra de tareas de Windows y sustituir el recuadro blanco por un fondo transparente.",
+      "Usar iconos nítidos en la bandeja de Windows con distintas escalas de pantalla y alternar entre negro y blanco según la apariencia del sistema.",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

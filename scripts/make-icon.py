@@ -6,7 +6,8 @@ Requires Pillow and Node.js with sharp available (locally or via NODE_PATH).
 No dependencies are downloaded. Pillow emits ICO and ICNS on every platform.
 
 SVG geometry is the source of truth; raster assets are generated outputs.
-The app tile is white with rounded corners and transparent outer padding.
+The macOS/Linux app tile is white with rounded corners and transparent padding.
+Windows uses a larger transparent mark, independent of the macOS app tile.
 Renderer/tray marks stay transparent with pure black or white RGB values.
 """
 
@@ -34,9 +35,13 @@ APP_ICON_SYMBOL_SCALE = 1.68
 # The wider upper strokes make the geometrically centered mark look high.
 # Shift only the app-tile placement; preserve the canonical symbol geometry.
 APP_ICON_OPTICAL_OFFSET_Y = 27
-MAC_TRAY_SIZE = (26, 22)
-MAC_TRAY_MARK_HEIGHT = 16
-MAC_TRAY_OPTICAL_OFFSET_Y = 1.25
+MAC_TRAY_SIZE = (22, 22)
+MAC_TRAY_MARK_HEIGHT = 13.5
+MAC_TRAY_OPTICAL_OFFSET_Y = 0
+WINDOWS_ICON_SYMBOL_SCALE = 1.16
+WINDOWS_ICON_KEYLINE_WIDTH = 8
+WINDOWS_ICON_SIZES = (16, 20, 24, 32, 40, 48, 64, 128, 256)
+WINDOWS_TRAY_SIZES = (16, 20, 24, 32, 40, 48, 64)
 DURATIONS = [900, 180, 180, 180, 180, 180, 180, 240]
 RENDER_JS = """
 const fs = require('node:fs');
@@ -134,6 +139,41 @@ def save_mac_tray(body: str, outputs: list[Path]) -> None:
         save_png(image, BUILD / f"tray-icon-mac{suffix}.png", outputs)
 
 
+def windows_icon_svg(body: str, keyline: bool = True) -> str:
+    # A narrow white edge preserves a black mark on dark desktop wallpaper.
+    # Unlike a tile, the exterior and the spaces between strokes stay transparent.
+    outline = (
+        body.replace('fill="#000000"', 'fill="none"')
+        if keyline else ""
+    )
+    offset = 256 * (1 - WINDOWS_ICON_SYMBOL_SCALE)
+    return svg_document(
+        f'<g transform="translate({offset:g} {offset:g}) '
+        f'scale({WINDOWS_ICON_SYMBOL_SCALE:g})">'
+        f'<g stroke="#FFFFFF" stroke-width="{WINDOWS_ICON_KEYLINE_WIDTH}" '
+        f'stroke-linejoin="round">{outline}</g>{body}</g>',
+        512,
+    )
+
+
+def save_ico(svg: str, path: Path, sizes: tuple[int, ...], outputs: list[Path]) -> None:
+    # Render every small/DPI representation directly from vectors, not a master
+    # bitmap. Pillow selects exact append_images before considering resampling.
+    images = [render(svg, size) for size in sizes]
+    images[-1].save(path, format="ICO", sizes=[(s, s) for s in sizes],
+                    append_images=images[:-1])
+    outputs.append(path)
+
+
+def save_windows_icons(body: str, outputs: list[Path]) -> None:
+    windows_svg = windows_icon_svg(body)
+    (BUILD / "wcsdai-windows-icon.svg").write_text(windows_svg)
+    save_ico(windows_svg, BUILD / "icon.ico", WINDOWS_ICON_SIZES, outputs)
+    for theme, color in (("light", "#000000"), ("dark", "#FFFFFF")):
+        save_ico(mark_svg(body, color, WINDOWS_ICON_SYMBOL_SCALE),
+                 BUILD / f"tray-icon-win-{theme}.ico", WINDOWS_TRAY_SIZES, outputs)
+
+
 def save_motion(body: str, color: str, theme: str, outputs: list[Path]) -> None:
     # Keep the established eight-frame cadence and reduced-motion first frame.
     scales = [1, 1.016, 1.032, 1.046, 1.034, 1.019, 1.006, 0.994]
@@ -201,9 +241,7 @@ def main() -> None:
     save_png(render_mark(body, "#FFFFFF", BASE), BUILD / "logo_dark.png", outputs)
     save_mac_tray(body, outputs)
 
-    windows_icon = BUILD / "icon.ico"
-    master.save(windows_icon, format="ICO", sizes=[(s, s) for s in (16, 32, 48, 64, 128, 256)])
-    outputs.append(windows_icon)
+    save_windows_icons(body, outputs)
     iconset = BUILD / "icon.iconset"
     iconset.mkdir(exist_ok=True)
     rendered_sizes: dict[int, Image.Image] = {}
@@ -225,12 +263,15 @@ def main() -> None:
         "canonical_source": SOURCE.relative_to(ROOT).as_posix(),
         "canonical_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "source_rights": "User supplied; license and trademark authorization pending confirmation before release.",
-        "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox. Render the macOS tray separately at 26x22pt with a 16pt painted height, 1.25pt downward optical offset and 1x/2x representations.",
+        "changes": "Preserve all canonical vector paths and existing macOS/Linux app tiles. Render the macOS tray at 22x22pt with a geometrically centered 13.5pt painted height and native 1x/2x representations. Generate a separate larger transparent Windows application mark with a narrow white edge, plus pure black/white Windows tray ICOs directly rendered at each DPI size.",
         "app_icon_symbol_scale": APP_ICON_SYMBOL_SCALE,
         "app_icon_optical_offset_y": APP_ICON_OPTICAL_OFFSET_Y,
         "mac_tray_logical_size": MAC_TRAY_SIZE,
         "mac_tray_mark_height": MAC_TRAY_MARK_HEIGHT,
         "mac_tray_optical_offset_y": MAC_TRAY_OPTICAL_OFFSET_Y,
+        "windows_icon_symbol_scale": WINDOWS_ICON_SYMBOL_SCALE,
+        "windows_icon_keyline_width": WINDOWS_ICON_KEYLINE_WIDTH,
+        "windows_tray_sizes": WINDOWS_TRAY_SIZES,
         "outputs": [validate(path) for path in outputs],
     }
     (BUILD / "brand-assets.json").write_text(json.dumps(manifest, indent=2) + "\n")

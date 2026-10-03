@@ -5,7 +5,7 @@
 | Product / full name / short name | WcSdAi |
 | Slug | wcsdai |
 | Repository directory | WcSdAi-Desktop |
-| Version | 1.0.2; verified macOS arm64/x64 and Windows x64 team installers available |
+| Version | 1.0.3 verified team installers; 1.0.4 icon correction in preparation |
 | Slogan | 让 AI 更简单 (Make AI simpler) |
 | Organization / copyright owner | 量动科技 |
 | Copyright | Copyright 2026 量动科技; upstream and third-party rights retained |
@@ -23,9 +23,9 @@
 | Windows AppUserModelId | com.example.wcsdai |
 | Linux executable / desktop entry | wcsdai / wcsdai.desktop |
 | Platforms | macOS arm64 + x64; Windows x64; Linux x64 + arm64 |
-| Current distribution | Unsigned internal-team packages through the manual WcSdAi Team Installers workflow; verified 1.0.2 native builds available from run 37031890473 |
+| Current distribution | Unsigned internal-team packages through the manual WcSdAi Team Installers workflow; verified 1.0.3 native builds available from run 37040371425 |
 | Optional later release channel | GitHub Releases, pending explicit publication |
-| Download / update URL | README links verified Actions artifacts. Packaged 1.0.2 checks the fixed GitHub `updates/stable.json` manifest for notifications; automatic installation remains disabled. |
+| Download / update URL | README links verified Actions artifacts. Packaged 1.0.2 and later check the fixed GitHub `updates/stable.json` manifest for notifications; automatic installation remains disabled. |
 | Privacy / terms / user agreement | Local [drafts](legal/README.md); public URLs pending |
 
 ## About text
@@ -37,8 +37,15 @@ The Info page links the fork source and displays website/support contacts.
 ## Asset rules
 
 Use the owner-supplied WcSdAi symbol geometry, normalized to pure black or
-white. The application tile is white with rounded corners and transparent
-padding; tray and in-app marks use black/white for their theme. Neutral
+white. macOS and Linux keep the white rounded application tile and transparent
+padding. The 1.0.4 Windows application icon uses a separate larger mark with a
+transparent background. The owner approved variant A: a black symbol with a
+thin white outline (8 units in the canonical 512-unit vector), without an
+opaque tile. The Windows mark uses a 1.16 scale, about 90% painted width.
+The macOS menu-bar image is a centered 22×22pt template with a 13.5pt painted
+height and native 1x/2x representations. Windows tray icons use separate black
+and white ICOs selected by the system appearance, with native DPI sizes. In-app
+marks remain black/white for their theme. Neutral
 backgrounds and edge antialiasing do not introduce brand hues. Historical
 upstream screenshots are labeled reference material, not current screenshots.
 
@@ -73,4 +80,4 @@ Native IDs identify a separate app; installer upgrade/uninstall and OS-protected
 credential access must be tested on each target. The owner chose unsigned
 team packages, so signing credentials are not a current prerequisite. If signed
 public distribution is later selected, qualify that distinct signed artifact.
-See [team distribution](team-distribution.md) and the [1.0.2 verification report](1.0.2-verification.md).
+See [team distribution](team-distribution.md), the [1.0.3 verification report](1.0.3-verification.md) and the [1.0.4 verification plan](1.0.4-verification.md).

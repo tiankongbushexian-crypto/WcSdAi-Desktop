@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const enEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "Reduce and vertically center the macOS menu-bar mark for a more balanced size beside other system icons.",
+      "Enlarge Windows desktop and taskbar logos and replace their white tile with a transparent background.",
+      "Use crisp Windows tray icons at each display scale and switch their black or white mark with the system appearance.",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

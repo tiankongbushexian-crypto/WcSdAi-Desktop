@@ -39,7 +39,9 @@ Local-first · Model-agnostic · Plugin-powered · macOS / Windows / Linux
 
 **Current release line: 1.0.x. Current team version: 1.0.3. All three verified installers are available below. No WcSdAi GitHub Release has been published.**
 
-**New in 1.0.3:** a larger, optically centered macOS menu-bar logo with native Retina images. The three installers and the isolated Apple Silicon startup/recovery checks have passed. The owner’s installed 1.0.2 → 1.0.3 manual upgrade remains a separate pending acceptance step. See the [1.0.3 verification report](docs/wcsdai/1.0.3-verification.md).
+**New in 1.0.3:** a larger macOS menu-bar logo with native Retina images. The three installers and the isolated Apple Silicon startup/recovery checks have passed. The owner's Apple Silicon Mac also completed the real 1.0.2 → update notice → download → manual installation → 1.0.3 startup journey, with existing data preserved and a successful update recheck. See the [1.0.3 verification report](docs/wcsdai/1.0.3-verification.md).
+
+**1.0.4 in preparation:** the owner’s screenshots showed that the 1.0.3 Mac menu-bar mark was too large and vertically unbalanced, while the Windows desktop, taskbar and tray marks were too small. The next candidate adjusts the Mac mark and gives Windows separate, larger transparent icons. Download links below remain the verified 1.0.3 batch until the new packages pass their checks. The owner will install the new version themselves. See the [1.0.4 verification plan](docs/wcsdai/1.0.4-verification.md).
 
 WcSdAi — **让ai更简单** — is an AI desktop workspace for our team's use, maintained by **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** at **量动科技**. Copyright **2026 量动科技** applies to its original contributions. Website: [wanchuangsd.cn](https://wanchuangsd.cn); support: [2222223323@qq.com](mailto:2222223323@qq.com).
 
