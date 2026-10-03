@@ -48,6 +48,7 @@ export type ShutdownDependencies = {
   logger: Pick<Logger, "app">;
   confirmQuitDialog: () => Promise<boolean>;
   disposePowerSaveBlockers: () => void;
+  disposeTray: () => void;
   liveCallService?: Pick<LiveCallService, "endForLifecycle">;
 };
 
@@ -71,6 +72,7 @@ export function registerShutdownHandlers({
   logger,
   confirmQuitDialog,
   disposePowerSaveBlockers,
+  disposeTray,
   liveCallService,
 }: ShutdownDependencies): void {
   app.on("window-all-closed", () => {
@@ -122,8 +124,7 @@ export function registerShutdownHandlers({
 
     state.quitting = true;
     disposePowerSaveBlockers();
-    state.tray?.destroy();
-    state.tray = null;
+    disposeTray();
     if (state.pluginLauncherAccelerator) {
       globalShortcut.unregister(state.pluginLauncherAccelerator);
       state.pluginLauncherAccelerator = null;

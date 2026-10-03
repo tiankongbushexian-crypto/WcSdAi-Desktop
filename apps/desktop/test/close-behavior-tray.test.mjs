@@ -32,6 +32,13 @@ test("the tray icon resolves through the packaged resource path", () => {
   assert.match(mainSource, /app\.isPackaged\s*\n?\s*\?\s*process\.resourcesPath/);
 });
 
+test("confirmed quit disposes the native tray image lifecycle before background shutdown", () => {
+  assert.match(mainSource, /const trayIcon = createTrayIconController\(/);
+  assert.match(mainSource, /state\.tray = trayIcon\.create\(\)/);
+  assert.match(mainSource, /function disposeTray\(\) \{\s*trayIcon\.dispose\(\);\s*state\.tray = null;/);
+  assert.match(shutdownSource, /state\.quitting = true;\s*disposePowerSaveBlockers\(\);\s*disposeTray\(\);/);
+});
+
 test("choosing quit never destroys the resident tray", () => {
   // The tray is the only way back from a minimized (hidden) window, so
   // switching close behavior away from "tray" must leave it alone.

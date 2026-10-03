@@ -16192,33 +16192,51 @@ installer is used by this acceptance fixture.
 
 ## E2E-MACOS-tray-optical-size
 
-- **Scope:** WcSdAi macOS menu-bar mark size, optical centering and Retina
-  representations; existing tray interaction and Windows/Linux assets remain
-  unchanged.
+- **Scope:** WcSdAi macOS menu-bar mark size, vertical centering and Retina
+  representations. Original vector paths, Dock icon and tray interactions remain.
 - **Prerequisites:** An isolated macOS Electron candidate built from the request
   commit; a disposable profile. Reuse the existing toolchain and dependencies.
 - **Steps:** Run `node scripts/e2e-macos-tray.mjs`. Load the production native
-  image and create/destroy the real native Tray. Verify a transparent 26×22pt
-  logical canvas, 26×22px 1x and 52×44px 2x images, an approximately 23.24×16pt
-  visible mark with a 1.25pt downward optical offset, and native template mode.
-  Inspect the menu-bar result under light/dark appearance on a Retina display;
-  verify the final package contains both representations. Check existing tray
-  menu opening, window restoration and explicit quit behavior without changing
-  the interaction contract.
-- **Delivery acceptance:** After all three native 1.0.3 packages are verified,
-  publish their actual version, download URLs and expiry through the fixed
-  `updates/stable.json` feed. From the owner's installed 1.0.2 application,
-  Check for Updates → review version/notes → open the matching download page →
-  download → manually install → restart. Verify 1.0.3, the menu-bar appearance
-  and existing projects, Sessions and configuration. Do not substitute a direct
-  app replacement for this journey; do not inspect credential values.
-- **Expected:** The monochrome mark is visibly larger and optically centered,
-  remains sharp on Retina and uses the system template contrast. No new
-  automatic installer path or persisted-data change occurs.
-- **Status:** Planned for 1.0.3; record executed command, candidate/base, artifacts
-  and the installed-app acceptance separately in
-  `docs/wcsdai/1.0.3-verification.md`.
+  image and create/destroy the real native Tray. Verify a transparent 22×22pt
+  canvas, 22×22px 1x and 44×44px 2x images, a 13.5pt painted height centered by
+  its bounds with zero added vertical offset, and native template mode. Inspect
+  the packaged resources and record the fixed candidate/base. Review the
+  menu-bar mark under light/dark appearance and verify existing menu, restore
+  and quit behavior without using the owner's installed app as a test profile.
+- **Expected:** The mark has balanced visible top/bottom spacing and a restrained
+  size beside neighboring status icons, retains Retina clarity and follows
+  system template contrast. Objective image checks and visual acceptance are
+  recorded separately; passing geometry alone does not establish acceptance.
+- **Delivery:** Verify all native packages before changing the fixed update
+  manifest and download links. The owner explicitly chooses to install 1.0.4
+  themselves; the agent does not quit, replace or update their installed app.
+- **Status:** 1.0.4 candidate preparation. The owner rejected the 1.0.3 menu-bar
+  proportions after its manual upgrade passed. Record current execution in
+  `docs/wcsdai/1.0.4-verification.md`; preserve the 1.0.3 history separately.
 - **Traceability:** `04-ux/08-component-spec.md`,
-  `docs/wcsdai/update-notifications.md` and the existing manual-update controller
-  tests. Native tray lifecycle acceptance is owned by
-  `scripts/e2e-macos-tray.mjs`.
+  `docs/wcsdai/update-notifications.md` and `scripts/e2e-macos-tray.mjs`.
+
+## E2E-WINDOWS-platform-icons
+
+- **Scope:** Desktop shortcut/taskbar icon transparency and painted size, plus
+  notification-area contrast and DPI representations. Existing application
+  identity, tray actions, data and update delivery remain unchanged.
+- **Prerequisites:** A native Windows package from the recorded candidate.
+  Native visual checks require Windows and an isolated test profile; macOS
+  package extraction and controller tests do not count as Windows UI execution.
+- **Steps:** Inspect the installer and extracted app for the transparent
+  multi-size application ICO and both monochrome tray ICOs. Launch on Windows;
+  compare desktop/taskbar/tray size with neighboring icons at 100%, 125%, 150%
+  and 200% display scale. Switch system light/dark appearance while running;
+  ensure the existing tray changes contrast without duplication. Open its menu,
+  restore the window and quit normally. Verify failure handling for a missing
+  icon, a failed native image update and shutdown without a lingering listener.
+- **Expected:** Desktop/taskbar logos have no opaque white tile and no excessive
+  internal padding. Tray marks use black on light system chrome and white on
+  dark chrome, with native ICO DPI selection and unchanged actions. App content
+  theme does not override the system tray appearance.
+- **Status:** 1.0.4 candidate preparation. Controller tests and static native
+  package inspection may run here; actual Windows visual and installer results
+  must be reported separately rather than inferred from those checks.
+- **Traceability:** `04-ux/08-component-spec.md`, `electron/main/tray-image.ts`,
+  `test/tray-icon-lifecycle.test.mjs`, and `docs/wcsdai/1.0.4-verification.md`.

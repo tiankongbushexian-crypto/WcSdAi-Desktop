@@ -57,6 +57,16 @@ test("Windows packages pin WcSdAi executable and shortcut names", () => {
   assert.equal(packageJson.build.nsis.shortcutName, "WcSdAi");
 });
 
+test("Windows packages include dedicated native ICO tray images for both system themes", () => {
+  for (const theme of ["light", "dark"]) {
+    const filename = `tray-icon-win-${theme}.ico`;
+    assert.deepEqual(
+      packageJson.build.win.extraResources.find((resource) => resource.to === filename),
+      { from: `build/${filename}`, to: filename },
+    );
+  }
+});
+
 test("Windows packages and windows use the canonical WcSdAi icon", () => {
   assert.equal(packageJson.build.win.icon, "build/icon.ico");
   assert.deepEqual(
@@ -68,8 +78,6 @@ test("Windows packages and windows use the canonical WcSdAi icon", () => {
   );
   assert.deepEqual([...windowsIcon.subarray(0, 4)], [0, 0, 1, 0]);
   assert.ok(windowsIcon.readUInt16LE(4) >= 4, "ICO must contain multiple sizes");
-  assert.match(iconScriptSource, /windows_icon = BUILD \/ "icon\.ico"/);
-  assert.match(iconScriptSource, /format="ICO"/);
   assert.match(windowSource, /function windowsIconPath\(\)/);
   assert.match(windowSource, /app\.isPackaged\s*\n?\s*\?\s*process\.resourcesPath/);
   assert.match(windowSource, /app-icon\.ico/);

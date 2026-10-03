@@ -2,7 +2,7 @@ export const PROTOCOL_VERSION = 11 as const;
 export const SCHEMA_VERSION = 16 as const;
 export const APP_ID = "com.example.wcsdai";
 export const APP_NAME = "WcSdAi";
-export const APP_VERSION = "1.0.3";
+export const APP_VERSION = "1.0.4";
 
 export const APP_MENU_COMMANDS = [
   "newTask",

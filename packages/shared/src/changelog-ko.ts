@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const koEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "macOS 메뉴 막대 로고의 크기를 줄이고 세로 중앙에 맞춰 주변 시스템 아이콘과 균형을 맞춥니다.",
+      "Windows 바탕 화면과 작업 표시줄의 로고를 키우고 흰색 타일을 투명 배경으로 바꿉니다.",
+      "Windows 트레이 아이콘을 화면 배율에 맞게 선명하게 표시하고 시스템 테마에 따라 검정색 또는 흰색으로 전환합니다.",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

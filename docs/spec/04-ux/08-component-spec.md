@@ -189,13 +189,25 @@ Outer frame that positions Topbar, Sidebar, MainChat, and WorkPanel. Owns resize
   to the front. Tray activation restores and focuses tray-hidden windows; Quit
   remains explicit and, except for automated probes, confirms with a native
   warning before shutdown (D363).
-- The macOS menu-bar icon uses the transparent monochrome WcSdAi template mark.
-  Its native image has a 26×22pt logical canvas and matching 26×22px (1x) and
-  52×44px (2x) representations. The visible mark occupies about 23.24×16pt and
-  is optically centered with a 1.25pt downward offset. It retains native
-  light/dark template rendering, with no rounded application tile or background.
-  This visual resource does not change tray interaction, quit behavior, or the
-  Windows/Linux tray image.
+- The macOS menu-bar icon uses a transparent monochrome WcSdAi template mark
+  on a 22×22pt canvas, with 22×22px (1x) and 44×44px (2x) representations. The
+  painted mark is 13.5pt high and centered by its visible bounds, with no
+  additional vertical offset. System template tint controls light/dark contrast;
+  no application tile is included. These dimensions correct the oversized,
+  downward-shifted 1.0.3 result without changing the canonical symbol paths.
+- Windows desktop and taskbar icons use a separate, larger transparent ICO,
+  without the macOS application tile. The black mark has a thin white outline
+  (8 canonical vector units) for contrast against dark desktop backgrounds; its
+  1.16 scale gives approximately 90% painted width. Windows notification-area icons use
+  dedicated black/white ICOs selected by the system-integrated UI appearance.
+  Passing the ICO path to the native Tray preserves its multiple DPI sizes
+  instead of pre-resizing to 16×16. Appearance changes update the existing Tray;
+  shutdown removes its theme listener and destroys it. Missing assets or failed
+  native image updates remain observable without blocking startup or replacing
+  the mark with a padded application tile.
+- Tray menu, window restore and explicit quit interactions remain unchanged.
+  Mac Dock and Linux application assets and in-app animations are independent
+  of these platform-specific tray and Windows application resources.
 - Windows/Linux do not render File/Edit/View/Window/Help in the titlebar and
   do not reserve left-side space for an application menubar. F10 and
   Shift+F10 remain available to focused content.

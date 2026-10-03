@@ -4,15 +4,26 @@
   "canonical_source": "apps/desktop/build/wcsdai-symbol.svg",
   "canonical_sha256": "556e07599bd6284ed53faf348c73c280db0624f5e3f03e16ed3504ced3a0bd46",
   "source_rights": "User supplied; license and trademark authorization pending confirmation before release.",
-  "changes": "Preserve all vector paths; normalize #111827 to #000000; derive white reverse marks and rounded white app tile. Enlarge the app mark by 12% and apply a 27px downward optical offset in its 1024px viewBox. Render the macOS tray separately at 26x22pt with a 16pt painted height, 1.25pt downward optical offset and 1x/2x representations.",
+  "changes": "Preserve all canonical vector paths and existing macOS/Linux app tiles. Render the macOS tray at 22x22pt with a geometrically centered 13.5pt painted height and native 1x/2x representations. Generate a separate larger transparent Windows application mark with a narrow white edge, plus pure black/white Windows tray ICOs directly rendered at each DPI size.",
   "app_icon_symbol_scale": 1.68,
   "app_icon_optical_offset_y": 27,
   "mac_tray_logical_size": [
-    26,
+    22,
     22
   ],
-  "mac_tray_mark_height": 16,
-  "mac_tray_optical_offset_y": 1.25,
+  "mac_tray_mark_height": 13.5,
+  "mac_tray_optical_offset_y": 0,
+  "windows_icon_symbol_scale": 1.16,
+  "windows_icon_keyline_width": 8,
+  "windows_tray_sizes": [
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64
+  ],
   "outputs": [
     {
       "path": "apps/desktop/build/icon_1024.png",
@@ -199,10 +210,10 @@
     },
     {
       "path": "apps/desktop/build/tray-icon-mac.png",
-      "sha256": "0b75719d51901fab7d93fa89371a892cc942b0a75a7d29a3d3f46807809189b5",
+      "sha256": "3f678d22aa1a4ee3098bf08991992110b4649a0e4388f320b8e3e73f4b1ddf3e",
       "sizes": [
         [
-          26,
+          22,
           22
         ]
       ],
@@ -214,10 +225,10 @@
     },
     {
       "path": "apps/desktop/build/tray-icon-mac@2x.png",
-      "sha256": "323c6263e67a11a38126ba6a7a1ba1614268492ec34bcb1fddb85dae0f3555c3",
+      "sha256": "67cb780a3e63fc5181cffa64995a0d619bcdef9ed773b3512666a5ca29c1dfbc",
       "sizes": [
         [
-          52,
+          44,
           44
         ]
       ],
@@ -229,15 +240,27 @@
     },
     {
       "path": "apps/desktop/build/icon.ico",
-      "sha256": "345c30c2270e2e55b34a2f90906b8de27ceef92681a479c7385fc6d3b2f56351",
+      "sha256": "4876047a19aaca08e389daa389e0ce9a5654582d9c519c39b479d198f2cdebd7",
       "sizes": [
         [
           16,
           16
         ],
         [
+          20,
+          20
+        ],
+        [
+          24,
+          24
+        ],
+        [
           32,
           32
+        ],
+        [
+          40,
+          40
         ],
         [
           48,
@@ -254,6 +277,84 @@
         [
           256,
           256
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/build/tray-icon-win-light.ico",
+      "sha256": "ca16712d04bba9182231442cb169b99e6cf09e82cdc8acb007593b79fde6715b",
+      "sizes": [
+        [
+          16,
+          16
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          40,
+          40
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          64,
+          64
+        ]
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "frames_ms": []
+    },
+    {
+      "path": "apps/desktop/build/tray-icon-win-dark.ico",
+      "sha256": "6c24b46a30dafe0090ee94b022725569721093d421fa5db874b3c019cbd222c2",
+      "sizes": [
+        [
+          16,
+          16
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          40,
+          40
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          64,
+          64
         ]
       ],
       "alpha_extrema": [

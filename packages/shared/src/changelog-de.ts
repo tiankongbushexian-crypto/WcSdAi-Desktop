@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const deEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "Das macOS-Menüleistensymbol wird verkleinert und vertikal zentriert, damit es besser zu benachbarten Systemsymbolen passt.",
+      "Größere Windows-Logos auf Desktop und Taskleiste mit transparentem Hintergrund statt weißer Kachel.",
+      "Scharfe Windows-Infobereichssymbole für verschiedene Anzeigeskalierungen wechseln je nach Systemdarstellung zwischen Schwarz und Weiß.",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

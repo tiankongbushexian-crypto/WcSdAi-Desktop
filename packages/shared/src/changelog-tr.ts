@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const trEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "macOS menü çubuğu logosunu küçültüp dikey olarak ortalayarak komşu sistem simgeleriyle dengeli hale getirin.",
+      "Windows masaüstü ve görev çubuğu logolarını büyütün, beyaz kutuyu kaldırıp saydam arka plan kullanın.",
+      "Windows tepsi simgelerini her ekran ölçeğinde net gösterin ve sistem görünümüne göre siyah veya beyaz kullanın.",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

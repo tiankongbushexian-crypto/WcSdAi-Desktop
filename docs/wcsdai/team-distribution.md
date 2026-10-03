@@ -11,6 +11,12 @@ Support and private security reports: <2222223323@qq.com>.
 
 ## Download location
 
+The verified download batch is **1.0.3**. **1.0.4 is in preparation** after owner
+screenshots identified Mac menu-bar size/alignment and Windows icon-size and
+background issues. See the [1.0.4 verification plan](1.0.4-verification.md).
+The owner will perform the next local upgrade themselves; preparation and
+publication do not authorize the agent to install it.
+
 The three native installers below are available from successful
 [run 37040371425](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37040371425),
 using source commit
@@ -48,9 +54,14 @@ restored all 800 fixture Sessions after restart, and successfully checked the
 public update manifest. Intel and Windows packages passed static verification;
 actual installation and existing-data upgrade checks on those systems remain
 pending. Both macOS packages include the verified 26×22 and 52×44 menu-bar
-images. Validation used isolated profiles and did not replace the owner's
-installed 1.0.2 application. Its Check for Updates → download → manual install
-journey remains a separate pending acceptance step. Refer to the
+images. Package validation used isolated profiles. The agent subsequently
+completed the owner's requested Check for Updates → download → manual install
+journey on the existing Apple Silicon Mac. The installed application started
+as 1.0.3 with existing projects and Sessions visible; pre-launch data/profile
+continuity and the post-launch database check passed. A further update check
+reported the latest version. The owner later rejected the menu-bar visual
+result and reported Windows icon issues; 1.0.4 addresses that feedback. The
+1.0.3 native geometry and package checks do not establish visual acceptance. Refer to the
 [1.0.3 verification report](1.0.3-verification.md) for downloaded artifact checks
 and the exact acceptance scope. The [1.0.2 report](1.0.2-verification.md) and
 [archived 1.0.1 report](team-verification.md) retain their historical results.

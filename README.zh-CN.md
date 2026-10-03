@@ -39,7 +39,9 @@
 
 **当前发布线：1.0.x。当前团队版本：1.0.3。下方三个平台安装包均已验证并可下载。尚未发布 WcSdAi GitHub Release。**
 
-**1.0.3 新增内容：**放大并光学居中 macOS 菜单栏 Logo，增加 Retina 高清图像。三个安装包及 Apple Silicon 隔离启动、恢复检查均已通过；负责人本机从已安装 1.0.2 手动升级至 1.0.3 的流程仍是单独待验收项。见[1.0.3 验证报告](docs/wcsdai/1.0.3-verification.md)。
+**1.0.3 新增内容：**放大 macOS 菜单栏 Logo，增加 Retina 高清图像。三个安装包及 Apple Silicon 隔离启动、恢复检查均已通过；负责人本机 Apple Silicon Mac 也已完成从 1.0.2 检查更新、下载、手动安装到 1.0.3 启动的真实流程，原有数据保持完整，再次检查更新正常。见[1.0.3 验证报告](docs/wcsdai/1.0.3-verification.md)。
+
+**1.0.4 准备中：**负责人后续截图显示，1.0.3 的 Mac 菜单栏图形偏大、上下失衡，Windows 桌面、任务栏和托盘图形则偏小。新候选版本将调整 Mac 图形，并为 Windows 提供独立、放大且透明的图标。新安装包通过验证前，下方下载入口保持为已验证的 1.0.3。本次新版由负责人自行安装。见[1.0.4 验证计划](docs/wcsdai/1.0.4-verification.md)。
 
 WcSdAi — **让ai更简单** — 是面向团队使用的 AI 桌面工作台，由 **量动科技**的 **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** 维护。原创贡献版权：**Copyright 2026 量动科技**。官网：[wanchuangsd.cn](https://wanchuangsd.cn)；技术支持：[2222223323@qq.com](mailto:2222223323@qq.com)。
 

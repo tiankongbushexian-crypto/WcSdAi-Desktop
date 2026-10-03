@@ -17,7 +17,7 @@ const require = createRequire(join(desktop, "package.json"));
 const { build } = require("esbuild");
 const electronPath = require("electron");
 const scratch = await mkdtemp(join(tmpdir(), "wcsdai-macos-tray-"));
-const output = join(repository, ".artifacts/wcsdai-tray");
+const output = join(repository, ".artifacts/wcsdai-icon-platforms");
 const sourceFiles = [
   "scripts/e2e-macos-tray.mjs",
   "scripts/make-icon.py",
@@ -65,10 +65,10 @@ let tray;
 
 function inspectRepresentation(image, scaleFactor) {
   const size = image.getSize(scaleFactor);
-  assert.deepEqual(size, { width: 26, height: 22 }, "every representation must retain the same logical size");
+  assert.deepEqual(size, { width: 22, height: 22 }, "every representation must retain the same logical size");
   const png = image.toPNG({ scaleFactor });
   const physicalSize = { width: png.readUInt32BE(16), height: png.readUInt32BE(20) };
-  assert.deepEqual(physicalSize, { width: 26 * scaleFactor, height: 22 * scaleFactor });
+  assert.deepEqual(physicalSize, { width: 22 * scaleFactor, height: 22 * scaleFactor });
   const { width, height } = physicalSize;
   const bitmap = image.toBitmap({ scaleFactor });
   assert.equal(bitmap.length, width * height * 4, "full-resolution bitmap must survive preparation");
@@ -93,12 +93,12 @@ function inspectRepresentation(image, scaleFactor) {
   const alphaBounds = { x: left / scaleFactor, y: top / scaleFactor,
     width: (right - left + 1) / scaleFactor, height: (bottom - top + 1) / scaleFactor };
   const centroid = { x: weightedX / mass / scaleFactor, y: weightedY / mass / scaleFactor };
-  assert.ok(alphaBounds.width >= 22 && alphaBounds.width <= 24,
+  assert.ok(alphaBounds.width >= 19 && alphaBounds.width <= 21,
     "the wide WcSdAi mark must retain its intended point width");
-  assert.ok(alphaBounds.height >= 15 && alphaBounds.height <= 17,
+  assert.ok(alphaBounds.height >= 13 && alphaBounds.height <= 15,
     "the mark must fill the intended menu-bar height without oversizing");
-  assert.ok(Math.abs(centroid.x - 13) <= 0.35, "artwork must be optically centered horizontally");
-  assert.ok(Math.abs(centroid.y - 11) <= 0.6, "artwork must be optically centered vertically");
+  assert.ok(Math.abs(alphaBounds.x + alphaBounds.width / 2 - 11) <= 0.25, "artwork must be centered by painted bounds horizontally");
+  assert.ok(Math.abs(alphaBounds.y + alphaBounds.height / 2 - 11) <= 0.25, "artwork must be centered by painted bounds vertically");
   return { scaleFactor, size, physicalSize, alphaBounds, centroid };
 }
 
@@ -112,7 +112,7 @@ app.whenReady().then(async () => {
   const image = prepareTrayImage(source, "darwin");
   assert.equal(image.isTemplateImage(), true, "macOS must tint the silhouette as a native template");
   assert.deepEqual(image.getScaleFactors().sort(), [1, 2], "preparation must preserve both representations");
-  assert.deepEqual(image.getSize(), { width: 26, height: 22 }, "native status image size uses logical points");
+  assert.deepEqual(image.getSize(), { width: 22, height: 22 }, "native status image size uses logical points");
   for (const [index, scaleFactor] of [1, 2].entries()) {
     assert.deepEqual(image.toBitmap({ scaleFactor }), before[index], "preparation must not resample or distort the mark");
   }
@@ -132,7 +132,7 @@ app.whenReady().then(async () => {
     await new Promise(resolve => setImmediate(resolve));
   } while (true);
   for (const value of Object.values(bounds)) assert.ok(Number.isFinite(value));
-  assert.ok(bounds.width >= 26 && bounds.width <= 50, "status item must retain its point-sized width");
+  assert.ok(bounds.width >= 22 && bounds.width <= 50, "status item must retain its point-sized width");
   assert.ok(bounds.height >= 22 && bounds.height <= 50, "status item must fit a native macOS menu bar");
   tray.destroy();
   assert.equal(tray.isDestroyed(), true, "native status item must be disposed");

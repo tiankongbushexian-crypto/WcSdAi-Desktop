@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const zhTWEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "縮小並重新垂直置中 macOS 選單列圖形，讓尺寸與相鄰系統圖示更加協調。",
+      "放大 Windows 桌面與工作列 Logo，移除白色底板，改用透明背景。",
+      "Windows 系統匣圖示支援不同顯示縮放，並隨系統外觀切換黑色或白色圖形。",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const zhCNEntries: ChangelogEntry[] = [
   {
+    version: "1.0.4",
+    date: "2026-10-03",
+    highlights: [
+      "收敛 macOS 菜单栏图形尺寸并重新上下居中，与相邻系统图标保持更协调的比例。",
+      "放大 Windows 桌面和任务栏 Logo，移除白色底板，改用透明背景。",
+      "Windows 托盘图标适配不同显示缩放，并随系统外观切换黑色或白色图形。",
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-10-03",
     highlights: [

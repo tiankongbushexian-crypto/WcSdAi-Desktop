@@ -562,6 +562,7 @@ const {
   applyPreventScreenSleep,
   applyKeepAwakeWhileRunning,
   disposePowerSaveBlockers,
+  disposeTray,
   applyApplicationMenuSettings,
   applyAppThemePreference,
   broadcastAppearance,
@@ -1066,6 +1067,7 @@ registerShutdownHandlers({
   logger,
   confirmQuitDialog,
   disposePowerSaveBlockers,
+  disposeTray,
   liveCallService,
 });
 

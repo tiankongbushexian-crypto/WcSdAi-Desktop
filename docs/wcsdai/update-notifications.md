@@ -119,7 +119,10 @@ that application's Settings → Info → Check for Updates (or the native menu).
 Use the real fixed public manifest after the new platform packages have been
 downloaded and verified; never override the production feed with a test fixture.
 Confirm the newer version and notes, choose its download action, then download
-the matching artifact through the opened GitHub page. The owner installs the
+the matching artifact through GitHub. An authenticated artifact link may
+start the ZIP download directly without leaving a persistent browser page.
+Verify the received artifact rather than requiring a page to remain open.
+The owner installs the
 package through the normal manual installer workflow and restarts WcSdAi.
 Confirm the installed version, the changed feature and existing project/session
 and configuration continuity without exposing credential values.
@@ -128,8 +131,13 @@ Preparing packages, publishing a manifest and completing that installed-app
 journey are separate acceptance steps. A direct replacement from a worktree or
 locally built app does not demonstrate the check → download → manual-install
 journey. Until all new packages are verified, retain the previous manifest and
-verified download links. See the [1.0.3 verification plan](1.0.3-verification.md)
-for the macOS menu-bar fix and its pending 1.0.2 → 1.0.3 acceptance.
+verified download links. The [1.0.3 verification report](1.0.3-verification.md)
+records the completed 1.0.2 → 1.0.3 journey. Its visual result was subsequently
+rejected by the owner and is corrected in the [1.0.4 plan](1.0.4-verification.md).
+For 1.0.4, the owner explicitly chose to install the new release themselves.
+The agent must not quit, replace, relaunch or grant security exceptions for the
+owner’s installed app as part of that publication; isolated test profiles remain
+the validation environment.
 
 ## Verification
 

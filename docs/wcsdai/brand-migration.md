@@ -76,3 +76,22 @@ language default, or verification of those changes.
 Three upstream test-only defects were repaired (unawaited nested chat test,
 fake WebSocket timeout event-loop lifetime, and MCP child startup/deadline race)
 so full validation can run reliably; no production timeout or permission changed.
+
+## 1.0.4 platform icon correction
+
+The owner rejected the 1.0.3 Mac menu-bar proportions and supplied Windows
+screenshots showing excessive empty space and a white application tile. These
+are separate platform surfaces; the original vector geometry, Mac Dock/Linux
+application assets and home animations remain unchanged. Runtime/data contracts
+are not part of this correction.
+
+| Original value | New value | Type | Files / surface | Modified | Verification |
+|---|---|---|---|---|---|
+| 26×22pt Mac tray, 16pt mark, +1.25pt vertical offset | 22×22pt canvas, 13.5pt mark, no vertical offset, 1x/2x | macOS menu bar | make-icon.py; tray-icon-mac.png; tray-icon-mac@2x.png | Candidate | Geometry regression + native Tray + package resources; owner review separate |
+| Windows icon.ico with padded white tile | Larger transparent black symbol with approved thin white outline in independent multi-size ICO | Windows desktop/taskbar/installer | make-icon.py; wcsdai-windows-icon.svg; icon.ico | Candidate; owner approved variant A | ICO alpha/bounds + packaged resource inspection; Windows visual acceptance separate |
+| Windows tray resized from application tile to 16×16 | Separate black/white transparent ICO selected by system appearance; native DPI selection | Windows notification area | tray-image.ts; tray-icon-win-light.ico; tray-icon-win-dark.ico; desktop package | Candidate | Theme/lifecycle regression + packaged resource checks; native Windows acceptance separate |
+
+Execution results, selected artwork and publication identifiers belong in the
+[1.0.4 verification report](1.0.4-verification.md). The previous 1.0.3 package
+and data-preservation evidence remains a historical result, not proof of this
+new candidate or its visual acceptance.

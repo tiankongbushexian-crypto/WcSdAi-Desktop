@@ -1,6 +1,6 @@
 {
   "name": "@pi-desktop/desktop",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "desktopName": "wcsdai.desktop",
   "private": true,
   "description": "WcSdAi Electron application",
@@ -243,6 +243,14 @@
         {
           "from": "build/icon.ico",
           "to": "app-icon.ico"
+        },
+        {
+          "from": "build/tray-icon-win-light.ico",
+          "to": "tray-icon-win-light.ico"
+        },
+        {
+          "from": "build/tray-icon-win-dark.ico",
+          "to": "tray-icon-win-dark.ico"
         }
       ]
     },
