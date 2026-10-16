@@ -11,52 +11,50 @@ Support and private security reports: <2222223323@qq.com>.
 
 ## Download location
 
-The verified download batch is **1.0.4**, from successful [native run
-37099512277](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277), built from source commit
-[`4e4ab0dbd981ece9e5e8414ddb889082d9269274`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/4e4ab0dbd981ece9e5e8414ddb889082d9269274). All three native jobs
-and their desktop typechecks passed. The owner approved the revised Mac and
-Windows artwork and will perform the local upgrade themselves.
+The verified download batch is **1.0.5**. Successful [native run 38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964) built the packages from [`66523a3480cb`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/66523a3480cb42cd4e92b6747486cbeb7586c781). Downloaded archive and installer checksums, corresponding source, packaged identity and notices passed inspection.
 
-| Platform | Download entry | Actions artifact for version 1.0.4 | Installer inside the ZIP |
+This version fixes the AI-service model list's constrained-height layout,
+adds more visible Windows corners and a theme-aware inside perimeter, and
+uses WcSdAi in built-in assistant product prompts. Provider/model identities,
+custom system prompt precedence and historical session messages are preserved.
+
+| Platform | Download entry | Actions artifact for version 1.0.5 | Installer inside the ZIP |
 | --- | --- | --- | --- |
-| macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265079113) | `WcSdAi-1.0.4-macos-arm64-unsigned` | `WcSdAi-1.0.4-macos-arm64-unsigned.dmg` |
-| macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265174135) | `WcSdAi-1.0.4-macos-x64-unsigned` | `WcSdAi-1.0.4-macos-x64-unsigned.dmg` |
-| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265329290) | `WcSdAi-1.0.4-windows-x64-unsigned` | `WcSdAi-1.0.4-windows-x64-unsigned.exe` |
+| macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045120678) | `WcSdAi-1.0.5-macos-arm64-unsigned` | `WcSdAi-1.0.5-macos-arm64-unsigned.dmg` |
+| macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045066607) | `WcSdAi-1.0.5-macos-x64-unsigned` | `WcSdAi-1.0.5-macos-x64-unsigned.dmg` |
+| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044762853) | `WcSdAi-1.0.5-windows-x64-unsigned` | `WcSdAi-1.0.5-windows-x64-unsigned.exe` |
 
 Each artifact ZIP includes the named installer, checksums, build information,
 corresponding source and notices. Use the Windows NSIS installer in the table;
 a portable executable is not its substitute. Exact corresponding source is
-also available as a [separate artifact](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11264959431).
+also available as a [separate artifact](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044462246).
 
-Downloaded checksums, corresponding source, packaged identity and licenses,
-and actual packaged icon resources passed independent inspection. Both macOS
-packages contain the approved 22×22 and 44×44 template PNGs. The Windows
-executable/installer resources contain the transparent outlined application
-ICO, and the application resources include both monochrome tray ICOs.
-The downloaded Apple Silicon app passed 2 isolated launches and restored all 800 fixture Sessions after restart. Its production checker also read the public manifest successfully;
-the manifest still named 1.0.3 during that package check, so no downgrade
-was offered. Intel/Windows installation, upgrade and visual checks remain
-pending. See the [1.0.4 report](1.0.4-verification.md) for scope and evidence.
-The [1.0.3 report](1.0.3-verification.md) retains the earlier manual-upgrade
-journey; it does not establish a local 1.0.4 upgrade.
+| Installer file | SHA-256 |
+| --- | --- |
+| `WcSdAi-1.0.5-macos-arm64-unsigned.dmg` | `2f33b8cea129c38273e3310a8f4b7f4dbcffa1bb1323592fa3c47e2d2f830543` |
+| `WcSdAi-1.0.5-macos-x64-unsigned.dmg` | `0619632b465c42a907469a5f672d32cdc9393678d92ca427e58f145066024739` |
+| `WcSdAi-1.0.5-windows-x64-unsigned.exe` | `830a8fed7b66300b8ab502b3abb31f446bc405e20468fd459e1a4e1cef094e0c` |
 
 | Artifact | Expiry in Asia/Shanghai (Beijing) | GitHub UTC expiry |
 | --- | --- | --- |
-| macOS Apple Silicon (arm64) | 2026-11-02 13:23:53 | 2026-11-02T05:23:53Z |
-| macOS Intel (x64) | 2026-11-02 13:27:44 | 2026-11-02T05:27:44Z |
-| Windows (x64) | 2026-11-02 13:31:41 | 2026-11-02T05:31:41Z |
-| Corresponding source | 2026-11-02 13:20:41 | 2026-11-02T05:20:41Z |
+| macOS Apple Silicon (arm64) | 2026-11-15 20:03:17 | 2026-11-15T12:03:17Z |
+| macOS Intel (x64) | 2026-11-15 20:09:38 | 2026-11-15T12:09:38Z |
+| Windows (x64) | 2026-11-15 20:11:51 | 2026-11-15T12:11:51Z |
+| Corresponding source | 2026-11-15 19:58:37 | 2026-11-15T11:58:37Z |
+
+Package inspection does not establish installed-app upgrade, recovery or
+Windows/Intel visual acceptance. See the [1.0.5 verification report](1.0.5-verification.md)
+for executed checks, pending acceptance and current local-upgrade status.
+Historical [1.0.4 checks](1.0.4-verification.md) remain separate evidence.
 
 GitHub requires a signed-in account with repository read access to download
 Actions artifacts. Retention is 30 days, subject to repository limits. See
 [GitHub's download instructions](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts).
 This repository is public; a team build is not a private distribution.
-No repository visibility or access-control change is included.
 
 Later candidates appear under [WcSdAi Team Installers](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml);
-check their results and source separately. No WcSdAi GitHub Release has been
-published. The [Releases page](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases) remains the possible long-term
-download location after an explicitly authorized publication.
+check their results and source separately. This batch creates no Git tag or
+GitHub Release and does not deploy a server.
 
 ## Build and installation expectations
 

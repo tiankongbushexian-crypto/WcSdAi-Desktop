@@ -97,12 +97,18 @@ expiry. Actions downloads require GitHub login and repository read access.
 
 ## Current team metadata
 
-The current manifest advertises **1.0.4** for macOS arm64, macOS x64 and
-Windows x64, using the three verified Actions artifacts and their exact expiry
-from the [team distribution guide](team-distribution.md). Existing 1.0.2 and
-1.0.3 installations can discover its version and notes, then open the matching
-download entry. Installation remains manual. Already installed 1.0.4 clients
-do not receive a newer-version offer for the same version.
+The current manifest advertises **1.0.5** for macOS arm64, macOS x64 and
+Windows x64, using the three verified Actions artifacts from [native run
+38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964) and their exact expiry from the
+[team distribution guide](team-distribution.md). Existing 1.0.3 and 1.0.4
+installations can discover its version and notes, then open the matching
+download entry; the 1.0.2 notification client also remains supported.
+Installation remains manual. Already installed 1.0.5 clients do not receive
+a newer-version offer for the same version.
+
+The notes cover visible model settings, Windows corners/perimeter and WcSdAi
+assistant identity. Installed-app upgrade and native device acceptance are
+recorded independently in the [1.0.5 verification report](1.0.5-verification.md).
 
 ## Operational sequence
 

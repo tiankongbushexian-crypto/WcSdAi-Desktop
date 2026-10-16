@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "notes": {
-    "en": "• Reduce and vertically center the macOS menu-bar logo.\n• Enlarge Windows desktop and taskbar icons with a transparent background and thin white outline.\n• Use system-aware black/white Windows tray icons with native DPI sizes.",
-    "zh-CN": "• 调整 Mac 菜单栏 Logo 大小，取消向下偏移并上下居中。\n• 放大 Windows 桌面和任务栏图标，采用透明黑色图形与细白轮廓。\n• Windows 托盘使用随系统外观切换的黑白图标，适配原生 DPI 尺寸。"
+    "en": "• Keep AI service model settings visible and scrollable in smaller windows.\n• Give Windows windows clearer rounded corners and a subtle border in light and dark themes.\n• Use WcSdAi for assistant identity while preserving actual model names and custom instructions.",
+    "zh-CN": "• 修复小窗口中编辑 AI 服务时模型设置列表被挤压、无法查看的问题。\n• 优化 Windows 窗口圆角，并为浅色和深色界面增加清晰的细边框。\n• 将助手产品身份统一为 WcSdAi，保留真实模型名称和自定义指令。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265079113",
-      "expiresAt": "2026-11-02T05:23:53Z"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045120678",
+      "expiresAt": "2026-11-15T12:03:17Z"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265174135",
-      "expiresAt": "2026-11-02T05:27:44Z"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045066607",
+      "expiresAt": "2026-11-15T12:09:38Z"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265329290",
-      "expiresAt": "2026-11-02T05:31:41Z"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044762853",
+      "expiresAt": "2026-11-15T12:11:51Z"
     }
   }
 }
