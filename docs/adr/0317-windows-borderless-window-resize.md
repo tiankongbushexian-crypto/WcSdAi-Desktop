@@ -31,10 +31,11 @@ Electron's `thickFrame: false` fullscreen path changes display bounds without
 setting the value returned by `isFullScreen()`. Main tracks this fallback so
 fullscreen toggles, renderer events, and persisted normal bounds remain correct.
 
-Apply a native 12 DIP rounded shape (WcSdAi amendment below) to the Windows main window. Electron's
-`setShape` removes both drawing and pointer hit testing outside its rectangles,
-so the corner cutouts have no opaque fill while the existing native background
-colour remains theme-owned inside the window. Main reapplies the shape on
+Apply a native 12 DIP rounded shape (WcSdAi amendments below) to the Windows
+main window. Create this window with `transparent: true` and `thickFrame: false`
+so the native compositor reveals the background outside the `setShape` region.
+The region excludes pointer hits there; native and renderer background colours
+remain opaque and theme-owned inside the window. Main reapplies the shape on
 resize, and makes it rectangular while maximized or fullscreen. A plugin with
 `ui.window.appearance` may declare an integer `cornerRadius` from 0 to 24 DIP
 alongside its background colours. The selected theme supplies it through the
@@ -44,8 +45,10 @@ the value and the calling renderer before changing the native shape.
 ## Alternatives
 
 - Keep the thick frame: leaves the visible rim.
-- Make the window transparent: changes the opaque background and theme
-  contract without removing the need to qualify native resizing.
+- Make the window transparent: originally rejected on the assumption that it
+  required translucent content. The 2026-10-17 composition amendment supersedes
+  that assumption: constructor transparency can preserve opaque theme content
+  and the existing geometry. Native resizing still requires qualification.
 - Use only renderer CSS rounding: leaves the opaque native background visible
   in the corners and cannot change the window's native hit region.
 - Pin an older Electron: trades away newer security and runtime fixes for a
@@ -91,3 +94,30 @@ misses the initial event. The renderer compensates the perimeter's CSS geometry
 using that zoom, rejects stale state responses and disposes its subscriptions.
 Existing action inputs and consumers of `maximized` remain compatible; Host RPC,
 plugin appearance permissions and persisted data do not change.
+
+## Windows composition amendment (2026-10-17)
+
+A native desktop probe on Electron 43.6.0 and Windows build 26100 found that the
+opaque main-window configuration installed a correct rounded HRGN and excluded
+corner pointer hits, but the composed corner pixels remained `#f3f3f3`. Applying
+the shape again after showing the window or setting its background did not
+remove those pixels. Enabling only the constructor's `transparent` option made
+the cutouts reveal both controlled backdrop colours, including after opaque
+light/dark background updates, resizing, minimize/restore and maximize/fullscreen
+transitions. This is a native composition requirement; a CSS perimeter or region
+hit-test result alone does not prove that the corners are visually cut out.
+
+The Windows main window therefore enables transparent composition at creation
+while retaining its opaque native background and renderer surfaces. Settings
+and plugin themes continue to supply opaque background colours through the
+existing validated IPC. The 12 DIP default, authorized 0–24 DIP plugin radius,
+rectangular maximize/fullscreen state, bounds, minimum size and resize ownership
+are unchanged. No translucent content, transparent margins, companion windows,
+new geometry IPC or security relaxation is introduced.
+
+The native fixture is evidence for composition on that runner, not completed
+qualification of the packaged application or every Windows device. Native edge
+and corner dragging, minimum-size enforcement and normal-bounds restoration
+remain release gates for this configuration; successful `setSize` calls do not
+substitute for pointer-driven resizing. Packaged startup must also be checked
+before any corrective resize and after the real renderer applies theme settings.

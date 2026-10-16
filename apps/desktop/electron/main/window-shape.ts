@@ -4,6 +4,14 @@ import { DEFAULT_WINDOW_CORNER_RADIUS } from "@pi-desktop/shared";
 import { isWindowFullScreen } from "./window-fullscreen.ts";
 
 export { DEFAULT_WINDOW_CORNER_RADIUS };
+// Electron 43's opaque compositor fills the HRGN cutouts with a gray plate.
+// Alpha composition makes those cutouts visible; the theme still paints an
+// opaque background inside the shape. Keep native frameless resize ownership.
+export const WIN_MAIN_WINDOW_FRAME_OPTIONS = {
+  thickFrame: false,
+  transparent: true,
+} as const;
+
 const controllers = new WeakMap<BrowserWindow, { setRadius: (radius: number) => number }>();
 
 /** Pixel rows approximate a quarter circle without changing window bounds. */

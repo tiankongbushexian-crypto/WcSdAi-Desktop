@@ -5,13 +5,14 @@ import { dirname, join } from "node:path";
 import { version as osVersion } from "node:os";
 import { promisify } from "node:util";
 import { app, BrowserWindow, screen } from "electron";
-import { installWindowShape, roundedWindowShape, setWindowCornerRadius } from "../../apps/desktop/electron/main/window-shape.ts";
+import { installWindowShape, roundedWindowShape, setWindowCornerRadius, WIN_MAIN_WINDOW_FRAME_OPTIONS } from "../../apps/desktop/electron/main/window-shape.ts";
 import { setWindowFullScreen } from "../../apps/desktop/electron/main/window-fullscreen.ts";
 import { assertCompositedCorners, assertPhysicalRegionBounds } from "./window-corner-assertions.mjs";
 
 const [profile, evidence, probePath, baselineMode, runId] = process.argv.slice(2);
 const cssOnly = baselineMode === "css-only";
 const transparentComparison = baselineMode === "transparent";
+const opaqueComparison = ["css-only", "opaque", "reapply-after-show", "reapply-after-background"].includes(baselineMode);
 app.setPath("userData", profile);
 // The runner owns termination. Destroying the final fixture window must not
 // quit with code 0 before a failed assertion has written its async receipt.
@@ -39,7 +40,8 @@ async function run() {
     thickFrame: false, backgroundColor: "#db2788", webPreferences: safeWebPreferences });
   const window = new BrowserWindow({ show: false, width, height,
     x: area.x + 50, y: area.y + 50, minWidth: 400, minHeight: 300,
-    frame: false, thickFrame: false, resizable: true, backgroundColor: "#ffffff",
+    frame: false, ...WIN_MAIN_WINDOW_FRAME_OPTIONS, resizable: true, backgroundColor: "#ffffff",
+    ...(opaqueComparison ? { transparent: false } : {}),
     ...(transparentComparison ? { transparent: true } : {}),
     webPreferences: safeWebPreferences });
   // This flag is a deliberate broken fixture, never a production app option.

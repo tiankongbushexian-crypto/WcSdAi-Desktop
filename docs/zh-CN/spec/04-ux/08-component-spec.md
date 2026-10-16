@@ -147,6 +147,13 @@
   内侧轮廓，让浅色和深色背景都能清晰区分窗口。轮廓不占布局空间，也不接收指针事件。
   它跟随获授权主题的半径（包括 0），并在最大化或全屏时隐藏；macOS、Linux 和
   辅助窗口保留现有外观。原生窗口缩放和拖动的归属不变。
+  On Windows, constructor transparency enables native composition of the
+  corner cutouts. Native and renderer backgrounds remain opaque and theme-owned;
+  this adds no translucent content, transparent margins or resize handles.
+  The existing radius, plugin permission and window-geometry contracts remain
+  unchanged. Acceptance requires real desktop pixels after packaged startup and
+  theme changes, plus native edge/corner dragging and minimum-size checks;
+  a rounded CSS outline or correct native hit region alone is insufficient.
 - macOS 启用 Electron 原生 `vibrancy: "sidebar"` source-list 材质，配合
   `visualEffectState: "followWindow"` 和透明窗口底（D348）。`nativeTheme.themeSource`
   跟随应用主题偏好（`system` / `light` / `dark` / 插件 base），让毛玻璃底板与

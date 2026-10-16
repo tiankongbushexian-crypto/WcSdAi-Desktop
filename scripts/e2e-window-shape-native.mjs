@@ -54,10 +54,10 @@ try {
   // Retain production baseline evidence even if the negative control fails for
   // an unexpected reason. Never turn an arbitrary process failure into a pass.
   if (!verifyOnly && !baselineOnly) {
-    // The optional comparison changes only the fixture constructor. Always
-    // collect it after the production case, including when production fails.
-    // Current production must still pass; the comparison cannot mask a defect.
-    for (const variant of compareTransparency ? ["current", "reapply-after-show", "reapply-after-background", "transparent"] : ["current"]) {
+    // Diagnostic comparisons explicitly retain the old opaque constructor;
+    // the default current case always consumes the production frame options.
+    // Collect every comparison even when an earlier variant fails.
+    for (const variant of compareTransparency ? ["opaque", "reapply-after-show", "reapply-after-background", "transparent"] : ["current"]) {
       try {
         const result = await runCase(variant);
         assert.equal(result.code, 0, result.output);
