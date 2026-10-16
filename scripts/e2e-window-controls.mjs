@@ -101,28 +101,36 @@ async function evaluate(expression) {
   return result.result.value;
 }
 async function settle(label = "layout") {
-  const visibility = await evaluate(`({ visibility: document.visibilityState, focused: document.hasFocus() })`);
-  if (visibility.visibility !== "visible") {
-    console.log(`INFO ${label}: restore occluded test window ${JSON.stringify(visibility)}`);
-    await send("Page.bringToFront");
-    await waitFor(() => evaluate(`document.visibilityState === 'visible'`), `${label} visible test window`);
-  }
+  let previousComplete = false;
+  let restoringVisibility = false;
+  let state;
   try {
-    await evaluate(`(async () => {
-    window.__windowControlsSettlePhase = 'raf-before';
-    await new Promise(requestAnimationFrame);
-    window.__windowControlsSettlePhase = 'animations';
-    await Promise.all(document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity)
-      .map(a => a.finished.catch(() => {})));
-    window.__windowControlsSettlePhase = 'raf-after';
-    await new Promise(requestAnimationFrame);
-    delete window.__windowControlsSettlePhase;
-  })()`);
+    await waitFor(async () => {
+      // Re-read the current animation set. A prior animation.finished Promise
+      // can remain pending after its element is replaced or the page is hidden.
+      state = await evaluate(`({ visibility: document.visibilityState, focused: document.hasFocus(),
+        animations: document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity)
+          .map(a => ({ name: a.animationName, state: a.playState, pending: a.pending })) })`);
+      if (state.visibility !== "visible") {
+        previousComplete = false;
+        if (!restoringVisibility) {
+          restoringVisibility = true;
+          console.log(`INFO ${label}: restore occluded test window ${JSON.stringify(state)}`);
+          // A page activation alone does not show an occluded native macOS
+          // window. Restore once per hidden episode; subsequent reads are inert.
+          await evaluate(`window.piDesktop.invoke('pi-desktop/menu/nativeAction', {action:'restoreMainWindow'})`);
+          await send("Page.bringToFront");
+        }
+        return false;
+      }
+      restoringVisibility = false;
+      const complete = state.animations.every(animation => !animation.pending &&
+        (animation.state === "finished" || animation.state === "idle"));
+      const stable = complete && previousComplete;
+      previousComplete = complete;
+      return stable;
+    }, `${label} visible settled layout`);
   } catch (error) {
-    const state = await evaluate(`({ phase: window.__windowControlsSettlePhase,
-      visibility: document.visibilityState, focused: document.hasFocus(),
-      animations: document.getAnimations().map(a => ({ name: a.animationName,
-        state: a.playState, iterations: a.effect?.getTiming().iterations })) })`);
     console.error(`FAIL settle ${label}: ${JSON.stringify(state)}`);
     throw error;
   }
