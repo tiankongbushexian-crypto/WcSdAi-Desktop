@@ -81,7 +81,7 @@ jobs:
         run: node scripts/e2e-windows-packaged-corners.mjs --backdrop-only
       - name: Verify native Windows corner regions independently
         if: ${{ !cancelled() && steps.native-runtime.outcome == 'success' }}
-        run: node scripts/e2e-window-shape-native.mjs
+        run: node scripts/e2e-window-shape-native.mjs --compare-transparency
       - name: Preserve Windows corner diagnostics
         if: always()
         uses: actions/upload-artifact@v7

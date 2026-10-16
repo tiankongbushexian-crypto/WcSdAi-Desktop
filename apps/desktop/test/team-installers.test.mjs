@@ -206,7 +206,7 @@ test("native-corners dispatch runs independent Windows diagnostics without publi
   assert.equal(steps[runtime].run, "node apps/desktop/node_modules/electron/install.js");
   assert.equal(steps[runtime]["continue-on-error"], undefined);
   const backdrop = steps.findIndex((step) => step.run === "node scripts/e2e-windows-packaged-corners.mjs --backdrop-only");
-  const native = steps.findIndex((step) => step.run === "node scripts/e2e-window-shape-native.mjs");
+  const native = steps.findIndex((step) => step.run === "node scripts/e2e-window-shape-native.mjs --compare-transparency");
   assert.ok(backdrop > runtime && native > backdrop);
   assert.equal(steps[backdrop]["continue-on-error"], undefined, "failed preflight must fail the diagnostic job");
   assert.equal(steps[native].if, "${{ !cancelled() && steps.native-runtime.outcome == 'success' }}", "retain native evidence even after backdrop preflight fails");
