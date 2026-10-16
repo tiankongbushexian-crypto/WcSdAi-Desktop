@@ -101,7 +101,8 @@ describe("composeSubagentSystemPrompt", () => {
       guidance: ["Follow the project rules."],
     });
 
-    expect(prompt).toContain('You are the "explorer" subagent');
+    expect(prompt).toContain('You are the "explorer" subagent inside WcSdAi');
+    expect(prompt).not.toContain("PI-Desktop");
     expect(prompt).toContain("Read, Glob, Grep");
     expect(prompt).toContain("no tools that change files");
     expect(prompt).toContain("Find the answer and report it.");

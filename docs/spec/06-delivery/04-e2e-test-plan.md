@@ -3170,7 +3170,7 @@ identify the platform validation still needed.
 
 - **Preconditions**: A marketplace/package-installable `examples/plugins/hello` variant (`demo.hello`) whose `midnight` theme CSS references a declared package-relative image at `art/preview.png`; a plugin with CSS using `@import` or remote `url()` for rejection plus a comment-only variant; an asset theme with `windowAppearance` variants with and without `ui.window.appearance`, including `cornerRadius: 0` and an invalid value above 24.
 - **Steps**: 1) Install the packaged Hello variant from Marketplace or its `.piplug` package and select `Hello Midnight` in Settings → General → Theme. 2) Restart the app. 3) Disable the providing plugin. 4) Re-enable it, then uninstall it. 5) Load the plugin with unsafe CSS. 6) Load the comment-only variant. 7) Select the asset variant's theme on Windows/Linux and on macOS, verify the package-relative image renders through `plugin-asset:` in the shell and the plugin's panel, and load a sheet with an undeclared package-relative `url()` to verify it is refused. 8) Deselect its theme after removing `ui.window.appearance`.
-- **Expected**: The packaged plugin installs successfully with its relative image resolved inside the plugin root; its theme appears in the picker alongside the built-ins and applies immediately, with the image served through `plugin-asset:`; the choice survives restart as `plugin:demo.hello:midnight`; disabling or uninstalling the provider falls back to `system` instead of an unstyled shell; unsafe CSS is refused at load with the reason logged and no `<style>` element injected; the comment-only sheet loads and contributes its theme, because the sanitizer only inspects CSS the browser would apply; the declared asset paints through `plugin-asset:` in the shell and in the plugin's own panel, an undeclared reference is refused with the reason logged, the declared background colours the native window on Windows/Linux and is never sent on macOS, and `cornerRadius: 0` makes only the Windows main window rectangular while the authorized theme is selected. Deselecting the theme or dropping the grant restores the host background and 4 DIP Windows corners; a radius above 24 rejects without changing the window. The whole shell follows the theme, including the work-panel column, its header, and the browser/file viewer strips, all of which read `--ds-bg-dock` / `--ds-bg-dock-raised` rather than a literal.
+- **Expected**: The packaged plugin installs successfully with its relative image resolved inside the plugin root; its theme appears in the picker alongside the built-ins and applies immediately, with the image served through `plugin-asset:`; the choice survives restart as `plugin:demo.hello:midnight`; disabling or uninstalling the provider falls back to `system` instead of an unstyled shell; unsafe CSS is refused at load with the reason logged and no `<style>` element injected; the comment-only sheet loads and contributes its theme, because the sanitizer only inspects CSS the browser would apply; the declared asset paints through `plugin-asset:` in the shell and in the plugin's own panel, an undeclared reference is refused with the reason logged, the declared background colours the native window on Windows/Linux and is never sent on macOS, and `cornerRadius: 0` makes only the Windows main window rectangular while the authorized theme is selected. Deselecting the theme or dropping the grant restores the host background and 12 DIP Windows corners; a radius above 24 rejects without changing the window. The whole shell follows the theme, including the work-panel column, its header, and the browser/file viewer strips, all of which read `--ds-bg-dock` / `--ds-bg-dock-raised` rather than a literal.
 - **Specs linked**: `07-plugins/02-plugin-manifest-schema.md`, `07-plugins/04-plugin-security.md` §3.1, `04-ux/07-ui-design-system.md`, D175
 - **Acceptance**: G (theme contribution) + Security
 - **Status**: Unit-covered (`plugin-themes.test.mjs`, `theme-css` SDK tests, host-core package-relative asset/install tests). `test:e2e:window-controls` selects an authorized test plugin theme with `cornerRadius: 0` and returns to a built-in theme, verifying the native shape follows both choices. The broader asset visual scenario remains Draft.
@@ -9046,6 +9046,9 @@ must keep splitting are covered by `markdown-blocks.test.mjs`.
 
 | Acceptance | Scenarios |
 |---|---|
+| B / Quality — Reachable service model settings | E2E-WCSDAI-provider-dialog-layout |
+| A / G / Quality — Windows main-window visibility | E2E-WCSDAI-window-perimeter |
+| C / F — Product persona and restored conversations | E2E-WCSDAI-product-identity |
 | C / E / F / Quality / Security — Session Todo checklist | E2E-CHAT-session-todo-checklist |
 | C / E / Security / Quality — Live Voice four-stage interaction | E2E-LIVE-VOICE-four-stage-ui |
 | C / F — Hourly task updates | E2E-SCHEDULED-manual-to-hourly |
@@ -11570,7 +11573,7 @@ This test plan spec is accepted when:
      return. Release the pointer outside the original window bounds, then
      maximize and enter fullscreen; native hit regions must not block
      window controls or content in those states.
-  6. On Windows, inspect the default 4 DIP corner cutouts before and after
+  6. On Windows, inspect the default 12 DIP corner cutouts before and after
      resizing. Apply an authorized theme with `cornerRadius: 0`, then return to
      a built-in theme. Reject an out-of-range radius without changing the shape.
 - **Expected**: Native edge and corner hit regions remain available in frameless
@@ -11583,7 +11586,7 @@ This test plan spec is accepted when:
   or right native rim is visible. No temporary
   work-panel reservation width is persisted or restored.
   The four normal-window corners have no painted or interactive pixels outside
-  the active radius; the default is 4 DIP, an authorized theme may choose 0..24
+  the active radius; the default is 12 DIP, an authorized theme may choose 0..24
   DIP, and maximized/fullscreen windows are rectangular.
 - **Specs linked**: `03-runtime/01-ipc-protocol.md`,
   `04-ux/01-ui-ia.md`, `04-ux/07-ui-design-system.md`,
@@ -16240,3 +16243,67 @@ installer is used by this acceptance fixture.
   must be reported separately rather than inferred from those checks.
 - **Traceability:** `04-ux/08-component-spec.md`, `electron/main/tray-image.ts`,
   `test/tray-icon-lifecycle.test.mjs`, and `docs/wcsdai/1.0.4-verification.md`.
+
+## E2E-WCSDAI-provider-dialog-layout
+
+- **Preconditions:** Real service/account dialogs and production CSS in isolated
+  Electron; only the external API boundary uses a local fixture. No user profile,
+  real provider or production credential is used.
+- **Steps:** Load 22 discovered and 13 configured models at 1188×794, 800×560,
+  1280×1000 and 125% zoom. Cover English/Chinese and service/account editors.
+  Scroll to model 13, expand it, edit its alias/context, search/reset, save and
+  reopen. Check hit testing of the editor, custom-model field and header action.
+- **Expected:** Both lists retain a usable viewport, the outer body can scroll,
+  saved model edits reappear and endpoint/protocol/stored-secret handling is
+  unchanged. This fixture does not establish Host persistence or native frames.
+- **Coverage:** `pnpm test:e2e:provider-dialog-layout`, with geometry and real
+  component interactions; `provider-form-layout.test.mjs` guards the cascade.
+- **Traceability:** Component spec §19, Settings IA, 1.0.5 verification report.
+
+## E2E-WCSDAI-window-perimeter
+
+- **Preconditions:** Built candidate, isolated Electron profile; native-region
+  checks require a Windows runner. No installed user application is used.
+- **Steps:** In light/dark themes verify the 1px perimeter and 12 DIP default;
+  maximize, restore, fullscreen and leave fullscreen; use plugin radii 0 and
+  24; press minimize/close; dispose and check listener cleanup. Deliver a newer
+  maximize event before a delayed initial-state response. Start with fullscreen
+  already active but its initial event missed, as on renderer reload. Change
+  Electron page zoom through 0.5, 1, 1.5 and 3, and resolve a pending snapshot
+  after disposal. On Windows inspect
+  the actual HWND region before/after resize and those native transitions.
+- **Expected:** Corners are cut out of the native draw/hit region, the center
+  remains owned, the perimeter never covers controls, and maximized/fullscreen
+  windows are rectangular without a perimeter. Late state cannot undo a native
+  event or update a disposed owner. The initial snapshot recovers fullscreen
+  without an event. After zoom-triggered resize, the outline retains a 12 DIP
+  radius and 1 DIP width within physical-pixel rounding, independently of page
+  zoom and display DPI. Disposal removes native/resize listeners and cancels
+  queued frame work. Other platforms and auxiliary windows retain their chrome.
+- **Coverage:** `pnpm test:e2e:window-outline` covers production renderer controls
+  with a preload fixture and real Electron page zoom; `window-chrome-state.test.mjs`
+  covers stale snapshots, resize coalescing and disposal, and
+  `window-control-state.test.mjs` covers the authoritative state response.
+  `pnpm test:e2e:window-shape-native` uses actual Windows
+  region APIs and production shape/fullscreen code. The latter explicitly skips
+  other operating systems. Native visual quality, mouse resizing, taskbar snap
+  and display scaling remain separate device checks (E2E-167 / ADR 0317).
+- **Traceability:** Design system §10.1, component spec §1.7, ADR 0317.
+
+## E2E-WCSDAI-product-identity
+
+- **Preconditions:** Real DesktopAgentRuntime and Pi provider adapter, localhost
+  HTTP model fixture; no paid API, installed profile or real credential.
+- **Steps:** Prompt new Agent/Plan/Goal sessions, restore a conversation containing
+  an old PI-Desktop reply and switch modes, then use custom persona/append files.
+  Inspect the actual outgoing provider request and completion events. Exercise
+  the production Live Work service/bridge at its provider boundary.
+- **Expected:** Default product instructions and tool framing use WcSdAi; the
+  underlying model ID remains exact, unknown model identities are not guessed,
+  restored history is unchanged, and custom persona/append precedence remains.
+  Live Work framing uses WcSdAi without changing delegation/permission rules.
+- **Coverage:** `packages/agent-runtime/src/product-identity.test.ts`, related
+  runtime/subagent tests, `live-voice-service.test.mjs` and production WorkBridge
+  fixtures. A canned provider response proves transport/composition, not what a
+  real model will choose to say.
+- **Traceability:** Agent Runtime §7, Live Voice, WcSdAi brand identity ADR.

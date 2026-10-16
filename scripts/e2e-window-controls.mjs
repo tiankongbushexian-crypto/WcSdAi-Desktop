@@ -7,7 +7,6 @@ import assert from "node:assert/strict";
 import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
-import { once } from "node:events";
 import { mkdtemp, rm, writeFile, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -29,6 +28,53 @@ let socket;
 let child;
 let output = "";
 let failed = false;
+
+function waitForChildExit(child, timeoutMs) {
+  if (child.exitCode !== null || child.signalCode !== null) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    const finish = (exited) => {
+      clearTimeout(timer);
+      child.removeListener("exit", onExit);
+      resolve(exited);
+    };
+    const onExit = () => finish(true);
+    const timer = setTimeout(() => finish(false), timeoutMs);
+    child.once("exit", onExit);
+  });
+}
+
+async function stopOwnedElectron(child) {
+  if (!child?.pid) return;
+  if (process.platform === "win32") {
+    // The PID is the child created below; never target an executable name.
+    assert.ok(child.exitCode === null && child.signalCode === null,
+      "Electron exited before Windows tree cleanup; descendant ownership cannot be verified");
+    await execFileAsync("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"], { timeout: 5000 });
+  } else {
+    // Only the new detached test process group is ours. Killing the group
+    // also reaps sidecars when its Electron leader exits before its children.
+    const signalGroup = (signal) => {
+      try { process.kill(-child.pid, signal); return true; }
+      catch (error) { if (error.code === "ESRCH") return false; throw error; }
+    };
+    const groupExists = async () => {
+      try { return signalGroup(0); }
+      catch (error) {
+        if (error.code !== "EPERM") throw error;
+        // Darwin can refuse signal-zero while a group dies. Confirm via IDs,
+        // never infer absence from EPERM or inspect unrelated command lines.
+        const { stdout } = await execFileAsync("ps", ["-axo", "pid=,pgid="], { timeout: 5000 });
+        return stdout.trim().split("\n").some(line => Number(line.trim().split(/\s+/)[1]) === child.pid);
+      }
+    };
+    signalGroup("SIGTERM");
+    await waitForChildExit(child, 3000);
+    signalGroup("SIGKILL");
+    await waitFor(async () => !(await groupExists()), "owned Electron process group cleanup");
+  }
+  assert.ok(await waitForChildExit(child, 3000), "owned Electron child must exit during cleanup");
+  console.log(`PASS owned Electron process cleanup: ${child.pid}`);
+}
 
 async function waitFor(predicate, label) {
   const end = Date.now() + 30_000;
@@ -54,13 +100,40 @@ async function evaluate(expression) {
   if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails));
   return result.result.value;
 }
-async function settle() {
-  await evaluate(`(async () => {
-    await new Promise(requestAnimationFrame);
-    await Promise.all(document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity)
-      .map(a => a.finished.catch(() => {})));
-    await new Promise(requestAnimationFrame);
-  })()`);
+async function settle(label = "layout") {
+  let previousComplete = false;
+  let restoringVisibility = false;
+  let state;
+  try {
+    await waitFor(async () => {
+      // Re-read the current animation set. A prior animation.finished Promise
+      // can remain pending after its element is replaced or the page is hidden.
+      state = await evaluate(`({ visibility: document.visibilityState, focused: document.hasFocus(),
+        animations: document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity)
+          .map(a => ({ name: a.animationName, state: a.playState, pending: a.pending })) })`);
+      if (state.visibility !== "visible") {
+        previousComplete = false;
+        if (!restoringVisibility) {
+          restoringVisibility = true;
+          console.log(`INFO ${label}: restore occluded test window ${JSON.stringify(state)}`);
+          // A page activation alone does not show an occluded native macOS
+          // window. Restore once per hidden episode; subsequent reads are inert.
+          await evaluate(`window.piDesktop.invoke('pi-desktop/menu/nativeAction', {action:'restoreMainWindow'})`);
+          await send("Page.bringToFront");
+        }
+        return false;
+      }
+      restoringVisibility = false;
+      const complete = state.animations.every(animation => !animation.pending &&
+        (animation.state === "finished" || animation.state === "idle"));
+      const stable = complete && previousComplete;
+      previousComplete = complete;
+      return stable;
+    }, `${label} visible settled layout`);
+  } catch (error) {
+    console.error(`FAIL settle ${label}: ${JSON.stringify(state)}`);
+    throw error;
+  }
 }
 async function click(selector, waitForPaint = true) {
   const point = await evaluate(`(() => {
@@ -74,7 +147,7 @@ async function click(selector, waitForPaint = true) {
   for (const type of ["mousePressed", "mouseReleased"]) {
     await send("Input.dispatchMouseEvent", { type, ...point, button: "left", clickCount: 1 });
   }
-  if (waitForPaint) await settle();
+  if (waitForPaint) await settle(`click ${selector}`);
 }
 async function checkControls(label) {
   const result = await evaluate(`(() => {
@@ -216,7 +289,7 @@ try {
     PI_DESKTOP_MCP_CONTROL: "0", ELECTRON_RENDERER_URL: "" };
   delete env.ELECTRON_RUN_AS_NODE;
   child = spawn(electronBinary, [`--remote-debugging-port=${port}`, `--user-data-dir=${join(temp, "profile")}`, "."],
-    { cwd: appDir, env, stdio: ["ignore", "pipe", "pipe"] });
+    { cwd: appDir, env, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"] });
   child.stdout.on("data", data => { output = (output + data).slice(-4000); });
   child.stderr.on("data", data => { output = (output + data).slice(-4000); });
   let target;
@@ -272,7 +345,7 @@ try {
   await click(".work-panel-maximize");
   await checkControls("panel restored");
   await evaluate(`window.piDesktop.invoke('pi-desktop/menu/nativeAction', {action:'toggleFullScreen'})`);
-  await waitFor(() => evaluate(`window.piDesktop.invoke('pi-desktop/menu/nativeAction', {action:'restoreMainWindow'}).then(s => s.ok && s.data.fullScreen)`), "native fullscreen");
+  await waitFor(() => evaluate(`window.piDesktop.invoke('pi-desktop/window/control', {action:'getState'}).then(s => s.ok && s.data.fullScreen)`), "native fullscreen");
   await settle();
   await checkControls("native fullscreen with panel open");
   if (process.platform === "win32") {
@@ -285,7 +358,7 @@ try {
     console.log("PASS fullscreen covers the taskbar");
   }
   await evaluate(`window.piDesktop.invoke('pi-desktop/menu/nativeAction', {action:'toggleFullScreen'})`);
-  await waitFor(() => evaluate(`window.piDesktop.invoke('pi-desktop/menu/nativeAction', {action:'restoreMainWindow'}).then(s => s.ok && !s.data.fullScreen)`), "leave native fullscreen");
+  await waitFor(() => evaluate(`window.piDesktop.invoke('pi-desktop/window/control', {action:'getState'}).then(s => s.ok && !s.data.fullScreen)`), "leave native fullscreen");
   await settle();
   if (process.platform !== "darwin") {
     await click(".window-control-btn:nth-child(2)");
@@ -316,8 +389,8 @@ try {
     await checkWindowsRoundedCorners("theme can request square corners", false);
     assert.equal((await setRadius(25)).ok, false, "out-of-range radius is rejected");
     await checkWindowsRoundedCorners("invalid radius leaves the current shape", false);
-    assert.equal((await setRadius(4)).ok, true);
-    await checkWindowsRoundedCorners("theme switch restores the 4px default");
+    assert.equal((await setRadius(12)).ok, true);
+    await checkWindowsRoundedCorners("theme switch restores the 12 DIP default");
     const loaded = await evaluate(`window.piDesktop.invoke(
       'pi-desktop/plugin/loadDevConfirm',
       { path: ${JSON.stringify(radiusPluginPath)}, grantedPermissions: ['ui.theme', 'ui.window.appearance'] }
@@ -368,11 +441,7 @@ try {
 } finally {
   socket?.close();
   for (const entry of pending.values()) clearTimeout(entry.timer);
-  if (child && child.exitCode === null) {
-    const exited = once(child, "exit");
-    child.kill();
-    await exited;
-  }
+  await stopOwnedElectron(child);
   await rm(temp, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 }
 process.exitCode = failed ? 1 : 0;

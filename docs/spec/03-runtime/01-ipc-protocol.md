@@ -1897,8 +1897,16 @@ type WindowControlAction =
   | "getState" | "minimize" | "toggleMaximize" | "close";
 
 window/control({ action: WindowControlAction })
-  -> { maximized: boolean }
+  -> { maximized: boolean; fullScreen: boolean; zoomFactor: number }
 ```
+
+WcSdAi 1.0.5 adds two read-only result fields: `fullScreen` includes the
+tracked Windows borderless fallback; `zoomFactor` is Main's actual page zoom.
+Existing consumers of `maximized` remain compatible. Channel names, actions,
+sender permissions and Host protocol are unchanged. The renderer reads state
+on initialization/viewport changes and rejects stale results after newer native
+events, including fullscreen reloads. Its perimeter width/radius compensate for
+page zoom without treating OS display DPI as page zoom.
 
 On Windows/Linux, `minimize` performs the native OS minimize transition so
 the window remains represented in the taskbar and can be restored there. A
@@ -1939,7 +1947,7 @@ reports `isFullScreen() === false` while it uses display bounds for that mode;
 the window-control state and fullscreen event use the tracked value.
 `window/setBackgroundColor` remains Electron-local and main-renderer-only. Its
 optional `cornerRadius` is an integer from 0 to 24 DIP; omission restores the
-Windows main-window default of 4. Main applies the native shape on theme
+Windows main-window default of 12 in WcSdAi 1.0.5. Main applies the native shape on theme
 selection and resize, and clears the corner cutouts during maximize/fullscreen.
 Malformed values fail with `INVALID_ARGUMENT` before changing the background.
 Plugin panel chrome uses a separate Electron-local

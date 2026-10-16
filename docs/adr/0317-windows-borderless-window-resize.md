@@ -31,14 +31,14 @@ Electron's `thickFrame: false` fullscreen path changes display bounds without
 setting the value returned by `isFullScreen()`. Main tracks this fallback so
 fullscreen toggles, renderer events, and persisted normal bounds remain correct.
 
-Apply a native 4 DIP rounded shape to the Windows main window. Electron's
+Apply a native 12 DIP rounded shape (WcSdAi amendment below) to the Windows main window. Electron's
 `setShape` removes both drawing and pointer hit testing outside its rectangles,
 so the corner cutouts have no opaque fill while the existing native background
 colour remains theme-owned inside the window. Main reapplies the shape on
 resize, and makes it rectangular while maximized or fullscreen. A plugin with
 `ui.window.appearance` may declare an integer `cornerRadius` from 0 to 24 DIP
 alongside its background colours. The selected theme supplies it through the
-existing window-appearance IPC; removing the theme restores 4 DIP. Main validates
+existing window-appearance IPC; removing the theme restores 12 DIP. Main validates
 the value and the calling renderer before changing the native shape.
 
 ## Alternatives
@@ -70,3 +70,24 @@ the value and the calling renderer before changing the native shape.
 - The Plugin SDK gains one optional, permission-gated appearance property. Old
   manifests remain valid. No host RPC, database schema, or persisted format
   changes.
+
+## WcSdAi 1.0.5 visual amendment (2026-10-16)
+
+The owner reported that the 4 DIP cutouts looked square and the light window
+merged into white windows behind it. The fork changes the shared default to
+12 DIP and draws a theme-aware 1px inside perimeter, following the authorized
+theme's radius. The perimeter is pointer-transparent, reserves no layout space,
+and is absent while maximized/fullscreen. Removing a theme now restores 12 DIP.
+
+This keeps the same native shape, hit-test, opaque background, permission and
+geometry ownership. No transparent margins, companion shadow windows or custom
+resize handles are introduced. Native-region checks and renderer interaction
+checks are recorded separately from Windows visual/device acceptance.
+
+The existing Electron-only `window/control` response also supplies read-only
+`fullScreen` and `zoomFactor` fields from Main. This avoids estimating page
+zoom from display DPI and recovers fullscreen state when a renderer reload
+misses the initial event. The renderer compensates the perimeter's CSS geometry
+using that zoom, rejects stale state responses and disposes its subscriptions.
+Existing action inputs and consumers of `maximized` remain compatible; Host RPC,
+plugin appearance permissions and persisted data do not change.

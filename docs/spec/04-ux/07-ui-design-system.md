@@ -1108,13 +1108,15 @@ header-height background behind the excluded lane without covering its controls.
   renderer-local setting.
 - All platforms retain native edge/corner resizing. On Windows the main window
   disables the frameless `WS_THICKFRAME` rim while Electron 43.6's frameless
-  hit test continues to own edge and corner resizing; no border is painted on
-  the left, right, or bottom. The Windows main window uses a 4 DIP rounded
+  hit test continues to own edge and corner resizing; no native thick-frame rim
+  is painted. WcSdAi draws a pointer-transparent 1px theme-aware inside perimeter.
+  The Windows main window uses a 12 DIP rounded
   hit/draw shape by
   default: pixels outside its corners have no fill or mouse target. A selected
   plugin theme with `ui.window.appearance` may set `cornerRadius` to an integer
-  from 0 through 24 DIP; removing that theme restores 4 DIP. The shape becomes
-  rectangular while maximized or fullscreen and follows every resize. Native
+  from 0 through 24 DIP; removing that theme restores 12 DIP. The shape becomes
+  rectangular while maximized or fullscreen and follows every resize. The
+  renderer perimeter follows the same radius and is hidden in those states. Native
   window background colors remain theme-owned inside the shape. Electron's borderless
   fullscreen fallback fills the display without reporting `isFullScreen()`;
   Main tracks its state so toggling back restores the previous bounds and

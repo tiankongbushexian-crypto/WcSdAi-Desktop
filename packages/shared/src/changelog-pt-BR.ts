@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const ptBREntries: ChangelogEntry[] = [
   {
+    version: "1.0.5",
+    date: "2026-10-16",
+    highlights: [
+      "Mantenha as configurações de modelos do serviço de IA visíveis e roláveis em janelas menores.",
+      "Melhore os cantos arredondados das janelas do Windows e adicione uma borda discreta nos temas claro e escuro.",
+      "Use WcSdAi como identidade do assistente, preservando os nomes reais dos modelos e as instruções personalizadas.",
+    ],
+  },
+  {
     version: "1.0.4",
     date: "2026-10-03",
     highlights: [

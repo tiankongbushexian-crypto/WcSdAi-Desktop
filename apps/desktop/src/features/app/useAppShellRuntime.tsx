@@ -1,5 +1,6 @@
 import {
   type AppMenuCommand,
+  DEFAULT_WINDOW_CORNER_RADIUS,
   isActiveInProject,
   isThemeColorScheme,
   KEYBOARD_SHORTCUTS,
@@ -15,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { installRendererApi } from "../../capture/renderer-api";
 import { StartupSplash } from "../../components/StartupSplash";
 import { api } from "../../lib/api";
+import { installWindowChromeState } from "../../lib/window-chrome-state";
 import { playNotificationChime } from "../../lib/notification-sound";
 import {
   clampSidebarWidth,
@@ -406,14 +408,7 @@ export function useAppShellRuntime() {
     return unsubscribe;
   }, [runMenuCommand]);
 
-  useEffect(() => {
-    // Fullscreen hides the macOS traffic lights; CSS shifts titlebar
-    // controls left via this attribute.
-    const off = api.onWindowFullScreen(({ fullScreen }) => {
-      document.documentElement.dataset.fullscreen = fullScreen ? "true" : "false";
-    });
-    return off;
-  }, []);
+  useEffect(() => installWindowChromeState(window, api), []);
 
   useEffect(() => {
     const viewingSessionId = page === "chat" ? activeSessionId ?? null : null;
@@ -505,6 +500,10 @@ export function useAppShellRuntime() {
       const resolvedTheme =
         base === "system" ? (mq.matches ? "light" : "dark") : base;
       document.documentElement.dataset.theme = resolvedTheme;
+      document.documentElement.style.setProperty(
+        "--ds-window-corner-radius",
+        `${pluginTheme?.windowCornerRadius ?? DEFAULT_WINDOW_CORNER_RADIUS}px`,
+      );
       // A contributed theme may name the native window background for this
       // palette. Deriving it here (rather than remembering an applied value) is
       // what restores the host default on a switch, a disable, or an uninstall:

@@ -1504,7 +1504,7 @@ task-candidate E2E 从请求工作树运行，但使用主工作区已经准备�
 
 - **先决条件**：可从市场或 `.piplug` 包安装的 `examples/plugins/hello` 变体（`demo.hello`），其 `midnight` 主题 CSS 引用已声明的包内相对图片 `art/preview.png`；CSS 使用 `@import` 或远程 `url()` 的拒绝用插件及仅在注释中出现这些关键字的变体；另有声明图片资源和 `windowAppearance` 背景、分别带/不带 `ui.window.appearance` 权限的主题变体。
 - **步骤**：1) 从市场安装 Hello 包变体或导入其 `.piplug` 包，在设置 → 常规 → 主题中选择 `Hello Midnight`。2) 重启应用。3) 禁用提供主题的插件。4) 重新启用后卸载。5) 加载不安全 CSS 插件。6) 加载仅在注释中提到关键字的变体。7) 在 Windows/Linux 与 macOS 上选中资源变体主题，验证包内相对图片通过 `plugin-asset:` 在外壳和插件面板中渲染，并加载引用未声明相对资源的样式表以验证其被拒绝。8) 去掉 `ui.window.appearance` 后取消选中该主题。
-- **预期**：带包内相对图片的插件包成功安装，图片在插件根目录内解析；插件主题出现在选择器中并立即应用，图片通过 `plugin-asset:` 提供；选择在重启后仍保留为 `plugin:demo.hello:midnight`；禁用或卸载提供程序会退回到 `system` 而不是无样式的 shell；不安全 CSS 在加载时被拒绝并记录原因，且不注入 `<style>` 元素；仅在注释中提到关键字的样式表正常加载并提供主题，因为消毒器只检查浏览器实际生效的 CSS；声明的资源在宿主外壳与插件自己的面板中都经 `plugin-asset:` 渲染，未声明引用被拒绝并记录原因，声明的背景在 Windows/Linux 上给原生窗口着色、在 macOS 上不下发；取消选中主题或收回权限后窗口回到宿主背景；整个外壳都跟随主题，包括工作面板列、标题栏以及浏览器/文件查看器条目栏，其表面色读取 `--ds-bg-dock` / `--ds-bg-dock-raised` 而不是字面量。
+- **预期**：带包内相对图片的插件包成功安装，图片在插件根目录内解析；插件主题出现在选择器中并立即应用，图片通过 `plugin-asset:` 提供；选择在重启后仍保留为 `plugin:demo.hello:midnight`；禁用或卸载提供程序会退回到 `system` 而不是无样式的 shell；不安全 CSS 在加载时被拒绝并记录原因，且不注入 `<style>` 元素；仅在注释中提到关键字的样式表正常加载并提供主题，因为消毒器只检查浏览器实际生效的 CSS；声明的资源在宿主外壳与插件自己的面板中都经 `plugin-asset:` 渲染，未声明引用被拒绝并记录原因，声明的背景在 Windows/Linux 上给原生窗口着色、在 macOS 上不下发；授权主题的 `cornerRadius: 0` 仅将 Windows 主窗口变为矩形，取消选中主题或收回权限后窗口回到宿主背景及 12 DIP 圆角；大于 24 的半径会被拒绝且不改变窗口。整个外壳都跟随主题，包括工作面板列、标题栏以及浏览器/文件查看器条目栏，其表面色读取 `--ds-bg-dock` / `--ds-bg-dock-raised` 而不是字面量。
 - **链接规格**：`07-plugins/02-plugin-manifest-schema.md`、`07-plugins/04-plugin-security.md` §3.1、`04-ux/07-ui-design-system.md`、D175
 - **接受**：G（主题贡献）+安全
 - **状态**：单元覆盖（`plugin-themes.test.mjs`、`theme-css` SDK 测试、host-core 包内相对资源/安装测试）；视觉场景草稿
@@ -5469,6 +5469,9 @@ eleven-tool-round desktop paths are verified by
 ## 8. 可追溯性矩阵
 | 验收 | 应用场景 |
 |---|---|
+| B / Quality — 可到达的服务模型设置 | E2E-WCSDAI-provider-dialog-layout |
+| A / G / Quality — Windows 主窗口可辨识边界 | E2E-WCSDAI-window-perimeter |
+| C / F — 产品身份与恢复的对话 | E2E-WCSDAI-product-identity |
 | C / E / F / Quality / Security — Session Todo checklist | E2E-CHAT-session-todo-checklist |
 | C / E / Security / Quality — Live Voice 四阶段交互 | E2E-LIVE-VOICE-four-stage-ui |
 | C / F — Hourly task updates | E2E-SCHEDULED-manual-to-hourly |
@@ -6915,9 +6918,13 @@ eleven-tool-round desktop paths are verified by
   3. 工作面板打开时从外边缘调整大小，确认对话窗格回流，而面板宽度和
      分隔线首选项不变。
   4. 等待调整大小稳定后关闭并重新启动应用。
+  5. Windows 上在调整大小前后检查默认 12 DIP 圆角裁切；应用获授权、设置
+     `cornerRadius: 0` 的主题，再返回内置主题。超范围半径须被拒绝且不改变形状。
 - **预期**：无边框外壳仍提供原生边缘和角落命中区域，最小尺寸保持
   800×560（按显示器工作区裁剪），恢复看门狗不会与慢速调整大小流竞争。最后稳定的基础边界会
   在重新启动后恢复；临时工作面板预留宽度不会被保存为用户的聊天窗口尺寸。
+  普通窗口四角在有效半径之外没有绘制或可交互像素；默认半径为 12 DIP，
+  获授权主题可以选择 0 至 24 DIP，最大化或全屏时窗口为矩形。
 - **链接规格**：`03-runtime/01-ipc-protocol.md`、`04-ux/01-ui-ia.md`、
   `04-ux/07-ui-design-system.md`、`04-ux/08-component-spec.md`、
   `04-ux/09-interaction-patterns.md`、ADR 0029 / ADR 0122
@@ -9296,3 +9303,57 @@ installer is used by this acceptance fixture.
   视觉和安装结果必须单独报告，不得从上述检查推断。
 - **追溯：** `04-ux/08-component-spec.md`、`electron/main/tray-image.ts`、
   `test/tray-icon-lifecycle.test.mjs` 和 `docs/wcsdai/1.0.4-verification.md`。
+
+
+## E2E-WCSDAI-provider-dialog-layout
+
+- **前提：** 隔离 Electron 中的真实服务/账号对话框及生产 CSS；仅外部 API 边界
+  使用本地 fixture。不使用用户配置、真实提供商或生产凭据。
+- **步骤：** 在 1188×794、800×560、1280×1000 和 125% 缩放下加载 22 个已发现
+  模型与 13 个已配置模型，覆盖中英文及服务/账号编辑器。滚动到第 13 个模型，
+  展开并编辑别名和上下文，搜索及清除搜索，保存后重新打开。检查编辑控件、
+  自定义模型输入框和顶部操作的命中检测。
+- **预期：** 两个列表保留可用视口，外层主体能够滚动，保存的模型编辑重新出现，
+  端点、协议和已存凭据的处理不变。此 fixture 不验证 Host 持久化或原生窗口边框。
+- **覆盖：** `pnpm test:e2e:provider-dialog-layout` 验证几何和真实组件交互；
+  `provider-form-layout.test.mjs` 保护样式层叠约定。
+- **追溯：** 组件规格 §19、设置信息架构、1.0.5 验证报告。
+
+## E2E-WCSDAI-window-perimeter
+
+- **前提：** 已构建候选、隔离 Electron 配置；原生区域检查需要 Windows 运行器。
+  不使用用户已安装的应用。
+- **步骤：** 在浅色和深色主题中检查 1px 轮廓及 12 DIP 默认半径；最大化、恢复、
+  进入和退出全屏；应用半径为 0 和 24 的插件主题；点击最小化和关闭；销毁后
+  检查监听器清理。让较新的最大化事件先于延迟的初始状态应答到达。模拟渲染器
+  重载时窗口已全屏、但错过初始事件的情况。将 Electron 页面缩放依次设为
+  0.5、1、1.5 和 3，并在销毁后返回尚未完成的状态快照。Windows 上
+  在缩放及上述原生状态切换前后检查真实 HWND 区域。
+- **预期：** 圆角从原生绘制和命中区域中裁切，窗口中央仍属应用，轮廓不遮挡控件，
+  最大化或全屏窗口为无轮廓矩形。迟到的状态不能覆盖原生事件，也不能更新已销毁
+  的状态所有者。缺失初始事件时，快照仍能恢复全屏状态。页面缩放触发 resize 后，
+  轮廓保持 12 DIP 半径和 1 DIP 宽度（允许物理像素舍入），不混用页面缩放与
+  显示 DPI。销毁时移除原生及 resize 监听器并取消排队的动画帧。其他平台及辅助
+  窗口保留现有外观。
+- **覆盖：** `pnpm test:e2e:window-outline` 通过 preload fixture 验证生产渲染器
+  控件和真实 Electron 页面缩放；`window-chrome-state.test.mjs` 覆盖迟到快照、
+  resize 合并和销毁，`window-control-state.test.mjs` 覆盖权威状态应答。
+  `pnpm test:e2e:window-shape-native` 使用真实 Windows 区域 API 及生产
+  形状/全屏代码，其他操作系统明确跳过。原生视觉质量、鼠标缩放、任务栏贴靠和
+  显示缩放仍需单独实机检查（E2E-167 / ADR 0317）。
+- **追溯：** 设计系统 §10.1、组件规格 §1.7、ADR 0317。
+
+## E2E-WCSDAI-product-identity
+
+- **前提：** 真实 DesktopAgentRuntime 和 Pi 提供商适配器、本地 HTTP 模型
+  fixture；不使用付费 API、已安装应用配置或真实凭据。
+- **步骤：** 向新的 Agent/Plan/Goal 会话发送提示，恢复含旧 PI-Desktop 回复的
+  对话并切换模式，再使用自定义 persona/追加指令文件。检查实际发出的提供商
+  请求和完成事件。在提供商边界执行生产 Live Work service/bridge 流程。
+- **预期：** 默认产品指令和工具说明使用 WcSdAi，底层模型 ID 保持准确，不猜测
+  未知模型身份，恢复的历史不变，自定义 persona 和追加指令的优先级保留。
+  Live Work 说明使用 WcSdAi，不改变委派或权限规则。
+- **覆盖：** `packages/agent-runtime/src/product-identity.test.ts`、相关 runtime/
+  subagent 测试、`live-voice-service.test.mjs` 和生产 WorkBridge fixture。固定
+  提供商回复证明传输与提示组合正确，不证明真实模型会选择何种回答。
+- **追溯：** Agent Runtime §7、Live Voice、WcSdAi 品牌身份 ADR。

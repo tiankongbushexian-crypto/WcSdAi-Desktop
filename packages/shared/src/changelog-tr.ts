@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const trEntries: ChangelogEntry[] = [
   {
+    version: "1.0.5",
+    date: "2026-10-16",
+    highlights: [
+      "Küçük pencerelerde AI hizmeti model ayarlarını görünür ve kaydırılabilir tutun.",
+      "Windows pencerelerinde daha belirgin yuvarlatılmış köşeler ve açık ve koyu temalarda ince bir kenarlık kullanın.",
+      "Gerçek model adlarını ve özel talimatları korurken asistanın ürün kimliği olarak WcSdAi kullanın.",
+    ],
+  },
+  {
     version: "1.0.4",
     date: "2026-10-03",
     highlights: [

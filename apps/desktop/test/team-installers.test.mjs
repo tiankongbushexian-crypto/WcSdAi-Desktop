@@ -81,6 +81,21 @@ test("manual team workflow uses one candidate, native runners and artifact-only 
   assert.ok(workflow.jobs.installers.steps.some((step) => step.run === "pnpm install --frozen-lockfile"));
 });
 
+test("Windows native region probe installs the locked Electron runtime before launching it", () => {
+  const steps = workflow.jobs.installers.steps;
+  const probeIndex = steps.findIndex((step) => step.run === "node scripts/e2e-window-shape-native.mjs");
+  assert.ok(probeIndex > 0, "the native region gate must run before artifact collection");
+  const install = steps[probeIndex - 1];
+  const probe = steps[probeIndex];
+  assert.equal(install.run, "node apps/desktop/node_modules/electron/install.js");
+  assert.equal(install.if, "matrix.platform == 'windows'");
+  assert.equal(probe.if, install.if);
+  assert.equal(install["continue-on-error"], undefined);
+  assert.equal(probe["continue-on-error"], undefined);
+  assert.ok(probeIndex > steps.findIndex((step) => step.run?.includes("team-installers.mjs build")));
+  assert.ok(probeIndex < steps.findIndex((step) => step.run?.includes("team-installers.mjs installer")));
+});
+
 for (const [platform, arch, nativePlatform] of [["macos", "arm64", "darwin"], ["macos", "x64", "darwin"], ["windows", "x64", "win32"]]) {
   test(`${platform} ${arch} build invokes the existing entry point without certificate or publishing credentials`, (t) => {
     const { root, commit } = fixture(t);

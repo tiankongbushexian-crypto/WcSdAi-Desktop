@@ -286,6 +286,10 @@ test("the panes stack again before the dialog gets too narrow to read", () => {
   // stay side-by-side on a stacked dialog.
   assert.match(query, /\.provider-setup-custom-identity-row/);
   assert.match(query, /\.provider-setup-custom-auth-row/);
+  // Once the panes stack, the scrolling body must own their overflow. Keeping
+  // flex: 1 here squeezes both grid rows into the remaining credential space
+  // and can leave only a few pixels for model settings.
+  assert.match(query, /\.provider-setup-panes\s*\{[^}]*flex: none/);
   // A stacked dialog must be allowed to size to its content again, and both
   // dialogs host the same panes, so both need that release.
   assert.match(

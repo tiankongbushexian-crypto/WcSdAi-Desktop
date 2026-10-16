@@ -23,6 +23,7 @@ import {
   setWindowCornerRadius,
 } from "../window-shape";
 import type { IpcRegistrar } from "./types";
+import { isWindowFullScreen } from "../window-fullscreen";
 
 export type WindowIpcDependencies = {
   registrar: IpcRegistrar;
@@ -153,7 +154,9 @@ export function registerWindowIpc({
       throw new Error("unsupported window control action");
     }
     const mainWindow = getMainWindow();
-    if (!mainWindow || mainWindow.isDestroyed()) return { maximized: false };
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      return { maximized: false, fullScreen: false, zoomFactor: 1 };
+    }
     switch (input.action as WindowControlAction) {
       case "getState":
         break;
@@ -170,6 +173,10 @@ export function registerWindowIpc({
     }
     return {
       maximized: !mainWindow.isDestroyed() && mainWindow.isMaximized(),
+      fullScreen: !mainWindow.isDestroyed() && isWindowFullScreen(mainWindow),
+      zoomFactor: !mainWindow.isDestroyed() && !mainWindow.webContents.isDestroyed()
+        ? mainWindow.webContents.getZoomFactor()
+        : 1,
     };
   });
 

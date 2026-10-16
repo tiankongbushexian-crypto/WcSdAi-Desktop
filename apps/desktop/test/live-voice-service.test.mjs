@@ -87,7 +87,8 @@ test("an explicitly bound work call forwards only the declared tool candidate to
 
   const context = state.adapters[0];
   assert.equal(context.workProfile.version, 1);
-  assert.match(context.workProfile.instructions, /work session/i);
+  assert.match(context.workProfile.instructions, /speaking surface of the WcSdAi work session/u);
+  assert.doesNotMatch(context.workProfile.instructions, /PI-Desktop/u);
   await context.onWorkCandidate({
     providerRequestId: "delegation-1",
     toolName: "delegate_to_work_session",
