@@ -16315,3 +16315,8 @@ installer is used by this acceptance fixture.
   fixtures. A canned provider response proves transport/composition, not what a
   real model will choose to say.
 - **Traceability:** Agent Runtime §7, Live Voice, WcSdAi brand identity ADR.
+
+Windows installer qualification must extract and run the NSIS payload with
+isolated state and bind the installer, executable and ASAR hashes in one
+receipt. The release script overwrites `win-unpacked` for ZIP and portable
+targets, so that directory alone does not identify the distributed NSIS payload.

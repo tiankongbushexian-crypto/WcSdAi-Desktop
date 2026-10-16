@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Actual unpacked Windows app + real renderer/theme IPC + desktop-composited pixels.
- * Usage: node scripts/e2e-windows-packaged-corners.mjs [--executable <win-unpacked/WcSdAi.exe> | --backdrop-only]
+/** Actual NSIS payload + real renderer/theme IPC + desktop-composited pixels.
+ * Usage: node scripts/e2e-windows-packaged-corners.mjs [--executable <WcSdAi.exe> | --backdrop-only]
  * No installed app, user profile, provider or credential is used.
  */
 import assert from "node:assert/strict";
@@ -8,7 +8,7 @@ import { execFile, spawn } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
 import { once } from "node:events";
 import { createReadStream } from "node:fs";
-import { mkdir, mkdtemp, realpath, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, realpath, rm, stat, writeFile } from "node:fs/promises";
 import { release, tmpdir, version } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { createInterface } from "node:readline";
@@ -18,6 +18,7 @@ import { repositoryRoot, resolveElectronBinary } from "./e2e/boot.mjs";
 import { launchLiveVoiceDesktop } from "./e2e/live-voice-desktop.mjs";
 import { waitFor } from "./e2e/wait.mjs";
 import { assertCompositedCorners, assertPhysicalRegionBounds } from "./e2e/window-corner-assertions.mjs";
+import { extractWindowsInstaller } from "./e2e/extract-windows-installer.mjs";
 
 const args = process.argv.slice(2);
 const backdropOnly = args.length === 1 && args[0] === "--backdrop-only";
@@ -26,13 +27,8 @@ if (process.platform !== "win32" && !backdropOnly) {
   process.exit(0);
 }
 const root = resolve(repositoryRoot());
-assert(backdropOnly || args.length === 0 || (args.length === 2 && args[0] === "--executable"), "Supply --executable <unpacked WcSdAi.exe>, --backdrop-only or use the default release directory");
-const executablePath = backdropOnly ? null : await realpath(resolve(args[1] || join(root, "apps/desktop/release/win-unpacked/WcSdAi.exe")));
-const asarPath = executablePath ? join(dirname(executablePath), "resources/app.asar") : null;
-if (executablePath) {
-  assert.equal(basename(executablePath).toLowerCase(), "wcsdai.exe", "Use the unpacked product executable, not an installer");
-  assert((await stat(asarPath)).isFile(), "An unpacked app.asar must accompany the executable");
-}
+assert(backdropOnly || args.length === 0 || (args.length === 2 && args[0] === "--executable"), "Supply --executable <unpacked WcSdAi.exe>, --backdrop-only or use the default NSIS installer");
+let executablePath = null;
 const evidence = resolve(process.env.WCSDAI_EVIDENCE_DIR || join(root, ".artifacts/windows-corners-105/packaged-current"));
 await mkdir(evidence, { recursive: true });
 // Keep profiles and host databases outside the upload directory, even on failure.
@@ -50,8 +46,8 @@ const report = {
   timestamp: new Date().toISOString(), platform: process.platform, architecture: process.arch,
   osRelease: release(), osVersion: version(),
   mode: backdropOnly ? "backdrop-preflight" : "packaged-app",
-  executablePath, executableSha256: executablePath ? await hashFile(executablePath) : null,
-  appAsarSha256: asarPath ? await hashFile(asarPath) : null,
+  distribution: backdropOnly ? null : args.length ? "explicit-unpacked" : "nsis",
+  executablePath: null, executableSha256: null, appAsarSha256: null,
   scratch, checks: [], stages: [], limitations: backdropOnly ? [
     "Only the disposable Electron backdrop and its loopback control are tested; no packaged app is launched.",
     "Successful color acknowledgements do not establish Windows native corner pixels.",
@@ -158,6 +154,28 @@ function assertBackdropCorners(result, expectedColor) {
 }
 
 try {
+  if (!backdropOnly) {
+    if (args.length) {
+      executablePath = await realpath(resolve(args[1]));
+    } else {
+      await stage("extract-nsis-payload");
+      const { version: appVersion } = JSON.parse(await readFile(join(root, "apps/desktop/package.json"), "utf8"));
+      assert.match(appVersion, /^\d+\.\d+\.\d+$/);
+      const installerPath = join(root, "apps/desktop/release", `WcSdAi-Setup-${appVersion}.exe`);
+      report.installerPath = installerPath;
+      report.installerSha256 = await hashFile(installerPath);
+      const payload = await extractWindowsInstaller(installerPath, join(scratch, "payload"));
+      executablePath = payload.executablePath;
+      report.payloadEntries = payload.entryCount;
+      report.extractor = { path: payload.tarPath, version: payload.tarVersion };
+    }
+    assert.equal(basename(executablePath).toLowerCase(), "wcsdai.exe", "Use the product executable, not the installer bootstrap");
+    const asarPath = join(dirname(executablePath), "resources/app.asar");
+    assert((await stat(asarPath)).isFile(), "An app.asar must accompany the executable");
+    report.executablePath = executablePath;
+    report.executableSha256 = await hashFile(executablePath);
+    report.appAsarSha256 = await hashFile(asarPath);
+  }
   await stage("launch-backdrop");
   backdrop = await launchBackdrop();
   if (backdropOnly) {

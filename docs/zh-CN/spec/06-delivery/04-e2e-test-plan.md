@@ -9366,3 +9366,8 @@ installer is used by this acceptance fixture.
   subagent 测试、`live-voice-service.test.mjs` 和生产 WorkBridge fixture。固定
   提供商回复证明传输与提示组合正确，不证明真实模型会选择何种回答。
 - **追溯：** Agent Runtime §7、Live Voice、WcSdAi 品牌身份 ADR。
+
+Windows installer qualification must extract and run the NSIS payload with
+isolated state and bind the installer, executable and ASAR hashes in one
+receipt. The release script overwrites `win-unpacked` for ZIP and portable
+targets, so that directory alone does not identify the distributed NSIS payload.
