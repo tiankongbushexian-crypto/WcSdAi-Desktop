@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { version as osVersion } from "node:os";
 import { promisify } from "node:util";
 import { app, BrowserWindow, screen } from "electron";
-import { installWindowShape, setWindowCornerRadius } from "../../apps/desktop/electron/main/window-shape.ts";
+import { installWindowShape, roundedWindowShape, setWindowCornerRadius } from "../../apps/desktop/electron/main/window-shape.ts";
 import { setWindowFullScreen } from "../../apps/desktop/electron/main/window-fullscreen.ts";
 import { assertCompositedCorners, assertPhysicalRegionBounds } from "./window-corner-assertions.mjs";
 
@@ -90,7 +90,15 @@ async function run() {
     window.setMinimumSize(400, 300);
     window.show();
     window.focus();
+    if (baselineMode === "reapply-after-show") {
+      const visibleBounds = window.getBounds();
+      window.setShape(roundedWindowShape(visibleBounds.width, visibleBounds.height, 12));
+    }
     await paintTheme("#ffffff");
+    if (baselineMode === "reapply-after-background") {
+      const visibleBounds = window.getBounds();
+      window.setShape(roundedWindowShape(visibleBounds.width, visibleBounds.height, 12));
+    }
     // Its outer corners are outside the smaller foreground window. Confirm the
     // actual desktop contains the intended backdrop before judging any cutout.
     const backdropControl = await readNativeWindow(backdropHandle, "backdrop-control");

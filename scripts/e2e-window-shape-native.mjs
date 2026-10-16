@@ -57,7 +57,7 @@ try {
     // The optional comparison changes only the fixture constructor. Always
     // collect it after the production case, including when production fails.
     // Current production must still pass; the comparison cannot mask a defect.
-    for (const variant of compareTransparency ? ["current", "transparent"] : ["current"]) {
+    for (const variant of compareTransparency ? ["current", "reapply-after-show", "reapply-after-background", "transparent"] : ["current"]) {
       try {
         const result = await runCase(variant);
         assert.equal(result.code, 0, result.output);
