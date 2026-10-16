@@ -52,7 +52,7 @@ const report = {
   mode: backdropOnly ? "backdrop-preflight" : "packaged-app",
   executablePath, executableSha256: executablePath ? await hashFile(executablePath) : null,
   appAsarSha256: asarPath ? await hashFile(asarPath) : null,
-  scratch, checks: [], limitations: backdropOnly ? [
+  scratch, checks: [], stages: [], limitations: backdropOnly ? [
     "Only the disposable Electron backdrop and its loopback control are tested; no packaged app is launched.",
     "Successful color acknowledgements do not establish Windows native corner pixels.",
   ] : [
@@ -62,6 +62,11 @@ const report = {
   ],
 };
 let desktop, backdrop;
+const stage = async (name) => {
+  report.stage = name;
+  report.stages.push({ name, timestamp: new Date().toISOString() });
+  await writeFile(join(capturesRoot, "verification.json"), JSON.stringify(report, null, 2) + "\n");
+};
 
 async function launchBackdrop() {
   const token = randomUUID();
@@ -153,6 +158,7 @@ function assertBackdropCorners(result, expectedColor) {
 }
 
 try {
+  await stage("launch-backdrop");
   backdrop = await launchBackdrop();
   if (backdropOnly) {
     await backdrop.front();
@@ -172,10 +178,15 @@ try {
   // Use the production persisted-bounds format before startup. Do not resize
   // the live window: doing so could hide an initial show/shape regression.
   await writeFile(join(dataDir, "window-state.json"), JSON.stringify(report.fixtureWindowBounds) + "\n");
+  await stage("launch-packaged-application");
   desktop = await launchLiveVoiceDesktop({ root, dataDir, profile, home, evidence: capturesRoot, syntheticMicrophone: false, executablePath });
   await desktop.send("Page.bringToFront");
   assert.equal(await desktop.evaluate("document.title"), "WcSdAi");
-  report.version = await desktop.evaluate(`document.querySelector('.sidebar-version')?.textContent ?? null`);
+  await stage("read-application-version");
+  const applicationVersion = await desktop.invoke("appGetVersion");
+  assert.equal(applicationVersion.name, "WcSdAi");
+  assert.match(applicationVersion.version, /^\d+\.\d+\.\d+(?:[-+].+)?$/);
+  report.version = applicationVersion.version;
   report.initialWindowState = await desktop.invoke("windowControl", { action: "getState" });
   assert.equal(report.initialWindowState.maximized, false);
   const title = `WcSdAi isolated corners ${randomUUID()}`;
@@ -212,29 +223,41 @@ try {
     `${phase}: corner pixels track changed backdrop, not opaque app pixels`);
   };
   // Capture before test-induced settings writes, reload, theme IPC or resize.
+  await stage("capture-initial-corners");
   await captureCorners("initial", { source: "production-startup", ...report.initialRenderer });
   // Language is fixture state written through public IPC, never renderer internals.
+  await stage("set-fixture-language");
   await desktop.invoke("settingsSet", { language: "en" });
+  await stage("reload-renderer");
   await desktop.send("Page.reload");
-  await waitFor(() => desktop.evaluate(`document.documentElement.lang === 'en' && !!document.querySelector('[data-nav="settings"]') && !document.querySelector('.startup-splash')`), 35_000, "packaged renderer and host ready");
+  await stage("wait-reloaded-navigation");
+  await waitFor(() => desktop.evaluate(`globalThis.document?.documentElement?.lang === 'en' && !!globalThis.document?.querySelector('[data-nav="settings"]') && !globalThis.document?.querySelector('.startup-splash')`), 35_000, "packaged renderer and host ready");
+  await stage("open-settings-general");
   await desktop.clickSelector('[data-nav="settings"]');
-  await desktop.clickText("General", ".settings-nav-item");
+  await desktop.clickText("General", ".settings-nav-label");
   for (const theme of ["light", "dark"]) {
+    await stage(`choose-${theme}-theme`);
     await desktop.clickSelector(".settings-theme-trigger");
-    await desktop.clickText(theme === "light" ? "Light" : "Dark", ".settings-theme-option");
+    await desktop.clickText(theme === "light" ? "Light" : "Dark", ".settings-theme-option-title");
     await waitFor(() => desktop.evaluate(`document.documentElement.dataset.theme === ${JSON.stringify(theme)}`), 10_000, `real ${theme} theme applied`);
-    assert.equal((await desktop.invoke("settingsGet")).theme, theme);
+    await stage(`wait-${theme}-theme-persistence`);
+    await waitFor(async () => (await desktop.invoke("settingsGet")).theme === theme,
+      10_000, `real ${theme} theme persisted`);
     // Repeat the same public renderer-to-main operation as an acknowledged barrier.
     // This includes setBackgroundColor after setShape, the production order under test.
+    await stage(`acknowledge-${theme}-appearance`);
     const appearance = await desktop.invoke("windowSetBackgroundColor", { theme });
     assert.equal(appearance.applied, true);
+    await stage(`capture-${theme}-corners`);
     await captureCorners(theme, appearance);
   }
   }
+  await stage("completed");
   report.result = "PASS";
   console.log(backdropOnly ? "PASS isolated backdrop launch/color/quit preflight" : "PASS packaged Windows renderer/theme IPC/native region/desktop corner pixels");
 } catch (error) {
   report.result = "FAIL";
+  report.failedStage = report.stage;
   report.error = error instanceof Error ? error.message : String(error);
   throw error;
 } finally {
