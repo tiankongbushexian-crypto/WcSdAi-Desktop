@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { version as osVersion } from "node:os";
 import { promisify } from "node:util";
 import { app, BrowserWindow, screen } from "electron";
@@ -77,6 +77,29 @@ async function run() {
     window.setBackgroundColor(color);
     await window.webContents.executeJavaScript(`document.documentElement.style.setProperty('--background', ${JSON.stringify(color)}); new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))`);
   }
+  async function dragNativeEdge(edge) {
+    window.focus();
+    const { stdout } = await exec("powershell.exe", ["-NoLogo", "-NoProfile", "-NonInteractive", "-File",
+      join(dirname(probePath), "drag-window-edge.ps1"), "-targetProcessId", String(process.pid), "-edge", edge,
+      "-targetWindowHandle", handle], { timeout: 15000, windowsHide: true });
+    const result = JSON.parse(stdout.trim());
+    reports.push({ label: `native ${edge} edge drag`, foregroundHandle: handle, ...result });
+    assert.equal(result.restored, true, `${edge} drag restores the fixture bounds`);
+    if (edge === "right") {
+      assert.ok(result.afterWidth - result.beforeWidth >= 20, "native right edge expands the physical window");
+      assert.equal(result.afterX, result.beforeX, "native right edge keeps the left anchor");
+      assert.equal(result.afterHeight, result.beforeHeight, "native right edge preserves height");
+    } else {
+      assert.ok(result.beforeHeight - result.afterHeight >= 20, "native bottom edge shrinks the physical window");
+      assert.equal(result.afterY, result.beforeY, "native bottom edge keeps the top anchor");
+      assert.equal(result.afterWidth, result.beforeWidth, "native bottom edge preserves width");
+      if (edge === "bottom-min") {
+        const minimumPhysicalHeight = window.getMinimumSize()[1] * screen.getDisplayMatching(window.getBounds()).scaleFactor;
+        assert.ok(Math.abs(result.afterHeight - minimumPhysicalHeight) <= 1, "native bottom edge stops at the configured minimum height");
+      }
+    }
+    await probe(`native ${edge} drag restores real corners`, true, 7);
+  }
   try {
     await backdrop.loadURL("data:text/html," + encodeURIComponent("<style>html,body{margin:0;width:100%;height:100%;background:#db2788}</style>"));
     backdrop.show();
@@ -124,11 +147,18 @@ async function run() {
     await probe("minimize restore real corners", true, 7);
     window.setSize(width - 60, height - 50);
     await probe("resized corners", true, 7);
+    await dragNativeEdge("right");
+    await dragNativeEdge("bottom");
+    await dragNativeEdge("bottom-min");
+    const beforeMaximize = window.getBounds();
     window.maximize();
     await waitFor(() => window.isMaximized(), "native maximize");
+    assert.deepEqual(window.getBounds(), area, "maximize fills the display work area");
+    assert.deepEqual(window.getNormalBounds(), beforeMaximize, "maximize retains the normal bounds");
     await probe("maximized rectangle", false);
     window.unmaximize();
     await waitFor(() => !window.isMaximized(), "native unmaximize");
+    assert.deepEqual(window.getBounds(), beforeMaximize, "unmaximize restores the original bounds");
     await probe("restored rounded corners", true, 7);
     setWindowFullScreen(window, true, true);
     await probe("fullscreen rectangle", false);
