@@ -91,6 +91,12 @@ async function run() {
       assert.ok(result.afterWidth - result.beforeWidth >= 20, "native right edge expands the physical window");
       assert.equal(result.afterX, result.beforeX, "native right edge keeps the left anchor");
       assert.equal(result.afterHeight, result.beforeHeight, "native right edge preserves height");
+    } else if (edge === "bottom-left") {
+      assert.ok(result.beforeWidth - result.afterWidth >= 20, "native bottom-left corner shrinks width");
+      assert.ok(result.beforeHeight - result.afterHeight >= 20, "native bottom-left corner shrinks height");
+      assert.equal(result.afterY, result.beforeY, "native bottom-left corner keeps the top anchor");
+      assert.ok(Math.abs(result.afterX + result.afterWidth - result.beforeX - result.beforeWidth) <= 1,
+        "native bottom-left corner keeps the right anchor");
     } else {
       assert.ok(result.beforeHeight - result.afterHeight >= 20, "native bottom edge shrinks the physical window");
       assert.equal(result.afterY, result.beforeY, "native bottom edge keeps the top anchor");
@@ -152,6 +158,7 @@ async function run() {
     await dragNativeEdge("right");
     await dragNativeEdge("bottom");
     await dragNativeEdge("bottom-min");
+    await dragNativeEdge("bottom-left");
     const beforeMaximize = window.getBounds();
     window.maximize();
     await waitFor(() => window.isMaximized(), "native maximize");
@@ -166,6 +173,19 @@ async function run() {
     await probe("fullscreen rectangle", false);
     setWindowFullScreen(window, false, true);
     await probe("exit fullscreen restores corners", true, 7);
+    const beforeMaximizedFullScreen = window.getBounds();
+    window.maximize();
+    await waitFor(() => window.isMaximized(), "maximize before fullscreen");
+    setWindowFullScreen(window, true, true);
+    await probe("maximized to fullscreen rectangle", false);
+    setWindowFullScreen(window, false, true);
+    await waitFor(() => window.isMaximized(), "exit fullscreen returns to maximized state");
+    await probe("exit fullscreen returns to maximized rectangle", false);
+    window.unmaximize();
+    reports.push({ label: "maximized fullscreen roundtrip", normalBoundsBefore: beforeMaximizedFullScreen, boundsAfterRestore: window.getBounds() });
+    assert.deepEqual(window.getBounds(), beforeMaximizedFullScreen, "unmaximize after fullscreen restores the original normal bounds");
+    await waitFor(() => !window.isMaximized(), "unmaximize after fullscreen");
+    await probe("maximized fullscreen roundtrip restores corners", true, 7);
     assert.equal(setWindowCornerRadius(window, 0), 0);
     await probe("explicit plugin square corners", false);
     assert.equal(setWindowCornerRadius(window, 24), 24);

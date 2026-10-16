@@ -121,3 +121,10 @@ and corner dragging, minimum-size enforcement and normal-bounds restoration
 remain release gates for this configuration; successful `setSize` calls do not
 substitute for pointer-driven resizing. Packaged startup must also be checked
 before any corrective resize and after the real renderer applies theme settings.
+
+The transparent Electron path shares one native restore-bounds slot between
+maximize and fullscreen. The existing Windows fullscreen helper therefore
+unmaximizes before entering fullscreen and restores the prior maximized state
+after leaving it. Repeated fullscreen requests are idempotent. This preserves
+the original normal bounds through maximize → fullscreen → exit → restore;
+macOS/Linux continue to delegate their state directly to Electron.

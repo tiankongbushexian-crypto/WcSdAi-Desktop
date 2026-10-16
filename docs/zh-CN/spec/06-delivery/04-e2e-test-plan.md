@@ -6925,6 +6925,8 @@ eleven-tool-round desktop paths are verified by
   在重新启动后恢复；临时工作面板预留宽度不会被保存为用户的聊天窗口尺寸。
   普通窗口四角在有效半径之外没有绘制或可交互像素；默认半径为 12 DIP，
   获授权主题可以选择 0 至 24 DIP，最大化或全屏时窗口为矩形。
+  Verify maximize → fullscreen → exit fullscreen → restore returns to the
+  original normal bounds, including repeated fullscreen requests.
 - **链接规格**：`03-runtime/01-ipc-protocol.md`、`04-ux/01-ui-ia.md`、
   `04-ux/07-ui-design-system.md`、`04-ux/08-component-spec.md`、
   `04-ux/09-interaction-patterns.md`、ADR 0029 / ADR 0122

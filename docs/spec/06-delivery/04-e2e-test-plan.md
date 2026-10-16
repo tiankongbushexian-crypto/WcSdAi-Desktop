@@ -11588,6 +11588,8 @@ This test plan spec is accepted when:
   The four normal-window corners have no painted or interactive pixels outside
   the active radius; the default is 12 DIP, an authorized theme may choose 0..24
   DIP, and maximized/fullscreen windows are rectangular.
+  Verify maximize → fullscreen → exit fullscreen → restore returns to the
+  original normal bounds, including repeated fullscreen requests.
 - **Specs linked**: `03-runtime/01-ipc-protocol.md`,
   `04-ux/01-ui-ia.md`, `04-ux/07-ui-design-system.md`,
   `04-ux/08-component-spec.md`, `04-ux/09-interaction-patterns.md`,

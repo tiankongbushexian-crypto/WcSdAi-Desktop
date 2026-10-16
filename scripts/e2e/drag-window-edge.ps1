@@ -62,8 +62,8 @@ switch ($edge) {
   'bottom' { $startY = $before.Bottom - 1; $deltaY = -40 }
   'bottom-min' { $startY = $before.Bottom - 1; $deltaY = -350 }
   'bottom-left' {
-    $startX = $before.Left + 3
-    $startY = $before.Bottom - 3
+    $startX = $before.Left + 4
+    $startY = $before.Bottom - 4
     $deltaX = 30
     $deltaY = -30
   }
