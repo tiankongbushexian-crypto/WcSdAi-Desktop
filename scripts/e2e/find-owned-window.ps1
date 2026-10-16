@@ -1,7 +1,8 @@
 param(
   [Parameter(Mandatory = $true)][uint32]$targetProcessId,
   [Parameter(Mandatory = $true)][string]$expectedTitle,
-  [Parameter(Mandatory = $true)][long]$backdropHandle
+  [long]$backdropHandle = 0,
+  [switch]$fitInsideBackdrop
 )
 $ErrorActionPreference = 'Stop'
 Add-Type -TypeDefinition @'
@@ -51,5 +52,8 @@ public static class OwnedWindowFinder {
 }
 '@
 $handle = [OwnedWindowFinder]::Find($targetProcessId, $expectedTitle)
-[OwnedWindowFinder]::FitInsideBackdrop([IntPtr]::new([long]$handle), [IntPtr]::new($backdropHandle))
+if ($fitInsideBackdrop) {
+  if ($backdropHandle -le 0) { throw 'Fitting requires the owned backdrop handle' }
+  [OwnedWindowFinder]::FitInsideBackdrop([IntPtr]::new([long]$handle), [IntPtr]::new($backdropHandle))
+}
 @{ handle = $handle } | ConvertTo-Json -Compress

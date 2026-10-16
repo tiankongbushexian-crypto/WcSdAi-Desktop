@@ -77,7 +77,7 @@ export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, cer
         await Promise.race([exit, delay(5_000)]);
         if (child.exitCode === null && child.signalCode === null) {
           await new Promise((resolve, reject) => execFile("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"],
-            { timeout: 10_000 }, (error) => error && child.exitCode === null ? reject(error) : resolve()));
+            { timeout: 10_000, windowsHide: true }, (error) => error ? reject(error) : resolve()));
         }
       } else child.kill();
       await Promise.race([exit, delay(5_000)]);

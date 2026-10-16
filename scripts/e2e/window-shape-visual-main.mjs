@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { version as osVersion } from "node:os";
 import { promisify } from "node:util";
 import { app, BrowserWindow, screen } from "electron";
 import { installWindowShape, setWindowCornerRadius } from "../../apps/desktop/electron/main/window-shape.ts";
@@ -10,9 +11,14 @@ import { assertCompositedCorners, assertPhysicalRegionBounds } from "./window-co
 
 const [profile, evidence, probePath, baselineMode, runId] = process.argv.slice(2);
 const cssOnly = baselineMode === "css-only";
+const transparentComparison = baselineMode === "transparent";
 app.setPath("userData", profile);
+// The runner owns termination. Destroying the final fixture window must not
+// quit with code 0 before a failed assertion has written its async receipt.
+app.on("window-all-closed", () => {});
 const exec = promisify(execFile);
 const reports = [];
+const environment = { platform: process.platform, systemVersion: process.getSystemVersion(), osVersion: osVersion(), electron: process.versions.electron, variant: baselineMode };
 const handleOf = (window) => window.getNativeWindowHandle().readBigUInt64LE().toString();
 const waitFor = async (condition, label) => {
   const deadline = Date.now() + 5000;
@@ -34,20 +40,24 @@ async function run() {
   const window = new BrowserWindow({ show: false, width, height,
     x: area.x + 50, y: area.y + 50, minWidth: 400, minHeight: 300,
     frame: false, thickFrame: false, resizable: true, backgroundColor: "#ffffff",
+    ...(transparentComparison ? { transparent: true } : {}),
     webPreferences: safeWebPreferences });
   // This flag is a deliberate broken fixture, never a production app option.
   if (!cssOnly) installWindowShape(window);
   const handle = handleOf(window);
   const backdropHandle = handleOf(backdrop);
   let backdropRgb = [219, 39, 136];
+  async function readNativeWindow(targetHandle, filename) {
+    const { stdout } = await exec("powershell.exe", ["-NoLogo", "-NoProfile", "-NonInteractive", "-File",
+      probePath, "-windowHandle", targetHandle, "-outputImagePath", join(evidence, `${filename}.png`)],
+    { timeout: 15000, windowsHide: true });
+    return JSON.parse(stdout.trim());
+  }
   async function probe(label, rounded, minimumInset = 1) {
     const filename = label.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
-    const { stdout } = await exec("powershell.exe", ["-NoLogo", "-NoProfile", "-NonInteractive", "-File",
-      probePath, "-windowHandle", handle, "-outputImagePath", join(evidence, `${filename}.png`)],
-    { timeout: 15000, windowsHide: true });
-    const result = JSON.parse(stdout.trim());
-    reports.push({ label, ...result });
-    await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify({ status: "RUNNING", cssOnly, runId, reports }, null, 2));
+    const result = await readNativeWindow(handle, filename);
+    reports.push({ label, foregroundHandle: handle, backdropHandle, backdropRgb, logicalBounds: window.getBounds(), ...result });
+    await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify({ status: "RUNNING", cssOnly, runId, environment, reports }, null, 2));
     if (rounded) {
       // Pixel assertions run first so --baseline-css-only proves they reject a
       // rounded CSS outline that still paints opaque native corner pixels.
@@ -81,6 +91,12 @@ async function run() {
     window.show();
     window.focus();
     await paintTheme("#ffffff");
+    // Its outer corners are outside the smaller foreground window. Confirm the
+    // actual desktop contains the intended backdrop before judging any cutout.
+    const backdropControl = await readNativeWindow(backdropHandle, "backdrop-control");
+    const backdropDomColors = await backdrop.webContents.executeJavaScript("({html: getComputedStyle(document.documentElement).backgroundColor, body: getComputedStyle(document.body).backgroundColor})");
+    reports.push({ label: "backdrop control", backdropHandle, backdropRgb, nativeBackground: backdrop.getBackgroundColor(), domColors: backdropDomColors, logicalBounds: backdrop.getBounds(), ...backdropControl });
+    assertCompositedCorners(backdropControl, backdropHandle, backdropRgb, "backdrop control");
     await probe("default 12 DIP corners", true, 7);
     backdropRgb = [37, 199, 134];
     backdrop.setBackgroundColor("#25c786");
@@ -116,7 +132,7 @@ async function run() {
     await probe("explicit plugin maximum corners", true, 15);
     window.destroy();
     assert.equal(setWindowCornerRadius(window, 12), null);
-    const result = { status: "PASS", cssOnly, runId, reports };
+    const result = { status: "PASS", cssOnly, runId, environment, reports };
     await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify(result, null, 2));
     console.log("NATIVE_WINDOW_REGION " + JSON.stringify(result));
   } finally {
@@ -126,7 +142,7 @@ async function run() {
 }
 
 run().then(() => app.exit(0), async (error) => {
-  await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify({ status: "FAIL", cssOnly, runId, error: String(error), reports }, null, 2));
+  await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify({ status: "FAIL", cssOnly, runId, environment, error: String(error), reports }, null, 2));
   console.error(error);
   app.exit(1);
 });

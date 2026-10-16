@@ -16285,8 +16285,14 @@ installer is used by this acceptance fixture.
   covers stale snapshots, resize coalescing and disposal, and
   `window-control-state.test.mjs` covers the authoritative state response.
   `pnpm test:e2e:window-shape-native` uses actual Windows
-  region APIs and production shape/fullscreen code. The latter explicitly skips
-  other operating systems. Native visual quality, mouse resizing, taskbar snap
+  region APIs and production shape/fullscreen code. It also samples the composed
+  desktop over two changing backdrop colors and verifies corner hit ownership;
+  a deliberate CSS-only window must fail the pixel check. The packaged Windows
+  probe repeats light/dark theme selection through the actual app renderer and
+  public IPC, using an isolated profile and its own host/runtime. Its PNG/JSON
+  evidence excludes profiles and databases. A Windows-only team dispatch keeps
+  existing macOS artifacts unchanged. Both probes explicitly skip other
+  operating systems. Native visual quality, mouse resizing, taskbar snap
   and display scaling remain separate device checks (E2E-167 / ADR 0317).
 - **Traceability:** Design system §10.1, component spec §1.7, ADR 0317.
 

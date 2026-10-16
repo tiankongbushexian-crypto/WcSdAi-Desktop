@@ -18,16 +18,17 @@ const root = repositoryRoot();
 const { build } = createRequire(join(root, "packages/agent-runtime/package.json"))("esbuild");
 const baselineOnly = process.argv.includes("--baseline-css-only");
 const verifyOnly = process.argv.includes("--verify-css-only-rejected");
+const compareTransparency = process.argv.includes("--compare-transparency");
 const temp = await mkdtemp(join(tmpdir(), "wcsdai-window-region-"));
 try {
   await build({ entryPoints: [join(root, "scripts/e2e/window-shape-visual-main.mjs")],
     outfile: join(temp, "main.cjs"), bundle: true, platform: "node", format: "cjs", external: ["electron"], target: "node22" });
   const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE;
-  async function runCase(cssOnly) {
+  async function runCase(variant) {
     const runId = randomUUID();
-    const evidence = join(root, ".artifacts/windows-corners-105", cssOnly ? "native-css-only" : "native-current");
+    const evidence = join(root, ".artifacts/windows-corners-105", `native-${variant}`);
     await mkdir(evidence, { recursive: true });
-    const child = spawn(resolveElectronBinary(root).electronBinary, [join(temp, "main.cjs"), join(temp, runId), evidence, join(root, "scripts/e2e/probe-window-region.ps1"), cssOnly ? "css-only" : "current", runId], { env, stdio: ["ignore", "pipe", "pipe"] });
+    const child = spawn(resolveElectronBinary(root).electronBinary, [join(temp, "main.cjs"), join(temp, runId), evidence, join(root, "scripts/e2e/probe-window-region.ps1"), variant, runId], { env, stdio: ["ignore", "pipe", "pipe"] });
     let output = "";
     for (const stream of [child.stdout, child.stderr]) stream.on("data", (chunk) => { output += chunk; });
     const timer = setTimeout(() => child.kill("SIGKILL"), 180_000);
@@ -37,11 +38,12 @@ try {
     await writeFile(join(evidence, "electron-output.log"), output);
     const receipt = JSON.parse(await readFile(join(evidence, "native-visual-report.json"), "utf8"));
     assert.equal(receipt.runId, runId, "Native visual evidence belongs to this invocation");
+    console.log("NATIVE_WINDOW_VARIANT " + JSON.stringify({ variant, code, status: receipt.status, error: receipt.error }));
     return { code, output, receipt, runId, evidence };
   }
   const failures = [];
   try {
-    const result = await runCase(true);
+    const result = await runCase("css-only");
     if (baselineOnly) assert.equal(result.code, 0, result.output);
     else {
       assertCssOnlyRejected(result.code, result.receipt, result.runId);
@@ -52,12 +54,17 @@ try {
   // Retain production baseline evidence even if the negative control fails for
   // an unexpected reason. Never turn an arbitrary process failure into a pass.
   if (!verifyOnly && !baselineOnly) {
-    try {
-      const result = await runCase(false);
-      assert.equal(result.code, 0, result.output);
-      assert.equal(result.receipt.status, "PASS");
-      console.log("NATIVE_WINDOW_REGION " + JSON.stringify(result.receipt));
-    } catch (error) { failures.push(error); }
+    // The optional comparison changes only the fixture constructor. Always
+    // collect it after the production case, including when production fails.
+    // Current production must still pass; the comparison cannot mask a defect.
+    for (const variant of compareTransparency ? ["current", "transparent"] : ["current"]) {
+      try {
+        const result = await runCase(variant);
+        assert.equal(result.code, 0, result.output);
+        assert.equal(result.receipt.status, "PASS");
+        console.log("NATIVE_WINDOW_REGION " + JSON.stringify(result.receipt));
+      } catch (error) { failures.push(error); }
+    }
   }
   if (failures.length) throw new AggregateError(failures, "Native window visual verification failed");
 } finally { await rm(temp, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }); }

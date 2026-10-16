@@ -9339,7 +9339,14 @@ installer is used by this acceptance fixture.
   控件和真实 Electron 页面缩放；`window-chrome-state.test.mjs` 覆盖迟到快照、
   resize 合并和销毁，`window-control-state.test.mjs` 覆盖权威状态应答。
   `pnpm test:e2e:window-shape-native` 使用真实 Windows 区域 API 及生产
-  形状/全屏代码，其他操作系统明确跳过。原生视觉质量、鼠标缩放、任务栏贴靠和
+  形状/全屏代码，其他操作系统明确跳过。
+  The native probe now checks composed desktop pixels over two changing backdrop
+  colors and corner hit ownership; a deliberate CSS-only window must fail. The
+  packaged probe repeats light/dark theme selection through the actual renderer
+  and public IPC with an isolated profile and packaged host/runtime. Uploaded
+  evidence contains PNG/JSON only, never profiles or databases. Windows-only
+  dispatch leaves existing macOS artifacts unchanged.
+  原生视觉质量、鼠标缩放、任务栏贴靠和
   显示缩放仍需单独实机检查（E2E-167 / ADR 0317）。
 - **追溯：** 设计系统 §10.1、组件规格 §1.7、ADR 0317。
 
