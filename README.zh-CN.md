@@ -37,33 +37,33 @@
 
 ## 团队下载
 
-**当前发布线：1.0.x。当前团队版本：1.0.4。下方三个平台安装包均已验证并可下载。尚未发布 WcSdAi GitHub Release。**
+**当前发行系列：1.0.x。当前团队版本：1.0.5。下方三个平台安装包均已验证并可下载。尚未发布 WcSdAi GitHub Release。**
 
-**1.0.4 更新：**缩小 Mac 菜单栏 Logo，并取消原来的向下偏移，按可见图形上下居中。Windows 桌面和任务栏使用放大的透明黑色 Logo 加细白轮廓；托盘采用独立黑白图标，跟随系统外观切换，并提供原生 DPI 尺寸。以上设计已经负责人审核通过。Mac Dock 图标和首页动画沿用此前通过的设计。
+**1.0.5 更新：**修复较矮窗口中 AI 服务的模型设置列表被挤压、无法显示的问题；Windows 窗口使用更明显的圆角，并在浅色和深色主题下增加细边界；助手的产品身份统一为 WcSdAi，实际模型名称、自定义指令和历史对话保持不变。
 
 WcSdAi — **让ai更简单** — 是面向团队使用的 AI 桌面工作台，由 **量动科技**的 **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** 维护。原创贡献版权：**Copyright 2026 量动科技**。官网：[wanchuangsd.cn](https://wanchuangsd.cn)；技术支持：[2222223323@qq.com](mailto:2222223323@qq.com)。
 
-已安装 **1.0.2 或 1.0.3** 的用户可通过**检查更新**发现 1.0.4、阅读更新内容并打开对应下载入口。安装由用户手动完成，应用不会自行替换或退出安装。1.0.1 用户需先手动升级一次，才能获得后续更新提醒。本次负责人本机也由本人自行升级。具体行为见[更新提醒说明](docs/wcsdai/update-notifications.md)。
+已安装 **1.0.2–1.0.4** 的用户可通过**检查更新**发现 1.0.5、阅读更新内容并打开对应下载入口。安装由用户手动完成，应用不会自行替换或退出安装。1.0.1 用户需先手动升级一次，才能获得后续更新提醒。具体行为见[更新提醒说明](docs/wcsdai/update-notifications.md)。
 
-| 平台 | 下载入口 | 1.0.4 版本的 Actions artifact | ZIP 内的安装包 |
+| 平台 | 下载入口 | 1.0.5 版本的 Actions artifact | ZIP 内的安装包 |
 | --- | --- | --- | --- |
-| macOS Apple Silicon（arm64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265079113) | `WcSdAi-1.0.4-macos-arm64-unsigned` | `WcSdAi-1.0.4-macos-arm64-unsigned.dmg` |
-| macOS Intel（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265174135) | `WcSdAi-1.0.4-macos-x64-unsigned` | `WcSdAi-1.0.4-macos-x64-unsigned.dmg` |
-| Windows（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265329290) | `WcSdAi-1.0.4-windows-x64-unsigned` | `WcSdAi-1.0.4-windows-x64-unsigned.exe` |
+| macOS Apple Silicon（arm64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045120678) | `WcSdAi-1.0.5-macos-arm64-unsigned` | `WcSdAi-1.0.5-macos-arm64-unsigned.dmg` |
+| macOS Intel（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045066607) | `WcSdAi-1.0.5-macos-x64-unsigned` | `WcSdAi-1.0.5-macos-x64-unsigned.dmg` |
+| Windows（x64） | [下载已验证安装包](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044762853) | `WcSdAi-1.0.5-windows-x64-unsigned` | `WcSdAi-1.0.5-windows-x64-unsigned.exe` |
 
-**构建与验证：**三个安装包来自成功的[原生构建运行 37099512277](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277)，源码提交为 [`4e4ab0dbd981`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/4e4ab0dbd981ece9e5e8414ddb889082d9269274)。下载校验值、对应源码、应用标识、许可证及安装包中的实际图标资源均已核验。下载的 Apple Silicon 应用通过 2 次隔离启动，重启后恢复全部 800 个测试 Session。 Intel 与 Windows 实机安装、升级及视觉检查仍待验证。具体范围见[1.0.4 验证报告](docs/wcsdai/1.0.4-verification.md)；[1.0.3 报告](docs/wcsdai/1.0.3-verification.md)保留此前手动升级的历史记录。
+**构建与验证：**安装包来自成功的[原生构建 38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964)，源码为 [`66523a3480cb`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/66523a3480cb42cd4e92b6747486cbeb7586c781)。下载归档与安装包校验值、对应源码、应用标识及许可证声明已核验。 安装包核验本身不代表本机升级或 Windows／Intel 实机视觉验收已经完成；实际执行结果与剩余限制单独记录在[1.0.5 验证报告](docs/wcsdai/1.0.5-verification.md)。
 
 1. 登录 GitHub，使用对本仓库有读取权限的账号。
-2. 点击上表对应平台的下载链接，或在成功运行的 **Artifacts** 中选择对应文件。
-3. 解压 ZIP 后打开其中的 `.dmg` 或 `.exe` 安装包。ZIP 同时包含校验值、构建信息、对应源码和许可证声明。下载保留 30 天，各平台准确到期时间见[团队分发说明](docs/wcsdai/team-distribution.md)。
+2. 点击上表对应平台链接，或在成功运行的 **Artifacts** 中选择对应文件。
+3. 解压 ZIP，核对 `SHA256SUMS` 后打开其中的 `.dmg` 或 `.exe`。ZIP 包含构建信息、对应源码和许可证声明；准确到期时间见[团队分发说明](docs/wcsdai/team-distribution.md)。
 
 团队安装包目前**未签名**：没有 macOS Developer ID 签名及公证，也没有 Windows 发布者签名。系统可能提示未知开发者或无法验证发布者；团队内部使用不会改变操作系统的安全要求。
 
-[GitHub Releases 页面](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases)是长期发布渠道，目前尚无 WcSdAi 发布版本。Linux 继续保留源码与构建配置支持，暂不在本次团队安装包矩阵中。
+[GitHub Releases 页面](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases)是长期发布渠道，本批团队安装包通过 Actions artifacts 分发。Linux 保留源码与构建配置支持，暂不在本次安装包矩阵中。
 
-默认产品语言为简体中文，保留原有模型供应商配置、插件市场、权限控制和技术包名。全新安装使用 `~/.wcsdai` 存放 Host 数据，Electron 配置目录名为 `WcSdAi`；已有 PI-Desktop 数据通过旧路径回退和迁移兼容别名保持可用。迁移现有数据前请阅读[数据迁移与兼容说明](docs/wcsdai/local-data-migration.md)。
+默认语言为简体中文，保留模型供应商配置、插件市场、权限控制和技术包名。全新安装使用 `~/.wcsdai` 存放 Host 数据，Electron 配置目录名为 `WcSdAi`；已有 PI-Desktop 数据通过旧路径回退和迁移兼容别名保持可用。详见[数据迁移与兼容说明](docs/wcsdai/local-data-migration.md)。
 
-[品牌迁移](docs/wcsdai/brand-migration.md) · [1.0.4 验证](docs/wcsdai/1.0.4-verification.md) · [发布清单](docs/wcsdai/release-checklist.md)
+[品牌迁移](docs/wcsdai/brand-migration.md) · [1.0.5 验证](docs/wcsdai/1.0.5-verification.md) · [发布清单](docs/wcsdai/release-checklist.md)
 
 本文继承的 PI-Desktop 截图用于说明工作流，可能包含上游历史品牌，并非当前 WcSdAi 构建的截图。
 

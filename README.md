@@ -37,33 +37,33 @@ Local-first · Model-agnostic · Plugin-powered · macOS / Windows / Linux
 
 ## Team downloads
 
-**Current release line: 1.0.x. Current team version: 1.0.4. All three verified installers are available below. No WcSdAi GitHub Release has been published.**
+**Current release line: 1.0.x. Current team version: 1.0.5. All three verified installers are available below. No WcSdAi GitHub Release has been published.**
 
-**New in 1.0.4:** the macOS menu-bar logo is smaller and centered without the previous downward offset. Windows desktop and taskbar icons use a larger transparent black logo with a thin white outline; the Windows tray uses separate black/white icons selected by the system appearance, with native DPI frames. The owner approved this artwork. The macOS Dock icon and home animations retain their earlier approved design.
+**New in 1.0.5:** AI service model settings remain visible and scrollable in shorter windows. The Windows app has clearer rounded corners and a subtle light/dark perimeter. The assistant uses WcSdAi as its product identity, while actual model names, custom instructions and historical conversations are preserved.
 
 WcSdAi — **让ai更简单** — is an AI desktop workspace for our team's use, maintained by **[tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto)** at **量动科技**. Copyright **2026 量动科技** applies to its original contributions. Website: [wanchuangsd.cn](https://wanchuangsd.cn); support: [2222223323@qq.com](mailto:2222223323@qq.com).
 
-Existing **1.0.2 and 1.0.3** installations can use **Check for Updates** to find 1.0.4, read its notes and open the matching download entry. Installation remains manual; the application does not replace itself or quit to install. Users on 1.0.1 need one manual upgrade to gain update notifications. The owner will perform their own local 1.0.4 upgrade. See [update notifications](docs/wcsdai/update-notifications.md).
+Existing **1.0.2–1.0.4** installations can use **Check for Updates** to find 1.0.5, read its notes and open the matching download entry. Installation remains manual; the application does not replace itself or quit to install. Users on 1.0.1 need one manual upgrade to gain update notifications. See [update notifications](docs/wcsdai/update-notifications.md).
 
-| Platform | Download entry | Actions artifact for version 1.0.4 | Installer inside the ZIP |
+| Platform | Download entry | Actions artifact for version 1.0.5 | Installer inside the ZIP |
 | --- | --- | --- | --- |
-| macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265079113) | `WcSdAi-1.0.4-macos-arm64-unsigned` | `WcSdAi-1.0.4-macos-arm64-unsigned.dmg` |
-| macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265174135) | `WcSdAi-1.0.4-macos-x64-unsigned` | `WcSdAi-1.0.4-macos-x64-unsigned.dmg` |
-| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277/artifacts/11265329290) | `WcSdAi-1.0.4-windows-x64-unsigned` | `WcSdAi-1.0.4-windows-x64-unsigned.exe` |
+| macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045120678) | `WcSdAi-1.0.5-macos-arm64-unsigned` | `WcSdAi-1.0.5-macos-arm64-unsigned.dmg` |
+| macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045066607) | `WcSdAi-1.0.5-macos-x64-unsigned` | `WcSdAi-1.0.5-macos-x64-unsigned.dmg` |
+| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044762853) | `WcSdAi-1.0.5-windows-x64-unsigned` | `WcSdAi-1.0.5-windows-x64-unsigned.exe` |
 
-**Build and verification:** successful [native run 37099512277](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/37099512277) built all three packages from [`4e4ab0dbd981`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/4e4ab0dbd981ece9e5e8414ddb889082d9269274). Download checksums, corresponding source, packaged identity, licenses and the actual icon resources passed verification. The downloaded Apple Silicon app passed 2 isolated launches and restored all 800 fixture Sessions after restart. Native Intel/Windows installation, upgrade and visual checks remain pending. See the [1.0.4 verification report](docs/wcsdai/1.0.4-verification.md) for the exact scope. The [1.0.3 report](docs/wcsdai/1.0.3-verification.md) preserves the earlier manual-upgrade history.
+**Build and verification:** Successful [native run 38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964) built the packages from [`66523a3480cb`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/66523a3480cb42cd4e92b6747486cbeb7586c781). Downloaded archive and installer checksums, corresponding source, packaged identity and notices passed inspection. Package verification alone does not prove an installed-app upgrade or visual acceptance on Windows/Intel devices. Current execution results and remaining limits are recorded separately in the [1.0.5 verification report](docs/wcsdai/1.0.5-verification.md).
 
 1. Sign in to GitHub with an account that has read access to this repository.
-2. Choose the direct platform link above, or find its artifact under **Artifacts** in the successful run.
-3. Extract the ZIP and open its `.dmg` or `.exe` installer. The ZIP includes checksums, build information, corresponding source and license notices. Downloads are retained for 30 days; exact expiry times are in the [team distribution guide](docs/wcsdai/team-distribution.md).
+2. Choose the platform link above, or find its artifact under **Artifacts** in the successful run.
+3. Extract the ZIP, verify `SHA256SUMS`, then open its `.dmg` or `.exe` installer. It includes build information, corresponding source and license notices. Exact expiry times are in the [team distribution guide](docs/wcsdai/team-distribution.md).
 
 These team installers are **unsigned**: they have no macOS Developer ID signing/notarization or Windows publisher signature. The operating system may warn about an unknown developer or unverified publisher. Team use does not change the operating system's security requirements.
 
-The [GitHub Releases page](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases) is the long-term release channel; it currently has no WcSdAi release. Linux remains supported by the source/build configuration and is outside this team-installer matrix.
+The [GitHub Releases page](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases) is the long-term release channel; this team batch uses Actions artifacts. Linux remains supported by the source/build configuration and is outside this installer matrix.
 
-The default product language is Simplified Chinese. Provider settings, the plugin marketplace, permission controls and technical package names are retained. Fresh installations use `~/.wcsdai` for Host data and `WcSdAi` for the Electron profile; existing PI-Desktop data remains compatible through legacy-path fallback and migration aliases. See [data migration and compatibility](docs/wcsdai/local-data-migration.md) before moving existing data.
+The default product language is Simplified Chinese. Provider settings, the plugin marketplace, permission controls and technical package names are retained. Fresh installations use `~/.wcsdai` for Host data and `WcSdAi` for the Electron profile; existing PI-Desktop data remains compatible through legacy-path fallback and migration aliases. See [data migration and compatibility](docs/wcsdai/local-data-migration.md).
 
-[Brand migration](docs/wcsdai/brand-migration.md) · [1.0.4 verification](docs/wcsdai/1.0.4-verification.md) · [Release checklist](docs/wcsdai/release-checklist.md)
+[Brand migration](docs/wcsdai/brand-migration.md) · [1.0.5 verification](docs/wcsdai/1.0.5-verification.md) · [Release checklist](docs/wcsdai/release-checklist.md)
 
 Screenshots inherited from PI-Desktop illustrate workflows and may contain the historical upstream brand. They are not screenshots of the current WcSdAi build.
 
