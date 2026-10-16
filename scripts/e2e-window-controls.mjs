@@ -316,8 +316,8 @@ try {
     await checkWindowsRoundedCorners("theme can request square corners", false);
     assert.equal((await setRadius(25)).ok, false, "out-of-range radius is rejected");
     await checkWindowsRoundedCorners("invalid radius leaves the current shape", false);
-    assert.equal((await setRadius(4)).ok, true);
-    await checkWindowsRoundedCorners("theme switch restores the 4px default");
+    assert.equal((await setRadius(12)).ok, true);
+    await checkWindowsRoundedCorners("theme switch restores the 12 DIP default");
     const loaded = await evaluate(`window.piDesktop.invoke(
       'pi-desktop/plugin/loadDevConfirm',
       { path: ${JSON.stringify(radiusPluginPath)}, grantedPermissions: ['ui.theme', 'ui.window.appearance'] }

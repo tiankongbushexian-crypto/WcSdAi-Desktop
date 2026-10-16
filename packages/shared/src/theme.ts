@@ -3,6 +3,9 @@ import type { ThemePreference } from "./types.js";
 /** The two palettes anything can resolve to. */
 export type ThemeColorScheme = "light" | "dark";
 
+/** Windows native shape and renderer outline share this radius in DIP. */
+export const DEFAULT_WINDOW_CORNER_RADIUS = 12;
+
 /**
  * A built-in theme preference. `system` is a preference rather than a palette:
  * it has no fixed colours, and each call site resolves it against its own

@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const deEntries: ChangelogEntry[] = [
   {
+    version: "1.0.5",
+    date: "2026-10-16",
+    highlights: [
+      "Modelleinstellungen für KI-Dienste bleiben auch in kleineren Fenstern sichtbar und scrollbar.",
+      "Windows-Fenster erhalten deutlichere abgerundete Ecken und einen dezenten Rand für helle und dunkle Designs.",
+      "Der Assistent verwendet WcSdAi als Produktidentität; tatsächliche Modellnamen und eigene Anweisungen bleiben erhalten.",
+    ],
+  },
+  {
     version: "1.0.4",
     date: "2026-10-03",
     highlights: [

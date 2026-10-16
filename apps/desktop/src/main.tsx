@@ -4,7 +4,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { defaultLocale } from "@pi-desktop/i18n/locale-info";
 import { loadRendererResources } from "./lib/renderer-catalogs";
-import { MAC_TRAFFIC_LIGHT_EDGE_DIP } from "@pi-desktop/shared";
+import { DEFAULT_WINDOW_CORNER_RADIUS, MAC_TRAFFIC_LIGHT_EDGE_DIP } from "@pi-desktop/shared";
 import App from "./App";
 import { ErrorBoundary, RoutePending } from "./features/app/chrome";
 import { initLanguageSync } from "./lib/app-language";
@@ -18,6 +18,10 @@ document.documentElement.dataset.theme = "dark";
 // controls overlay right on Windows/Linux); set before first paint.
 document.documentElement.dataset.platform =
   window.piDesktop?.platform ?? "darwin";
+document.documentElement.style.setProperty(
+  "--ds-window-corner-radius",
+  `${DEFAULT_WINDOW_CORNER_RADIUS}px`,
+);
 // The macOS traffic lights are native views with a fixed footprint; the space
 // the shell leaves clear for them derives from the same shared constant the
 // main process positions them with (styles/tokens.css). Only macOS has them —

@@ -936,3 +936,11 @@ confirmed support email, original PI-Desktop / GNU LGPL v3.0 attribution and
 the fork source link. An absent update endpoint disables checking and the
 release-link action, with localized explanation. No settings or data format
 is changed.
+
+### WcSdAi 1.0.5 provider editor containment
+
+At narrow widths or constrained heights, the two model panes stack without
+shrinking into the space left by credentials. The dialog body scrolls the full
+form while each model list keeps a bounded, usable viewport. Header actions
+and the custom-model control remain reachable; editing/saving a binding keeps
+the endpoint, protocol and stored credential handling unchanged.

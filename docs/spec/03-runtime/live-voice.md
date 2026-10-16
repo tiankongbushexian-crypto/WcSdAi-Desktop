@@ -32,6 +32,10 @@ question itself offered; permission and Plan/Goal approvals remain desktop-UI
 decisions (see [Live Voice Work Session Integration](live-work-session.md) and
 [ADR 0315](../../adr/0315-live-voice-spoken-asktool-answers.md)).
 
+The WcSdAi fork's Live Work speaking profile and intent-classifier framing use
+WcSdAi as the product identity. Provider/model choices and every voice/work
+permission boundary remain unchanged.
+
 ## Ownership and security
 
 Electron Main owns the one-call slot, selected account, credential resolution,

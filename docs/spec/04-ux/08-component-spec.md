@@ -146,6 +146,12 @@ Outer frame that positions Topbar, Sidebar, MainChat, and WorkPanel. Owns resize
 | Windows | Frameless 46px titlebar; sidebar actions at left; work-panel toggle then minimize/maximize/close stay viewport-fixed at the window's top-right | None inside the window |
 | Linux | Frameless 46px titlebar; sidebar actions at left; work-panel toggle then minimize/maximize/close stay viewport-fixed at the window's top-right | None inside the window |
 
+- In WcSdAi 1.0.5, the Windows main window uses a 12 DIP native corner radius
+  and a theme-aware 1px inside perimeter so light and dark backgrounds remain
+  distinguishable. The perimeter does not consume layout space or pointer
+  events. It follows an authorized theme radius (including 0) and disappears
+  while maximized/fullscreen; macOS, Linux and auxiliary windows retain their
+  existing chrome. Native resize/drag ownership is unchanged.
 - macOS enables the native Electron `vibrancy: "sidebar"` source-list material
   with `visualEffectState: "followWindow"` and a transparent window backing
   (D348). `nativeTheme.themeSource` follows the app theme preference (`system` /
@@ -3900,6 +3906,12 @@ default nor provider configuration. OAuth accounts remain in their separate sect
 
 ### 19.4 Interactions
 - Add provider opens a modal dialog on a full-window overlay portaled to `#pi-desktop-overlays` on the document element (it can shrink below its 1040px preferred width). Focused credential fields keep their 2px accent ring fully visible: the scrolling body reserves that gutter instead of clipping the ring. Cancel/close resets fields and dismisses the dialog
+- When the AI service/account editor stacks the discovered and configured
+  model panes in a short or narrow viewport, the panes keep their natural
+  minimum heights and the dialog body owns outer scrolling. The panes must not
+  flex-shrink their lists behind the fixed headings and custom-model controls.
+  Both searches, the last configured model's expanded settings, custom model
+  entry and header Save/Cancel remain reachable at 800×560 and at 125% zoom.
 - The model picker searches and toggles multiple models without using a native
   multiple select. Its portaled menu closes on outside press, Escape, scroll,
   and resize; model selection immediately adds or removes its configuration
@@ -4149,3 +4161,10 @@ Input, selection, submission and dismissal semantics remain unchanged.
 Project-delete descriptions and plugin dialog headings/outcomes also wrap long
 project or plugin names instead of overflowing their existing widths. Project
 instructions, memory and OAuth dialogs retain their existing bounded layouts.
+
+### WcSdAi window zoom and reload
+
+The Windows perimeter compensates its CSS width/radius with Main's actual page
+zoom so it matches native DIP corners across 0.5–3× zoom. Fullscreen reloads
+read initial native state; late reads cannot overwrite newer window events,
+and disposal removes state subscriptions.

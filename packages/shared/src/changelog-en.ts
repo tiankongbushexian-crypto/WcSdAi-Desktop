@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const enEntries: ChangelogEntry[] = [
   {
+    version: "1.0.5",
+    date: "2026-10-16",
+    highlights: [
+      "Keep AI service model settings visible and scrollable in smaller windows.",
+      "Give Windows windows clearer rounded corners and a subtle border in light and dark themes.",
+      "Use WcSdAi for assistant identity while preserving actual model names and custom instructions.",
+    ],
+  },
+  {
     version: "1.0.4",
     date: "2026-10-03",
     highlights: [

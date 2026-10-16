@@ -1278,6 +1278,22 @@ payload hook keeps its own object and its return value still wins.
 + [optional user custom instructions]
 ```
 
+### WcSdAi product identity
+
+The default product persona identifies the assistant as **WcSdAi** in Agent,
+Plan and Goal modes. Delegated-agent framing, built-in tool descriptions and
+project-instruction framing use the same product name. WcSdAi is the
+application identity, not a substitute for the configured model/provider.
+When model information is unavailable in the session context, the assistant
+must not guess it; it can direct the user to the session model selector.
+Provider requests retain the original model identifier.
+
+Restored Desktop sessions compose the current system prompt before the next
+turn; historical user/assistant messages are preserved, including old brand
+mentions. User persona replacement and append ordering below remain unchanged.
+The change does not rewrite custom instruction files, native-pi sessions,
+permissions, tools, IPC, or persisted conversations.
+
 ### 7.0.1 User custom system prompt files (issue #542)
 
 The `[optional user custom instructions]` layer is the pi-compatible file pair

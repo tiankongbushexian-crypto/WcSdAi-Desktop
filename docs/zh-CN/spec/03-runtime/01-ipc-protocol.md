@@ -1458,8 +1458,14 @@ type WindowControlAction =
   | "getState" | "minimize" | "toggleMaximize" | "close";
 
 window/control({ action: WindowControlAction })
-  -> { maximized: boolean }
+  -> { maximized: boolean; fullScreen: boolean; zoomFactor: number }
 ```
+
+WcSdAi 1.0.5 新增两个只读返回字段：`fullScreen` 包含 Windows 无边框全屏状态，
+`zoomFactor` 是 Main 的真实页面缩放倍率。现有只读取 `maximized` 的调用方保持
+兼容；通道名称、动作、发送者权限和 Host 协议不变。渲染器初始化和视口变化时
+读取状态，防止晚到响应覆盖较新的原生事件；重载全屏窗口也能恢复正确状态。
+窗口内边线的宽度和半径按页面缩放补偿，系统 DPI 不被误当成页面缩放。
 
 Windows/Linux 的关闭行为（D230、ADR 0090）通过两个附加的、由主进程拥有的
 通道读写。`closeBehavior/get` 返回持久化的偏好以及该平台是否支持它
@@ -1486,6 +1492,10 @@ Maximize/unmaximize 变化也会发出
 `window/event/maximized`。未知的操作失败。这些仅限电子的通道
 不要跨入 host-core，也不要更改主机 RPC 协议版本。
 preload 故意不公开任意的 BrowserWindow 调整大小通道。
+`window/setBackgroundColor` 仍为 Electron 本地通道，仅供主渲染器使用。
+可选 `cornerRadius` 是 0 至 24 DIP 的整数；省略时恢复 WcSdAi 1.0.5 Windows
+主窗口的 12 DIP 默认半径。Main 在选择主题和调整窗口大小时应用原生形状，
+最大化或全屏时移除圆角裁切。格式错误的值在背景变更前以 `INVALID_ARGUMENT` 拒绝。
 特定于几何形状的能力是有界的目标状态工作面板保留与聊天宽度更新
 （D163、D255，ADR 0032/0122）：
 

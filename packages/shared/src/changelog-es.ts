@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const esEntries: ChangelogEntry[] = [
   {
+    version: "1.0.5",
+    date: "2026-10-16",
+    highlights: [
+      "Mantén visibles y desplazables los ajustes de modelos del servicio de IA en ventanas pequeñas.",
+      "Mejora las esquinas redondeadas de las ventanas de Windows y añade un borde sutil en los temas claro y oscuro.",
+      "Usa WcSdAi como identidad del asistente y conserva los nombres reales de los modelos y las instrucciones personalizadas.",
+    ],
+  },
+  {
     version: "1.0.4",
     date: "2026-10-03",
     highlights: [

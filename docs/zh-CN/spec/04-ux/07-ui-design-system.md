@@ -971,7 +971,14 @@ Linux 保留淡入淡出和滑动退出。
   collapsed lane uses two controls, 4px spacing and an 8px gap.
   Right native-control exclusion is unchanged. Header-height background
   paint fills the excluded lane without covering panel controls.
-- 外层外壳在每个平台上都保留原生边缘/角落调整大小。无边框标题栏的
+- 外层外壳在每个平台上都保留原生边缘/角落调整大小。Windows 主窗口关闭
+  `WS_THICKFRAME` 厚边缘，仍由 Electron 43.6 原生无边框命中检测负责缩放。
+  WcSdAi 在内侧绘制不接收指针事件、随主题变化的 1px 轮廓。Windows 主窗口
+  默认使用 12 DIP 原生圆角绘制和命中区域，圆角外没有填充或鼠标目标。
+  具有 `ui.window.appearance` 权限的插件主题可将 `cornerRadius` 设为 0 至
+  24 DIP 的整数，撤销主题后恢复 12 DIP。形状随每次窗口缩放更新，最大化或
+  全屏时变为矩形；渲染器轮廓跟随同一半径，并在这些状态下隐藏。窗口形状内
+  的原生背景仍由主题决定。无边框标题栏的
   拖动区域不会替代操作系统的调整大小所有权。300ms 的稳定边界等待窗口
   可避免恢复逻辑与慢速指针手势竞争，原生调整大小/移动事件停止 600ms 后
   才保存正常基础边界。Electron 强制 800×560 最小尺寸，并按当前显示器

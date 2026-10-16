@@ -18,6 +18,9 @@
 
 没有工作绑定的纯语音 Live profile 不会创建 Agent turn、调用 AgentHost 或 MCP、访问工作区文件、执行模型生成的函数、保存录音或持久化字幕。字幕只保存在本次通话的有界 Renderer 内存缓冲区中。除非用户明确开启独立作用域的 Live Work 通话，否则 Provider delegation/function-call 请求会被拒绝或导致协议错误；Live Work 的执行与权限合同见[实时语音工作会话接入](live-work-session.md)。
 
+WcSdAi fork 的 Live Work 语音身份说明和意图分类器说明使用 WcSdAi 作为产品身份。
+提供商与模型选择，以及所有语音和工作会话的权限边界保持不变。
+
 ## 所有权与安全
 
 Electron Main 管理唯一通话槽位、所选账号、凭证解析、Provider 撤销、麦克风租约、取消、协议适配器、网络传输和终态清理。Renderer 管理用户交互、WebRTC/PCM 媒体和临时字幕显示。IPC 从调用它的受信主 frame 推导所有者，payload 不能自行声明 owner。Live 事件只发送给拥有通话的 frame。

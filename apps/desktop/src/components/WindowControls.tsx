@@ -20,12 +20,17 @@ export function WindowControls() {
   useEffect(() => {
     if (platform === "darwin") return;
     let mounted = true;
+    let receivedNativeState = false;
+    const applyMaximized = (value: boolean) => {
+      setMaximized(value);
+    };
     void api.windowControl("getState").then((state) => {
-      if (mounted) setMaximized(state.maximized);
+      if (mounted && !receivedNativeState) applyMaximized(state.maximized);
     }).catch(() => undefined);
-    const unsubscribe = api.onWindowMaximized((e) =>
-      setMaximized(e.maximized),
-    );
+    const unsubscribe = api.onWindowMaximized((e) => {
+      receivedNativeState = true;
+      applyMaximized(e.maximized);
+    });
     return () => {
       mounted = false;
       unsubscribe();

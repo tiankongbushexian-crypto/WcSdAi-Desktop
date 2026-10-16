@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const zhTWEntries: ChangelogEntry[] = [
   {
+    version: "1.0.5",
+    date: "2026-10-16",
+    highlights: [
+      "修正小視窗中編輯 AI 服務時模型設定清單被壓縮、無法檢視的問題。",
+      "改善 Windows 視窗圓角，並為淺色和深色介面加上清晰的細邊框。",
+      "將助理產品身分統一為 WcSdAi，保留實際模型名稱與自訂指令。",
+    ],
+  },
+  {
     version: "1.0.4",
     date: "2026-10-03",
     highlights: [

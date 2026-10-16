@@ -2,6 +2,15 @@ import type { ChangelogEntry } from "./changelog.js";
 
 export const koEntries: ChangelogEntry[] = [
   {
+    version: "1.0.5",
+    date: "2026-10-16",
+    highlights: [
+      "작은 창에서도 AI 서비스의 모델 설정 목록을 보고 스크롤할 수 있도록 수정했습니다.",
+      "Windows 창의 모서리를 더 둥글게 하고 밝은 테마와 어두운 테마에 은은한 테두리를 추가했습니다.",
+      "실제 모델 이름과 사용자 지정 지침을 유지하면서 어시스턴트의 제품 이름을 WcSdAi로 통일했습니다.",
+    ],
+  },
+  {
     version: "1.0.4",
     date: "2026-10-03",
     highlights: [

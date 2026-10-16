@@ -113,6 +113,8 @@ export async function createProductionWorkHarness(t, server, options = {}) {
     },
     async completeIntent(_provider, context, _thinking, requestOptions) {
       assert.ok(requestOptions.signal instanceof AbortSignal);
+      assert.match(context.systemPrompt, /bound WcSdAi work session/u);
+      assert.doesNotMatch(context.systemPrompt, /PI-Desktop/u);
       return { text: JSON.stringify({
         kind: "new-task",
         relationToActive: String(context.messages[0]?.content).includes("independent follow-up") ? "independent" : "unspecified",

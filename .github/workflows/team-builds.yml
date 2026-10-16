@@ -73,6 +73,9 @@ jobs:
         run: pnpm --config.verify-deps-before-run=false check:release-docs
       - name: Build native unsigned installer without publishing
         run: node scripts/team-installers.mjs build ${{ matrix.platform }} ${{ matrix.arch }}
+      - name: Verify native Windows corner regions
+        if: matrix.platform == 'windows'
+        run: node scripts/e2e-window-shape-native.mjs
       - name: Verify macOS ad-hoc bundle integrity
         if: matrix.platform == 'macos'
         shell: bash

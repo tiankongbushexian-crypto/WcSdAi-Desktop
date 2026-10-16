@@ -3,6 +3,22 @@
   native window controls, the conversation top bar, and the notification center.
 */
 
+/* A visible inside edge separates the opaque Windows window from white or
+ * dark windows behind it. Native setShape owns the actual corner cutouts.
+ * This overlay changes neither layout nor the native resize/drag hit regions. */
+:root[data-platform="win32"]:not([data-surface]):not([data-maximized="true"]):not([data-fullscreen="true"]) body::after {
+  --ds-window-outline: color-mix(in oklab, var(--ds-text-primary) 24%, transparent);
+  --ds-window-outline-radius: calc(var(--ds-window-corner-radius) / var(--ds-window-zoom, 1));
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  box-sizing: border-box;
+  border: calc(1px / var(--ds-window-zoom, 1)) solid var(--ds-window-outline);
+  border-radius: var(--ds-window-outline-radius);
+  pointer-events: none;
+}
+
 /*
  * The native vibrancy material is visible only through the renderer ancestry.
  * Keep those layers transparent on macOS; the full-height sidebar and the

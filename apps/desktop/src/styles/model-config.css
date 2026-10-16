@@ -1771,6 +1771,10 @@
   }
 
   .provider-setup-panes {
+    /* The body owns overflow in the stacked layout. Do not shrink both grid
+       rows into the space left by credentials: that collapses the chosen
+       list behind its fixed header and custom-model controls. */
+    flex: none;
     grid-template-columns: minmax(0, 1fr);
   }
 
