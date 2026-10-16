@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import { once } from "node:events";
 import { writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { resolveElectronBinary } from "./boot.mjs";
 import { waitFor } from "./wait.mjs";
@@ -19,8 +19,10 @@ async function availablePort() {
   return port;
 }
 
-export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, certificate, evidence, syntheticMicrophone = true }) {
-  const { appDir, electronBinary } = resolveElectronBinary(root);
+export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, certificate, evidence, syntheticMicrophone = true, executablePath }) {
+  const { appDir, electronBinary } = executablePath
+    ? { appDir: dirname(executablePath), electronBinary: executablePath }
+    : resolveElectronBinary(root);
   const port = await availablePort();
   const env = { ...process.env };
   for (const name of Object.keys(env)) {
@@ -28,6 +30,8 @@ export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, cer
       /^(?:NODE_OPTIONS|NODE_EXTRA_CA_CERTS|NODE_TLS_REJECT_UNAUTHORIZED|ELECTRON_RUN_AS_NODE|HTTPS?_PROXY|ALL_PROXY|PI_DESKTOP_PROXY_JSON|PI_DESKTOP_CAPTURE|DEBUG_HOST)$/i.test(name)) {
       delete env[name];
     }
+    // A packaged probe must exercise its own host/runtime, never inherited dev overrides.
+    if (executablePath && /^(?:PI_DESKTOP_|PI_CODING_AGENT_DIR$)/.test(name)) delete env[name];
   }
   Object.assign(env, {
     HOME: home,
@@ -42,7 +46,7 @@ export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, cer
     "--remote-debugging-address=127.0.0.1",
     `--user-data-dir=${profile}`,
     ...(syntheticMicrophone ? ["--use-fake-device-for-media-stream"] : []),
-    ".",
+    ...(executablePath ? [] : ["."]),
   ], { cwd: appDir, env, stdio: ["ignore", "pipe", "pipe"] });
   const exit = new Promise((resolve) => child.once("exit", resolve));
   let launchError;
@@ -66,7 +70,16 @@ export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, cer
     }
     connections.clear();
     if (child.exitCode === null) {
-      child.kill();
+      // The packaged caller first requests a normal quit through public IPC.
+      // If boot/quit failed, terminate only this owned process tree so the
+      // packaged host and sidecar cannot outlive their disposable profile.
+      if (executablePath && process.platform === "win32") {
+        await Promise.race([exit, delay(5_000)]);
+        if (child.exitCode === null && child.signalCode === null) {
+          await new Promise((resolve, reject) => execFile("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"],
+            { timeout: 10_000 }, (error) => error && child.exitCode === null ? reject(error) : resolve()));
+        }
+      } else child.kill();
       await Promise.race([exit, delay(5_000)]);
       if (child.exitCode === null && child.signalCode === null) {
         child.kill("SIGKILL");
@@ -179,6 +192,7 @@ export async function launchLiveVoiceDesktop({ root, dataDir, profile, home, cer
     let widgetWindow = null;
     return {
       close,
+      pid: child.pid,
       ...mainWindow,
       /** The docked widget window: it appears when a call starts. */
       useWidget: async () => (widgetWindow ??= await attach(isWidgetWindow, "isolated Live Voice widget CDP target")),

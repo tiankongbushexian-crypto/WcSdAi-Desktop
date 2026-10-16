@@ -93,6 +93,9 @@ An artifact build is not proof that installation or upgrade passed on that OS.
    authorized commit/push/integration and remote team builds on 2026-10-02.
 2. Make the workflow available on the default branch, then open **Actions →
    WcSdAi Team Installers → Run workflow** and choose the intended revision.
+   Leave **Installer platforms to build** at `all` for the three native lanes,
+   or select `windows` to rebuild only Windows x64. Both choices first archive
+   the exact corresponding source; an invalid selector fails before building.
 3. Wait for native build/test jobs to finish. Check the version, commit,
    platform/architecture, checksums and included source for each artifact.
 4. Test installation and data continuity on representative team devices, then
