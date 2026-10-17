@@ -1126,6 +1126,12 @@ header-height background behind the excluded lane without covering its controls.
   a slow pointer gesture, and normal base bounds persist 600ms after the last
   native resize/move event. Electron enforces an 800×560 minimum, capped to the
   current display's work area (D635); smaller sizes are unsupported.
+  Windows main-window composition uses `transparent: true` at construction
+  together with the native shape; region hit testing alone does not guarantee
+  that the desktop is visible outside the corners. Content and theme-owned
+  native backgrounds remain opaque, with no transparent margin or geometry
+  change. Native edge/corner resizing and minimum-size behavior require
+  qualification on the pinned Electron runtime before release (ADR 0317).
 
 ## 11. Component foundations
 

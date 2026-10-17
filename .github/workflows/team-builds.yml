@@ -2,6 +2,23 @@ name: WcSdAi Team Installers
 
 on:
   workflow_dispatch:
+    inputs:
+      platform:
+        description: Installer platforms to build
+        type: choice
+        required: false
+        default: all
+        options:
+          - all
+          - windows
+      mode:
+        description: Build installers or run only Windows corner diagnostics
+        type: choice
+        required: false
+        default: installers
+        options:
+          - installers
+          - native-corners
 
 permissions:
   contents: read
@@ -9,10 +26,12 @@ permissions:
 jobs:
   source:
     name: Corresponding source
+    if: inputs.mode != 'native-corners'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
       artifact-name: ${{ steps.source.outputs.artifact-name }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -21,6 +40,11 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24
+      - name: Select installer platforms
+        id: matrix
+        env:
+          TEAM_BUILD_PLATFORM: ${{ inputs.platform || 'all' }}
+        run: node scripts/team-build-matrix.mjs
       - name: Archive the exact candidate and notices
         id: source
         run: node scripts/team-installers.mjs source
@@ -31,22 +55,48 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  native-corners:
+    name: Windows native corner diagnostics
+    if: inputs.mode == 'native-corners'
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install locked dependencies on the clean runner
+        run: pnpm install --frozen-lockfile
+      - name: Build shared contracts for the isolated native probe
+        run: pnpm --config.verify-deps-before-run=false --filter @pi-desktop/shared --filter @pi-desktop/plugin-sdk -r build
+      - name: Install locked Electron runtime for isolated diagnostics
+        id: native-runtime
+        run: node apps/desktop/node_modules/electron/install.js
+      - name: Verify the desktop backdrop without a packaged application
+        run: node scripts/e2e-windows-packaged-corners.mjs --backdrop-only
+      - name: Verify native Windows corner regions independently
+        if: ${{ !cancelled() && steps.native-runtime.outcome == 'success' }}
+        run: node scripts/e2e-window-shape-native.mjs --compare-transparency
+      - name: Preserve Windows corner diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: WcSdAi-windows-corners-diagnostic-${{ github.sha }}
+          path: .artifacts/windows-corners-105
+          if-no-files-found: error
+          retention-days: 30
+
   installers:
     name: ${{ matrix.platform }} ${{ matrix.arch }} unsigned
     needs: source
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - os: macos-15
-            platform: macos
-            arch: arm64
-          - os: macos-15-intel
-            platform: macos
-            arch: x64
-          - os: windows-latest
-            platform: windows
-            arch: x64
+      matrix: ${{ fromJSON(needs.source.outputs.matrix) }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
     steps:
@@ -68,17 +118,29 @@ jobs:
       - name: Install locked dependencies on the clean runner
         run: pnpm install --frozen-lockfile
       - name: Check team packaging workflow and collection
-        run: node --test apps/desktop/test/team-installers.test.mjs apps/desktop/test/electron-runtime-notices.test.mjs
+        run: node --test apps/desktop/test/team-installers.test.mjs apps/desktop/test/electron-runtime-notices.test.mjs scripts/e2e/extract-windows-installer.test.mjs
       - name: Check release version and documentation consistency
         run: pnpm --config.verify-deps-before-run=false check:release-docs
       - name: Build native unsigned installer without publishing
         run: node scripts/team-installers.mjs build ${{ matrix.platform }} ${{ matrix.arch }}
       - name: Install locked Electron runtime for the Windows native probe
+        id: windows-runtime
         if: matrix.platform == 'windows'
         run: node apps/desktop/node_modules/electron/install.js
       - name: Verify native Windows corner regions
         if: matrix.platform == 'windows'
         run: node scripts/e2e-window-shape-native.mjs
+      - name: Verify packaged Windows corner pixels
+        if: ${{ !cancelled() && matrix.platform == 'windows' && steps.windows-runtime.outcome == 'success' }}
+        run: node scripts/e2e-windows-packaged-corners.mjs
+      - name: Preserve Windows corner verification evidence
+        if: always() && matrix.platform == 'windows'
+        uses: actions/upload-artifact@v7
+        with:
+          name: WcSdAi-windows-corners-${{ github.sha }}
+          path: .artifacts/windows-corners-105
+          if-no-files-found: error
+          retention-days: 30
       - name: Verify macOS ad-hoc bundle integrity
         if: matrix.platform == 'macos'
         shell: bash

@@ -983,6 +983,12 @@ Linux 保留淡入淡出和滑动退出。
   可避免恢复逻辑与慢速指针手势竞争，原生调整大小/移动事件停止 600ms 后
   才保存正常基础边界。Electron 强制 800×560 最小尺寸，并按当前显示器
   工作区裁剪（D635）；更小的尺寸不受支持。
+  Windows main-window composition uses `transparent: true` at construction
+  together with the native shape; region hit testing alone does not guarantee
+  that the desktop is visible outside the corners. Content and theme-owned
+  native backgrounds remain opaque, with no transparent margin or geometry
+  change. Native edge/corner resizing and minimum-size behavior require
+  qualification on the pinned Electron runtime before release (ADR 0317).
 
 ## 11. 组件基础
 

@@ -58,22 +58,25 @@ test("manual team workflow uses one candidate, native runners and artifact-only 
   assert.equal(workflow.name, "WcSdAi Team Installers");
   assert.deepEqual(Object.keys(workflow.on), ["workflow_dispatch"]);
   assert.deepEqual(workflow.permissions, { contents: "read" });
-  assert.deepEqual(Object.keys(workflow.jobs), ["source", "installers"]);
+  assert.deepEqual(Object.keys(workflow.jobs).sort(), ["installers", "native-corners", "source"]);
   assert.equal(workflow.jobs.installers.needs, "source");
-  assert.deepEqual(workflow.jobs.installers.strategy.matrix.include, [
-    { os: "macos-15", platform: "macos", arch: "arm64" },
-    { os: "macos-15-intel", platform: "macos", arch: "x64" },
-    { os: "windows-latest", platform: "windows", arch: "x64" },
-  ]);
-  for (const job of Object.values(workflow.jobs)) {
+  assert.equal(workflow.jobs.installers.strategy.matrix, "${{ fromJSON(needs.source.outputs.matrix) }}");
+  for (const [jobId, job] of Object.entries(workflow.jobs)) {
     const checkout = job.steps.find((step) => step.uses?.startsWith("actions/checkout@"));
     assert.equal(checkout.with.ref, "${{ github.sha }}");
     assert.equal(checkout.with["persist-credentials"], false);
-    const upload = job.steps.find((step) => step.uses?.startsWith("actions/upload-artifact@"));
+    assert.equal(job.permissions, undefined);
+    if (jobId === "native-corners") continue;
+    const producer = jobId === "source" ? "source" : "installer";
+    const uploads = job.steps.filter((step) => step.uses?.startsWith("actions/upload-artifact@")
+      && step.with.name === `\${{ steps.${producer}.outputs.artifact-name }}`);
+    assert.equal(uploads.length, 1, "each job must upload its exact collected distribution artifact once");
+    const [upload] = uploads;
+    assert.equal(upload.with.path, `\${{ steps.${producer}.outputs.artifact-path }}`);
     assert.equal(upload.with["if-no-files-found"], "error");
     assert.equal(upload.with["retention-days"], 30);
     assert.equal(upload.if, undefined, "a failed build must not upload a partial artifact");
-    assert.equal(job.permissions, undefined);
+    assert.equal(upload["continue-on-error"], undefined);
   }
   const source = JSON.stringify(workflow);
   assert.doesNotMatch(source, /secrets\.|contents.*write|gh release|git push|git tag|spctl|xattr|Set-MpPreference/);
@@ -94,6 +97,129 @@ test("Windows native region probe installs the locked Electron runtime before la
   assert.equal(probe["continue-on-error"], undefined);
   assert.ok(probeIndex > steps.findIndex((step) => step.run?.includes("team-installers.mjs build")));
   assert.ok(probeIndex < steps.findIndex((step) => step.run?.includes("team-installers.mjs installer")));
+});
+
+test("Windows corner gates must pass before installer collection while diagnostic evidence survives failure", () => {
+  const steps = workflow.jobs.installers.steps;
+  const buildIndex = steps.findIndex((step) => step.run === "node scripts/team-installers.mjs build ${{ matrix.platform }} ${{ matrix.arch }}");
+  const collectIndex = steps.findIndex((step) => step.id === "installer");
+  const uploadIndex = steps.findIndex((step) => step.uses?.startsWith("actions/upload-artifact@")
+    && step.with.name === "${{ steps.installer.outputs.artifact-name }}");
+  assert.ok(buildIndex >= 0 && collectIndex > buildIndex && uploadIndex > collectIndex);
+  const gateIndices = ["e2e-window-shape-native.mjs", "e2e-windows-packaged-corners.mjs"].map((script) => {
+    const index = steps.findIndex((step) => step.run === `node scripts/${script}`);
+    assert.ok(index > buildIndex && index < collectIndex, `${script} must gate installer collection`);
+    assert.equal(steps[index].if, script === "e2e-window-shape-native.mjs"
+      ? "matrix.platform == 'windows'"
+      : "${{ !cancelled() && matrix.platform == 'windows' && steps.windows-runtime.outcome == 'success' }}");
+    assert.equal(steps[index]["continue-on-error"], undefined);
+    return index;
+  });
+  for (const index of [collectIndex, uploadIndex]) {
+    assert.equal(steps[index].if, undefined, "failed corner checks must prevent shipping an installer");
+    assert.equal(steps[index]["continue-on-error"], undefined);
+  }
+  const diagnosticUploads = steps.filter((step) => step.uses?.startsWith("actions/upload-artifact@")
+    && step.with.name === "WcSdAi-windows-corners-${{ github.sha }}");
+  assert.equal(diagnosticUploads.length, 1);
+  const [evidence] = diagnosticUploads;
+  assert.equal(evidence.if, "always() && matrix.platform == 'windows'");
+  assert.ok(steps.indexOf(evidence) > Math.max(...gateIndices));
+  assert.ok(steps.indexOf(evidence) < collectIndex);
+  assert.equal(evidence.with.path, ".artifacts/windows-corners-105", "upload only dedicated corner evidence, never release binaries or fixture profiles");
+  assert.notEqual(evidence.with["include-hidden-files"], true);
+  assert.equal(evidence.with["if-no-files-found"], "error");
+  assert.equal(evidence.with["retention-days"], 30);
+  assert.equal(evidence["continue-on-error"], undefined);
+});
+
+test("team dispatch defaults to all platforms and accepts an isolated Windows build", (t) => {
+  const input = workflow.on.workflow_dispatch?.inputs?.platform;
+  assert.deepEqual(input, {
+    description: "Installer platforms to build",
+    type: "choice",
+    required: false,
+    default: "all",
+    options: ["all", "windows"],
+  });
+  const selection = workflow.jobs.source.steps.find((step) => step.id === "matrix");
+  assert.ok(selection, "validate the selection before archiving or uploading source");
+  assert.equal(selection.run, "node scripts/team-build-matrix.mjs");
+  assert.equal(selection.env.TEAM_BUILD_PLATFORM, "${{ inputs.platform || 'all' }}");
+  assert.equal(selection.if, undefined);
+  assert.equal(selection["continue-on-error"], undefined);
+  assert.ok(workflow.jobs.source.steps.indexOf(selection) < workflow.jobs.source.steps.findIndex((step) => step.id === "source"));
+  assert.equal(workflow.jobs.source.if, "inputs.mode != 'native-corners'", "every installer selection requires corresponding source");
+  assert.equal(workflow.jobs.source.outputs.matrix, "${{ steps.matrix.outputs.matrix }}");
+  assert.equal(workflow.jobs.installers.strategy.matrix, "${{ fromJSON(needs.source.outputs.matrix) }}");
+  const root = mkdtempSync(join(tmpdir(), "wcsdai-matrix-test-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  const all = [
+    { os: "macos-15", platform: "macos", arch: "arm64" },
+    { os: "macos-15-intel", platform: "macos", arch: "x64" },
+    { os: "windows-latest", platform: "windows", arch: "x64" },
+  ];
+  for (const [index, value] of [undefined, "all", "windows"].entries()) {
+    const output = join(root, `output-${index}`);
+    const env = { ...process.env, GITHUB_OUTPUT: output };
+    delete env.TEAM_BUILD_PLATFORM;
+    if (value !== undefined) env.TEAM_BUILD_PLATFORM = value;
+    const result = spawnSync(process.execPath, ["scripts/team-build-matrix.mjs"], { cwd: repository, env, encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr);
+    const lines = readFileSync(output, "utf8").trim().split("\n");
+    assert.equal(lines.length, 1, "publish exactly one validated matrix output");
+    assert.ok(lines[0].startsWith("matrix="));
+    assert.deepEqual(JSON.parse(lines[0].slice("matrix=".length)), { include: value === "windows" ? [all[2]] : all });
+  }
+  for (const value of ["linux", "", "WINDOWS", "windows\nextra=all"]) {
+    const output = join(root, "invalid-output");
+    const result = spawnSync(process.execPath, ["scripts/team-build-matrix.mjs"], {
+      cwd: repository, env: { ...process.env, GITHUB_OUTPUT: output, TEAM_BUILD_PLATFORM: value }, encoding: "utf8",
+    });
+    assert.notEqual(result.status, 0, "invalid selections must fail before a build matrix is emitted");
+    assert.match(result.stderr, /Unsupported team build platform/);
+    assert.equal(existsSync(output), false);
+  }
+});
+
+test("native-corners dispatch runs independent Windows diagnostics without publishing distribution artifacts", () => {
+  assert.deepEqual(workflow.on.workflow_dispatch?.inputs?.mode, {
+    description: "Build installers or run only Windows corner diagnostics",
+    type: "choice", required: false, default: "installers", options: ["installers", "native-corners"],
+  });
+  assert.equal(workflow.jobs.source.if, "inputs.mode != 'native-corners'");
+  assert.equal(workflow.jobs.installers.needs, "source");
+  assert.equal(workflow.jobs.installers.if, undefined, "skipped source must also skip installer builds");
+  const job = workflow.jobs["native-corners"];
+  assert.equal(job.if, "inputs.mode == 'native-corners'");
+  assert.equal(job["runs-on"], "windows-latest");
+  assert.equal(job.needs, undefined, "diagnostics must not wait for source packaging");
+  assert.equal(job["continue-on-error"], undefined);
+  const steps = job.steps;
+  assert.ok(steps.some((step) => step.uses?.startsWith("pnpm/action-setup@")));
+  assert.ok(steps.some((step) => step.uses?.startsWith("actions/setup-node@")
+    && step.with["node-version"] === 24 && step.with.cache === "pnpm"));
+  const dependencies = steps.findIndex((step) => step.run === "pnpm install --frozen-lockfile");
+  const build = steps.findIndex((step) => step.run === "pnpm --config.verify-deps-before-run=false --filter @pi-desktop/shared --filter @pi-desktop/plugin-sdk -r build");
+  const runtime = steps.findIndex((step) => step.id === "native-runtime");
+  assert.ok(dependencies >= 0 && build > dependencies && runtime > build);
+  assert.equal(steps[runtime].run, "node apps/desktop/node_modules/electron/install.js");
+  assert.equal(steps[runtime]["continue-on-error"], undefined);
+  const backdrop = steps.findIndex((step) => step.run === "node scripts/e2e-windows-packaged-corners.mjs --backdrop-only");
+  const native = steps.findIndex((step) => step.run === "node scripts/e2e-window-shape-native.mjs --compare-transparency");
+  assert.ok(backdrop > runtime && native > backdrop);
+  assert.equal(steps[backdrop]["continue-on-error"], undefined, "failed preflight must fail the diagnostic job");
+  assert.equal(steps[native].if, "${{ !cancelled() && steps.native-runtime.outcome == 'success' }}", "retain native evidence even after backdrop preflight fails");
+  assert.equal(steps[native]["continue-on-error"], undefined);
+  const uploads = steps.filter((step) => step.uses?.startsWith("actions/upload-artifact@"));
+  assert.equal(uploads.length, 1, "diagnostics may upload only their evidence");
+  assert.equal(uploads[0].if, "always()");
+  assert.deepEqual(uploads[0].with, {
+    name: "WcSdAi-windows-corners-diagnostic-${{ github.sha }}",
+    path: ".artifacts/windows-corners-105", "if-no-files-found": "error", "retention-days": 30,
+  });
+  assert.ok(steps.indexOf(uploads[0]) > native);
+  assert.doesNotMatch(JSON.stringify(job), /team-installers\.mjs|download-artifact|rust-toolchain|cargo |electron-builder|dist:win|release\/|profile/);
 });
 
 for (const [platform, arch, nativePlatform] of [["macos", "arm64", "darwin"], ["macos", "x64", "darwin"], ["windows", "x64", "win32"]]) {

@@ -34,7 +34,7 @@ import {
 import { readWindowState, writeWindowState } from "../window-preferences";
 import { suppressLinuxFramelessSystemMenu } from "../frameless-system-menu";
 import { isWindowFullScreen } from "../window-fullscreen";
-import { installWindowShape } from "../window-shape";
+import { installWindowShape, WIN_MAIN_WINDOW_FRAME_OPTIONS } from "../window-shape";
 import { recoverRendererAfterGone } from "../renderer-recovery";
 
 function windowsIconPath(): string | undefined {
@@ -189,7 +189,7 @@ export async function createWindow({
         }
       : {
           frame: false,
-          ...(process.platform === "win32" ? { thickFrame: false } : {}),
+          ...(process.platform === "win32" ? WIN_MAIN_WINDOW_FRAME_OPTIONS : {}),
           backgroundColor: builtinWindowBackground(
             nativeTheme.shouldUseDarkColors ? "dark" : "light",
           ),

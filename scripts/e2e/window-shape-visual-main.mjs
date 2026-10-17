@@ -1,0 +1,208 @@
+import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
+import { writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { version as osVersion } from "node:os";
+import { promisify } from "node:util";
+import { app, BrowserWindow, screen } from "electron";
+import { installWindowShape, roundedWindowShape, setWindowCornerRadius, WIN_MAIN_WINDOW_FRAME_OPTIONS } from "../../apps/desktop/electron/main/window-shape.ts";
+import { setWindowFullScreen } from "../../apps/desktop/electron/main/window-fullscreen.ts";
+import { assertCompositedCorners, assertPhysicalRegionBounds } from "./window-corner-assertions.mjs";
+
+const [profile, evidence, probePath, baselineMode, runId] = process.argv.slice(2);
+const cssOnly = baselineMode === "css-only";
+const transparentComparison = baselineMode === "transparent";
+const opaqueComparison = ["css-only", "opaque", "reapply-after-show", "reapply-after-background"].includes(baselineMode);
+app.setPath("userData", profile);
+// The runner owns termination. Destroying the final fixture window must not
+// quit with code 0 before a failed assertion has written its async receipt.
+app.on("window-all-closed", () => {});
+const exec = promisify(execFile);
+const reports = [];
+const environment = { platform: process.platform, systemVersion: process.getSystemVersion(), osVersion: osVersion(), electron: process.versions.electron, variant: baselineMode };
+const handleOf = (window) => window.getNativeWindowHandle().readBigUInt64LE().toString();
+const waitFor = async (condition, label) => {
+  const deadline = Date.now() + 5000;
+  while (!condition()) {
+    if (Date.now() > deadline) throw new Error(`Timed out: ${label}`);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+};
+
+async function run() {
+  await app.whenReady();
+  const area = screen.getPrimaryDisplay().workArea;
+  const width = Math.min(900, area.width - 100);
+  const height = Math.min(650, area.height - 100);
+  assert.ok(width >= 500 && height >= 400, "native visual fixture needs an interactive desktop");
+  const safeWebPreferences = { sandbox: true, contextIsolation: true, nodeIntegration: false };
+  const backdrop = new BrowserWindow({ ...area, show: false, frame: false,
+    thickFrame: false, backgroundColor: "#db2788", webPreferences: safeWebPreferences });
+  const window = new BrowserWindow({ show: false, width, height,
+    x: area.x + 50, y: area.y + 50, minWidth: 400, minHeight: 300,
+    frame: false, ...WIN_MAIN_WINDOW_FRAME_OPTIONS, resizable: true, backgroundColor: "#ffffff",
+    ...(opaqueComparison ? { transparent: false } : {}),
+    ...(transparentComparison ? { transparent: true } : {}),
+    webPreferences: safeWebPreferences });
+  // This flag is a deliberate broken fixture, never a production app option.
+  if (!cssOnly) installWindowShape(window);
+  const handle = handleOf(window);
+  const backdropHandle = handleOf(backdrop);
+  let backdropRgb = [219, 39, 136];
+  async function readNativeWindow(targetHandle, filename) {
+    const { stdout } = await exec("powershell.exe", ["-NoLogo", "-NoProfile", "-NonInteractive", "-File",
+      probePath, "-windowHandle", targetHandle, "-outputImagePath", join(evidence, `${filename}.png`)],
+    { timeout: 15000, windowsHide: true });
+    return JSON.parse(stdout.trim());
+  }
+  async function probe(label, rounded, minimumInset = 1) {
+    const filename = label.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+    const result = await readNativeWindow(handle, filename);
+    reports.push({ label, foregroundHandle: handle, backdropHandle, backdropRgb, logicalBounds: window.getBounds(), ...result });
+    await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify({ status: "RUNNING", cssOnly, runId, environment, reports }, null, 2));
+    if (rounded) {
+      // Pixel assertions run first so --baseline-css-only proves they reject a
+      // rounded CSS outline that still paints opaque native corner pixels.
+      assertCompositedCorners(result, backdropHandle, backdropRgb, label);
+      assert.equal(result.kind, 3, `${label}: complex rounded native region`);
+      assert.deepEqual(result.cornersExcluded, [true, true, true, true], `${label}: all four corners cut out`);
+      assert.equal(result.centerOwned, true, `${label}: window center remains hit-testable`);
+      assert.ok(result.topInset >= minimumInset, `${label}: visible corner inset`);
+      assertPhysicalRegionBounds(result, label);
+    } else {
+      assert.ok(result.kind === 0 || (result.kind === 2 && result.cornersExcluded.every((value) => !value)), `${label}: rectangular region`);
+    }
+  }
+  async function paintTheme(color) {
+    // Follow production window/background IPC ordering with an unchanged radius.
+    if (!cssOnly) setWindowCornerRadius(window, 12);
+    window.setBackgroundColor(color);
+    await window.webContents.executeJavaScript(`document.documentElement.style.setProperty('--background', ${JSON.stringify(color)}); new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))`);
+  }
+  async function dragNativeEdge(edge) {
+    window.focus();
+    const { stdout } = await exec("powershell.exe", ["-NoLogo", "-NoProfile", "-NonInteractive", "-File",
+      join(dirname(probePath), "drag-window-edge.ps1"), "-targetProcessId", String(process.pid), "-edge", edge,
+      "-targetWindowHandle", handle], { timeout: 15000, windowsHide: true });
+    const result = JSON.parse(stdout.trim());
+    reports.push({ label: `native ${edge} edge drag`, foregroundHandle: handle, ...result });
+    assert.equal(result.restored, true, `${edge} drag restores the fixture bounds`);
+    if (edge === "right") {
+      assert.ok(result.afterWidth - result.beforeWidth >= 20, "native right edge expands the physical window");
+      assert.equal(result.afterX, result.beforeX, "native right edge keeps the left anchor");
+      assert.equal(result.afterHeight, result.beforeHeight, "native right edge preserves height");
+    } else if (edge === "bottom-left") {
+      assert.ok(result.beforeWidth - result.afterWidth >= 20, "native bottom-left corner shrinks width");
+      assert.ok(result.beforeHeight - result.afterHeight >= 20, "native bottom-left corner shrinks height");
+      assert.equal(result.afterY, result.beforeY, "native bottom-left corner keeps the top anchor");
+      assert.ok(Math.abs(result.afterX + result.afterWidth - result.beforeX - result.beforeWidth) <= 1,
+        "native bottom-left corner keeps the right anchor");
+    } else {
+      assert.ok(result.beforeHeight - result.afterHeight >= 20, "native bottom edge shrinks the physical window");
+      assert.equal(result.afterY, result.beforeY, "native bottom edge keeps the top anchor");
+      assert.equal(result.afterWidth, result.beforeWidth, "native bottom edge preserves width");
+      if (edge === "bottom-min") {
+        const minimumPhysicalHeight = window.getMinimumSize()[1] * screen.getDisplayMatching(window.getBounds()).scaleFactor;
+        assert.ok(Math.abs(result.afterHeight - minimumPhysicalHeight) <= 1, "native bottom edge stops at the configured minimum height");
+      }
+    }
+    await probe(`native ${edge} drag restores real corners`, true, 7);
+  }
+  try {
+    await backdrop.loadURL("data:text/html," + encodeURIComponent("<style>html,body{margin:0;width:100%;height:100%;background:#db2788}</style>"));
+    backdrop.show();
+    await window.loadURL("data:text/html," + encodeURIComponent(`<!doctype html><style>
+      :root{--background:#fff}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--background)}
+      body{display:grid;grid-template-columns:28% 1fr;font:16px system-ui}aside{background:#f1f1f1;padding:24px}
+      main{display:grid;grid-template-rows:60px 1fr 120px}header,footer{padding:24px}article{display:grid;place-items:center}
+      body:after{content:'';position:fixed;inset:0;border:1px solid #888;border-radius:12px;pointer-events:none}
+      footer div{height:80px;border-radius:20px;background:#f5f5f5;box-shadow:0 2px 20px #0002}
+      </style><aside>WcSdAi<br>Projects<br>Sessions</aside><main><header>New task</header><article>Rendered native corner fixture</article><footer><div></div></footer></main>`));
+    window.setMinimumSize(400, 300);
+    window.show();
+    window.focus();
+    if (baselineMode === "reapply-after-show") {
+      const visibleBounds = window.getBounds();
+      window.setShape(roundedWindowShape(visibleBounds.width, visibleBounds.height, 12));
+    }
+    await paintTheme("#ffffff");
+    if (baselineMode === "reapply-after-background") {
+      const visibleBounds = window.getBounds();
+      window.setShape(roundedWindowShape(visibleBounds.width, visibleBounds.height, 12));
+    }
+    // Its outer corners are outside the smaller foreground window. Confirm the
+    // actual desktop contains the intended backdrop before judging any cutout.
+    const backdropControl = await readNativeWindow(backdropHandle, "backdrop-control");
+    const backdropDomColors = await backdrop.webContents.executeJavaScript("({html: getComputedStyle(document.documentElement).backgroundColor, body: getComputedStyle(document.body).backgroundColor})");
+    reports.push({ label: "backdrop control", backdropHandle, backdropRgb, nativeBackground: backdrop.getBackgroundColor(), domColors: backdropDomColors, logicalBounds: backdrop.getBounds(), ...backdropControl });
+    assertCompositedCorners(backdropControl, backdropHandle, backdropRgb, "backdrop control");
+    await probe("default 12 DIP corners", true, 7);
+    backdropRgb = [37, 199, 134];
+    backdrop.setBackgroundColor("#25c786");
+    await backdrop.webContents.executeJavaScript("document.documentElement.style.background = '#25c786'; document.body.style.background = '#25c786'");
+    await probe("corners reveal changed backdrop", true, 7);
+    await paintTheme("#181818");
+    await probe("dark theme keeps real corners", true, 7);
+    window.blur();
+    await waitFor(() => !window.isFocused(), "window blur");
+    await probe("inactive real corners", true, 7);
+    window.focus();
+    window.minimize();
+    await waitFor(() => window.isMinimized(), "native minimize");
+    window.restore();
+    window.focus();
+    await waitFor(() => !window.isMinimized() && window.isVisible(), "native restore");
+    await probe("minimize restore real corners", true, 7);
+    window.setSize(width - 60, height - 50);
+    await probe("resized corners", true, 7);
+    await dragNativeEdge("right");
+    await dragNativeEdge("bottom");
+    await dragNativeEdge("bottom-min");
+    await dragNativeEdge("bottom-left");
+    const beforeMaximize = window.getBounds();
+    window.maximize();
+    await waitFor(() => window.isMaximized(), "native maximize");
+    assert.deepEqual(window.getBounds(), area, "maximize fills the display work area");
+    assert.deepEqual(window.getNormalBounds(), beforeMaximize, "maximize retains the normal bounds");
+    await probe("maximized rectangle", false);
+    window.unmaximize();
+    await waitFor(() => !window.isMaximized(), "native unmaximize");
+    assert.deepEqual(window.getBounds(), beforeMaximize, "unmaximize restores the original bounds");
+    await probe("restored rounded corners", true, 7);
+    setWindowFullScreen(window, true, true);
+    await probe("fullscreen rectangle", false);
+    setWindowFullScreen(window, false, true);
+    await probe("exit fullscreen restores corners", true, 7);
+    const beforeMaximizedFullScreen = window.getBounds();
+    window.maximize();
+    await waitFor(() => window.isMaximized(), "maximize before fullscreen");
+    setWindowFullScreen(window, true, true);
+    await probe("maximized to fullscreen rectangle", false);
+    setWindowFullScreen(window, false, true);
+    await waitFor(() => window.isMaximized(), "exit fullscreen returns to maximized state");
+    await probe("exit fullscreen returns to maximized rectangle", false);
+    window.unmaximize();
+    reports.push({ label: "maximized fullscreen roundtrip", normalBoundsBefore: beforeMaximizedFullScreen, boundsAfterRestore: window.getBounds() });
+    assert.deepEqual(window.getBounds(), beforeMaximizedFullScreen, "unmaximize after fullscreen restores the original normal bounds");
+    await waitFor(() => !window.isMaximized(), "unmaximize after fullscreen");
+    await probe("maximized fullscreen roundtrip restores corners", true, 7);
+    assert.equal(setWindowCornerRadius(window, 0), 0);
+    await probe("explicit plugin square corners", false);
+    assert.equal(setWindowCornerRadius(window, 24), 24);
+    await probe("explicit plugin maximum corners", true, 15);
+    window.destroy();
+    assert.equal(setWindowCornerRadius(window, 12), null);
+    const result = { status: "PASS", cssOnly, runId, environment, reports };
+    await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify(result, null, 2));
+    console.log("NATIVE_WINDOW_REGION " + JSON.stringify(result));
+  } finally {
+    if (!window.isDestroyed()) window.destroy();
+    backdrop.destroy();
+  }
+}
+
+run().then(() => app.exit(0), async (error) => {
+  await writeFile(join(evidence, "native-visual-report.json"), JSON.stringify({ status: "FAIL", cssOnly, runId, environment, error: String(error), reports }, null, 2));
+  console.error(error);
+  app.exit(1);
+});

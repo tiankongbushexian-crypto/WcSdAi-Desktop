@@ -1,6 +1,7 @@
 param(
   [Parameter(Mandatory = $true)][int]$targetProcessId,
-  [Parameter(Mandatory = $true)][ValidateSet('right', 'left', 'bottom', 'bottom-left', 'left-min', 'bottom-min')][string]$edge
+  [Parameter(Mandatory = $true)][ValidateSet('right', 'left', 'bottom', 'bottom-left', 'left-min', 'bottom-min')][string]$edge,
+  [long]$targetWindowHandle = 0
 )
 
 $ErrorActionPreference = 'Stop'
@@ -12,6 +13,8 @@ using System.Runtime.InteropServices;
 public struct NativePoint { public int X; public int Y; }
 public struct NativeRect { public int Left; public int Top; public int Right; public int Bottom; }
 public static class NativePointer {
+  [DllImport("user32.dll")] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr context);
+  [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr window, out uint processId);
   [DllImport("user32.dll")] public static extern bool GetCursorPos(out NativePoint point);
   [DllImport("user32.dll", SetLastError = true)] public static extern bool SetCursorPos(int x, int y);
   [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int key);
@@ -24,8 +27,14 @@ public static class NativePointer {
 '@
 
 $targetProcess = [System.Diagnostics.Process]::GetProcessById($targetProcessId)
-$windowHandle = $targetProcess.MainWindowHandle
+$windowHandle = if ($targetWindowHandle) { [IntPtr]::new($targetWindowHandle) } else { $targetProcess.MainWindowHandle }
 if ($windowHandle -eq [IntPtr]::Zero) { throw 'E2E main window is unavailable' }
+[uint32]$ownerProcessId = 0
+[void][NativePointer]::GetWindowThreadProcessId($windowHandle, [ref]$ownerProcessId)
+if ($ownerProcessId -ne $targetProcessId) { throw 'E2E window does not belong to the exact target process' }
+if ([NativePointer]::SetThreadDpiAwarenessContext([IntPtr]::new(-4)) -eq [IntPtr]::Zero) {
+  throw 'Cannot enable per-monitor DPI-aware pointer input'
+}
 
 $before = [NativeRect]::new()
 $savedCursor = [NativePoint]::new()
@@ -53,8 +62,8 @@ switch ($edge) {
   'bottom' { $startY = $before.Bottom - 1; $deltaY = -40 }
   'bottom-min' { $startY = $before.Bottom - 1; $deltaY = -350 }
   'bottom-left' {
-    $startX = $before.Left + 3
-    $startY = $before.Bottom - 3
+    $startX = $before.Left + 4
+    $startY = $before.Bottom - 4
     $deltaX = 30
     $deltaY = -30
   }

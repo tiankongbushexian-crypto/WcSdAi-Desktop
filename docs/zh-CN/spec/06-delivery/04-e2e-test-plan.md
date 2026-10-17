@@ -6925,6 +6925,8 @@ eleven-tool-round desktop paths are verified by
   在重新启动后恢复；临时工作面板预留宽度不会被保存为用户的聊天窗口尺寸。
   普通窗口四角在有效半径之外没有绘制或可交互像素；默认半径为 12 DIP，
   获授权主题可以选择 0 至 24 DIP，最大化或全屏时窗口为矩形。
+  Verify maximize → fullscreen → exit fullscreen → restore returns to the
+  original normal bounds, including repeated fullscreen requests.
 - **链接规格**：`03-runtime/01-ipc-protocol.md`、`04-ux/01-ui-ia.md`、
   `04-ux/07-ui-design-system.md`、`04-ux/08-component-spec.md`、
   `04-ux/09-interaction-patterns.md`、ADR 0029 / ADR 0122
@@ -9339,7 +9341,14 @@ installer is used by this acceptance fixture.
   控件和真实 Electron 页面缩放；`window-chrome-state.test.mjs` 覆盖迟到快照、
   resize 合并和销毁，`window-control-state.test.mjs` 覆盖权威状态应答。
   `pnpm test:e2e:window-shape-native` 使用真实 Windows 区域 API 及生产
-  形状/全屏代码，其他操作系统明确跳过。原生视觉质量、鼠标缩放、任务栏贴靠和
+  形状/全屏代码，其他操作系统明确跳过。
+  The native probe now checks composed desktop pixels over two changing backdrop
+  colors and corner hit ownership; a deliberate CSS-only window must fail. The
+  packaged probe repeats light/dark theme selection through the actual renderer
+  and public IPC with an isolated profile and packaged host/runtime. Uploaded
+  evidence contains PNG/JSON only, never profiles or databases. Windows-only
+  dispatch leaves existing macOS artifacts unchanged.
+  原生视觉质量、鼠标缩放、任务栏贴靠和
   显示缩放仍需单独实机检查（E2E-167 / ADR 0317）。
 - **追溯：** 设计系统 §10.1、组件规格 §1.7、ADR 0317。
 
@@ -9357,3 +9366,8 @@ installer is used by this acceptance fixture.
   subagent 测试、`live-voice-service.test.mjs` 和生产 WorkBridge fixture。固定
   提供商回复证明传输与提示组合正确，不证明真实模型会选择何种回答。
 - **追溯：** Agent Runtime §7、Live Voice、WcSdAi 品牌身份 ADR。
+
+Windows installer qualification must extract and run the NSIS payload with
+isolated state and bind the installer, executable and ASAR hashes in one
+receipt. The release script overwrites `win-unpacked` for ZIP and portable
+targets, so that directory alone does not identify the distributed NSIS payload.

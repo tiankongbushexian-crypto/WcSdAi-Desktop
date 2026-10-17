@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { readMainSource } from "./helpers/main-source.mjs";
+import { WIN_MAIN_WINDOW_FRAME_OPTIONS } from "../electron/main/window-shape.ts";
 
 const mainSource = await readMainSource();
 
@@ -12,7 +13,8 @@ const reservationHandler = mainSource.slice(
 
 test("the main window keeps native edge resizing without the Windows thick frame", () => {
   assert.match(mainSource, /resizable:\s*true/);
-  assert.match(mainSource, /process\.platform === "win32" \? \{ thickFrame: false \}/);
+  assert.match(mainSource, /process\.platform === "win32" \? WIN_MAIN_WINDOW_FRAME_OPTIONS/);
+  assert.equal(WIN_MAIN_WINDOW_FRAME_OPTIONS.thickFrame, false);
   // The BrowserWindow props use the clamped `initialMin*` values so a small
   // work area does not lock the window past the display's own width.
   assert.match(mainSource, /minWidth:\s*initialMinWidth/);

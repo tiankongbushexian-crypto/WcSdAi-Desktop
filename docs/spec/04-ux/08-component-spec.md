@@ -152,6 +152,13 @@ Outer frame that positions Topbar, Sidebar, MainChat, and WorkPanel. Owns resize
   events. It follows an authorized theme radius (including 0) and disappears
   while maximized/fullscreen; macOS, Linux and auxiliary windows retain their
   existing chrome. Native resize/drag ownership is unchanged.
+  On Windows, constructor transparency enables native composition of the
+  corner cutouts. Native and renderer backgrounds remain opaque and theme-owned;
+  this adds no translucent content, transparent margins or resize handles.
+  The existing radius, plugin permission and window-geometry contracts remain
+  unchanged. Acceptance requires real desktop pixels after packaged startup and
+  theme changes, plus native edge/corner dragging and minimum-size checks;
+  a rounded CSS outline or correct native hit region alone is insufficient.
 - macOS enables the native Electron `vibrancy: "sidebar"` source-list material
   with `visualEffectState: "followWindow"` and a transparent window backing
   (D348). `nativeTheme.themeSource` follows the app theme preference (`system` /

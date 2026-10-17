@@ -11588,6 +11588,8 @@ This test plan spec is accepted when:
   The four normal-window corners have no painted or interactive pixels outside
   the active radius; the default is 12 DIP, an authorized theme may choose 0..24
   DIP, and maximized/fullscreen windows are rectangular.
+  Verify maximize → fullscreen → exit fullscreen → restore returns to the
+  original normal bounds, including repeated fullscreen requests.
 - **Specs linked**: `03-runtime/01-ipc-protocol.md`,
   `04-ux/01-ui-ia.md`, `04-ux/07-ui-design-system.md`,
   `04-ux/08-component-spec.md`, `04-ux/09-interaction-patterns.md`,
@@ -16285,8 +16287,14 @@ installer is used by this acceptance fixture.
   covers stale snapshots, resize coalescing and disposal, and
   `window-control-state.test.mjs` covers the authoritative state response.
   `pnpm test:e2e:window-shape-native` uses actual Windows
-  region APIs and production shape/fullscreen code. The latter explicitly skips
-  other operating systems. Native visual quality, mouse resizing, taskbar snap
+  region APIs and production shape/fullscreen code. It also samples the composed
+  desktop over two changing backdrop colors and verifies corner hit ownership;
+  a deliberate CSS-only window must fail the pixel check. The packaged Windows
+  probe repeats light/dark theme selection through the actual app renderer and
+  public IPC, using an isolated profile and its own host/runtime. Its PNG/JSON
+  evidence excludes profiles and databases. A Windows-only team dispatch keeps
+  existing macOS artifacts unchanged. Both probes explicitly skip other
+  operating systems. Native visual quality, mouse resizing, taskbar snap
   and display scaling remain separate device checks (E2E-167 / ADR 0317).
 - **Traceability:** Design system §10.1, component spec §1.7, ADR 0317.
 
@@ -16307,3 +16315,8 @@ installer is used by this acceptance fixture.
   fixtures. A canned provider response proves transport/composition, not what a
   real model will choose to say.
 - **Traceability:** Agent Runtime §7, Live Voice, WcSdAi brand identity ADR.
+
+Windows installer qualification must extract and run the NSIS payload with
+isolated state and bind the installer, executable and ASAR hashes in one
+receipt. The release script overwrites `win-unpacked` for ZIP and portable
+targets, so that directory alone does not identify the distributed NSIS payload.
