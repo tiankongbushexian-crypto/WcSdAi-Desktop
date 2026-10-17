@@ -97,18 +97,11 @@ expiry. Actions downloads require GitHub login and repository read access.
 
 ## Current team metadata
 
-The current manifest advertises **1.0.5** for macOS arm64, macOS x64 and
-Windows x64, using the three verified Actions artifacts from [native run
-38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964) and their exact expiry from the
-[team distribution guide](team-distribution.md). Existing 1.0.3 and 1.0.4
-installations can discover its version and notes, then open the matching
-download entry; the 1.0.2 notification client also remains supported.
-Installation remains manual. Already installed 1.0.5 clients do not receive
-a newer-version offer for the same version.
+The manifest remains **1.0.5**. The Windows x64 download entry and expiry now refer to [Windows-only run 38983170175](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38983170175), built from [`a2d1da936618`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/a2d1da936618c3ccca1761289b5b6794b17481da). The macOS arm64/x64 entries remain byte-for-byte unchanged from [run 38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964), built from [`66523a3480cb`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/66523a3480cb42cd4e92b6747486cbeb7586c781). The version, release notes and macOS download targets are unchanged.
 
-The notes cover visible model settings, Windows corners/perimeter and WcSdAi
-assistant identity. Installed-app upgrade and native device acceptance are
-recorded independently in the [1.0.5 verification report](1.0.5-verification.md).
+Existing 1.0.2–1.0.4 clients can still discover version 1.0.5, read its notes and open the matching platform download. **Already installed 1.0.5 Windows clients must download and reinstall the Windows replacement manually:** a different artifact for the same version does not trigger a newer-version notification. Installation remains manual; the app does not replace itself or quit to install. macOS users do not need this Windows replacement.
+
+The Windows installer expires at **2026-11-15T23:56:24Z**; its [separate corresponding source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38983170175/artifacts/12081418268) expires at **2026-11-15T23:46:38Z**. The [team distribution guide](team-distribution.md) retains the unchanged Mac links and source, exact installer checksums and all expiry times. See the [Windows hotfix report](1.0.5-windows-hotfix.md) for the replacement's native/packaged test evidence and remaining device checks; original macOS verification remains in the [1.0.5 verification report](1.0.5-verification.md).
 
 ## Operational sequence
 

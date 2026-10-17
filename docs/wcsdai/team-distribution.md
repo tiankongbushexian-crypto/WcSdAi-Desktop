@@ -11,7 +11,9 @@ Support and private security reports: <2222223323@qq.com>.
 
 ## Download location
 
-The verified download batch is **1.0.5**. Successful [native run 38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964) built the packages from [`66523a3480cb`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/66523a3480cb42cd4e92b6747486cbeb7586c781). Downloaded archive and installer checksums, corresponding source, packaged identity and notices passed inspection.
+The verified downloads remain **1.0.5**. The Windows replacement is built by [Windows-only run 38983170175](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38983170175) from [`a2d1da936618`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/a2d1da936618c3ccca1761289b5b6794b17481da). The unchanged macOS installers remain from [native run 38897319964](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964) and [`66523a3480cb`](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/commit/66523a3480cb42cd4e92b6747486cbeb7586c781). Downloaded archive and installer checksums, exact corresponding source, packaged identity and notices passed inspection.
+
+**Windows-only 1.0.5 replacement:** The Windows download entry replaces the earlier 1.0.5 installer to fix opaque outer corners. The version remains 1.0.5, so existing 1.0.5 Windows clients do not receive a newer-version notification. Download the replacement manually, verify its SHA-256, then run the installer; keep existing data and backups. The macOS installers and their download entries are unchanged.
 
 This version fixes the AI-service model list's constrained-height layout,
 adds more visible Windows corners and a theme-aware inside perimeter, and
@@ -22,30 +24,25 @@ custom system prompt precedence and historical session messages are preserved.
 | --- | --- | --- | --- |
 | macOS Apple Silicon (arm64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045120678) | `WcSdAi-1.0.5-macos-arm64-unsigned` | `WcSdAi-1.0.5-macos-arm64-unsigned.dmg` |
 | macOS Intel (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12045066607) | `WcSdAi-1.0.5-macos-x64-unsigned` | `WcSdAi-1.0.5-macos-x64-unsigned.dmg` |
-| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044762853) | `WcSdAi-1.0.5-windows-x64-unsigned` | `WcSdAi-1.0.5-windows-x64-unsigned.exe` |
+| Windows (x64) | [Download verified installer](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38983170175/artifacts/12082232787) | `WcSdAi-1.0.5-windows-x64-unsigned` | `WcSdAi-1.0.5-windows-x64-unsigned.exe` |
 
-Each artifact ZIP includes the named installer, checksums, build information,
-corresponding source and notices. Use the Windows NSIS installer in the table;
-a portable executable is not its substitute. Exact corresponding source is
-also available as a [separate artifact](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044462246).
+Each artifact ZIP includes the named installer, checksums, build information, corresponding source and notices. Use the Windows NSIS installer in the table; a portable executable is not its substitute. Exact source is also available separately: [Windows replacement source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38983170175/artifacts/12081418268) for `a2d1da936618`, and [macOS original-batch source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/runs/38897319964/artifacts/12044462246) for `66523a3480cb`. Use the source archive from the same batch as its installer.
 
 | Installer file | SHA-256 |
 | --- | --- |
 | `WcSdAi-1.0.5-macos-arm64-unsigned.dmg` | `2f33b8cea129c38273e3310a8f4b7f4dbcffa1bb1323592fa3c47e2d2f830543` |
 | `WcSdAi-1.0.5-macos-x64-unsigned.dmg` | `0619632b465c42a907469a5f672d32cdc9393678d92ca427e58f145066024739` |
-| `WcSdAi-1.0.5-windows-x64-unsigned.exe` | `830a8fed7b66300b8ab502b3abb31f446bc405e20468fd459e1a4e1cef094e0c` |
+| `WcSdAi-1.0.5-windows-x64-unsigned.exe` | `8d84c843fd4886fdf2a0556ad0675f312f9d4bce4c812572e8cb2f8c31239db5` |
 
 | Artifact | Expiry in Asia/Shanghai (Beijing) | GitHub UTC expiry |
 | --- | --- | --- |
 | macOS Apple Silicon (arm64) | 2026-11-15 20:03:17 | 2026-11-15T12:03:17Z |
 | macOS Intel (x64) | 2026-11-15 20:09:38 | 2026-11-15T12:09:38Z |
-| Windows (x64) | 2026-11-15 20:11:51 | 2026-11-15T12:11:51Z |
-| Corresponding source | 2026-11-15 19:58:37 | 2026-11-15T11:58:37Z |
+| Windows (x64) | 2026-11-16 07:56:24 | 2026-11-15T23:56:24Z |
+| Mac original-batch source | 2026-11-15 19:58:37 | 2026-11-15T11:58:37Z |
+| Windows replacement source | 2026-11-16 07:46:38 | 2026-11-15T23:46:38Z |
 
-Package inspection does not establish installed-app upgrade, recovery or
-Windows/Intel visual acceptance. See the [1.0.5 verification report](1.0.5-verification.md)
-for executed checks, pending acceptance and current local-upgrade status.
-Historical [1.0.4 checks](1.0.4-verification.md) remain separate evidence.
+The [Windows hotfix report](1.0.5-windows-hotfix.md) records the replacement's native corner pixels, mouse resizing, fullscreen restoration and packaged-app checks, including the runner OS and limits. These checks do not establish installation, upgrade, recovery or visual acceptance on a team Windows 11 device. The [1.0.5 verification report](1.0.5-verification.md) retains the original macOS batch and local-upgrade evidence. Historical [1.0.4 checks](1.0.4-verification.md) remain separate evidence.
 
 GitHub requires a signed-in account with repository read access to download
 Actions artifacts. Retention is 30 days, subject to repository limits. See
