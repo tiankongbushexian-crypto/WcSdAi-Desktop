@@ -1,0 +1,22 @@
+name: WcSdAi Downloads
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  downloads:
+    name: Published installer downloads
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Show the public release download entry
+        shell: bash
+        env:
+          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v1.0.5
+        run: |
+          printf '# WcSdAi downloads\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf '[Download WcSdAi 1.0.5 installers and corresponding source](%s)\n\n' "$RELEASE_URL" >> "$GITHUB_STEP_SUMMARY"
+          printf 'This workflow provides download directions only. It does not build or publish an application.\n' >> "$GITHUB_STEP_SUMMARY"

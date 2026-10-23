@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.5",
+  "notes": {
+    "en": "• Keep AI service model settings visible and scrollable in smaller windows.\n• Give Windows windows clearer rounded corners and a subtle border in light and dark themes.\n• Use WcSdAi for assistant identity while preserving actual model names and custom instructions.",
+    "zh-CN": "• 修复小窗口中编辑 AI 服务时模型设置列表被挤压、无法查看的问题。\n• 优化 Windows 窗口圆角，并为浅色和深色界面增加清晰的细边框。\n• 将助手产品身份统一为 WcSdAi，保留真实模型名称和自定义指令。"
+  },
+  "downloads": {
+    "darwin-arm64": {
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.0.5"
+    },
+    "darwin-x64": {
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.0.5"
+    },
+    "win32-x64": {
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.0.5"
+    }
+  }
+}
