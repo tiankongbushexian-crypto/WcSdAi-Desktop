@@ -15,11 +15,11 @@ jobs:
       - name: Show the public release download entry
         shell: bash
         env:
-          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v1.1.2
+          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v1.1.3
         run: |
           printf '# WcSdAi downloads\n\n' >> "$GITHUB_STEP_SUMMARY"
-          printf '[Download WcSdAi 1.1.2 installers and corresponding source](%s)\n\n' "$RELEASE_URL" >> "$GITHUB_STEP_SUMMARY"
-          printf 'Main download page: https://api.90z.cn/download . WcSdAi 1.1.2 improves account menus, confirmed browser sign-in and Windows corner rendering. Existing API providers and conversations remain.\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf '[Download WcSdAi 1.1.3 installers and corresponding source](%s)\n\n' "$RELEASE_URL" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Main download page: https://api.90z.cn/download . WcSdAi 1.1.3 shows two-decimal account balances and opens updates on the official download page. Existing API providers and conversations remain.\n\n' >> "$GITHUB_STEP_SUMMARY"
           printf 'Read the release verification and any hold notices before installation.\n\n' >> "$GITHUB_STEP_SUMMARY"
           printf 'Updates require a manual download and installation; the app does not install updates automatically.\n\n' >> "$GITHUB_STEP_SUMMARY"
           printf 'This workflow provides download directions only. It does not build or publish an application.\n' >> "$GITHUB_STEP_SUMMARY"
