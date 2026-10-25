@@ -5,44 +5,51 @@ and the corresponding source and licenses for published builds. Active
 development and its history are maintained separately in the private
 `WcSdAi-Desktop-Source` repository. Published corresponding source remains public.
 
-[Release 1.0.5](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.0.5) · [简体中文](README.zh-CN.md)
+[Release 1.1.0](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.0) · [简体中文](README.zh-CN.md)
 
-## Download 1.0.5
+## Sign in to your WcSdAi account
 
-These are the existing verified **1.0.5** installers, republished without
-rebuilding or changing their bytes. The Windows package includes the real
-rounded-corner repair. The macOS packages are unchanged.
+1. Open the WcSdAi account card in model settings and select **Sign in**. Your system browser opens [api.90z.cn](https://api.90z.cn).
+2. Sign in to your website account and approve access for this desktop device. Return to WcSdAi to use the automatically synchronized conversational models allowed for your account. No API key or endpoint entry is required for these account models.
+3. Use the account card to recharge on the website. Check that the website is signed in to the same account. Once the balance is actually credited, return to WcSdAi and select **Refresh**.
 
+Payment receipt and credit fulfillment are separate: wait for the website to finish crediting the balance before expecting it in the client. Model access follows the website's current permissions, balance or subscription allowance, and usage limits. This release covers supported conversational models, not every media-generation endpoint.
+
+Existing API providers (BYOK), local conversations and permission settings are retained. Account sign-in is optional for existing providers. Signing out does not delete local conversations; desktop authorizations can be reviewed and revoked on the website.
+
+## Download 1.1.0
+
+<!-- RELEASE-ASSETS:START -->
 | Platform | Installer | SHA-256 |
 | --- | --- | --- |
-| macOS Apple Silicon (arm64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-macos-arm64-unsigned.dmg) | `2f33b8cea129c38273e3310a8f4b7f4dbcffa1bb1323592fa3c47e2d2f830543` |
-| macOS Intel (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-macos-x64-unsigned.dmg) | `0619632b465c42a907469a5f672d32cdc9393678d92ca427e58f145066024739` |
-| Windows (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-windows-x64-unsigned.exe) | `8d84c843fd4886fdf2a0556ad0675f312f9d4bce4c812572e8cb2f8c31239db5` |
+| macOS Apple Silicon (arm64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-arm64-unsigned.dmg) | `ff497571cd95709f02516686bf643a762a6987cc93403cd81a3c3f12a780d1ec` |
+| macOS Intel (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-x64-unsigned.dmg) | `f3b59d81d9c372b34e0fa34ff74a162dbf391602228a99707161d47337d37c74` |
+| Windows (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-windows-x64-unsigned.exe) | `7b12e2b4789e24b459d37ae028f1ba1600f31eece9a242d0d4fba479088b15e6` |
+<!-- RELEASE-ASSETS:END -->
 
-[SHA256SUMS](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/SHA256SUMS) covers the installers and archives.
-Choose the installer for your computer, quit WcSdAi, and install it over the
-existing copy while retaining your data and backups. These are unsigned team
-builds; publishing them here adds no Apple notarization or Windows publisher
-signature. Respect your operating system and organization security policies.
+[SHA256SUMS](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/SHA256SUMS) covers the installers and archives. Exact asset sizes, hashes and corresponding source commits are recorded in [release metadata](releases/1.1.0.json).
+
+See the [1.1.0 verification report](releases/1.1.0-verification.md) for the validation scope, results and remaining limitations.
+
+Choose the installer for your computer, quit WcSdAi, and install it over the existing copy while retaining your data and backups. These are **unsigned team builds**: they include no Apple notarization or Windows publisher signature. Respect your operating system and organization security policies.
 
 ## Corresponding source and notices
 
-Use the source archive that matches your installer:
+All three 1.1.0 platform builds use the same application source commit. The release metadata records the exact installer-to-source mapping.
 
-- [macOS corresponding source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-source-66523a3480cb.tar.gz): `66523a3480cb42cd4e92b6747486cbeb7586c781`; SHA-256 `69553cf710fc57754322cfe585e006c3f8610f89f900fc942f8191a30f586b2f`.
-- [Windows corresponding source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-source-a2d1da936618.tar.gz): `a2d1da936618c3ccca1761289b5b6794b17481da`; SHA-256 `14858e4e32c52ec9f3440a474f23ef9823e4844590d9c18d6091ad423854de3f`.
+<!-- RELEASE-SOURCES:START -->
+| Platforms | Corresponding source | Commit | SHA-256 |
+| --- | --- | --- | --- |
+| macOS arm64, macOS x64, Windows x64 | [Download source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-source-2bc2ebf1df14.tar.gz) | `2bc2ebf1df14149cdf1b8a9ace1ef575b18e15a7` | `62e3c341f954f48dcc3e9dfb36d9279b5d7e193dbb676331e892f11b43c1f5c7` |
+<!-- RELEASE-SOURCES:END -->
 
-The complete original artifact ZIPs include the installer, matching application
-source, build information, checksums, and license/notice files:
+Each complete platform ZIP includes the installer, its matching application source, build information, checksums and license/notice files:
 
-- [macos-arm64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-macos-arm64-unsigned.zip)
-- [macos-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-macos-x64-unsigned.zip)
-- [windows-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.0.5/WcSdAi-1.0.5-windows-x64-unsigned.zip)
+- [macos-arm64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-arm64-unsigned.zip)
+- [macos-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-x64-unsigned.zip)
+- [windows-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-windows-x64-unsigned.zip)
 
-**GitHub's automatically generated “Source code (zip)” and “Source code
-(tar.gz)” links contain this distribution repository's metadata only. They are
-not the application source. Use the explicitly named corresponding-source
-archives above.**
+**GitHub's automatically generated “Source code (zip)” and “Source code (tar.gz)” links contain this distribution repository's metadata only. They are not the application source. Use the explicitly named corresponding-source archives above.**
 
 WcSdAi is based on [PI-Desktop](https://github.com/vastsa/PI-Desktop).
 The upstream LGPLv3 license, original copyright notices, and applicable
@@ -55,19 +62,11 @@ repository. Private development does not remove recipients' license rights.
 
 ## Existing clients and updates
 
-The public repository name and `updates/stable.json` path remain unchanged.
-Clients with update checking continue reading the same public manifest and
-open the release page after the user selects Download. Downloads require no
-access to the private development repository and no Actions artifact access.
-The version remains 1.0.5, so a client already on 1.0.5 does not receive a
-newer-version notification solely because these downloads moved. Version 1.0.1
-must be updated manually once to gain update checking.
+The public repository name and `updates/stable.json` path remain unchanged. **Versions 1.0.2 and later** can check for updates while online, display the new version and release notes, and open the public release page when you select Download. **Installation is manual; the app does not automatically install updates.** Version 1.0.1 needs a manual upgrade to gain update checking.
 
-The [legacy workflow entry](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml)
-now provides download directions only. Future installers are built and checked
-in the private source repository, then published here together with their
-matching source and notices before advancing the manifest version. This
-repository does not build or install the application automatically.
+Downloads require no access to the private development repository or Actions artifacts. Keep the existing application data directory when upgrading. Previous releases remain available from [release history](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases).
+
+The [legacy workflow entry](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/actions/workflows/team-builds.yml) provides download directions only. Installers are built and checked in the private source repository, then published here with their matching source and notices before the stable manifest is advanced. This public repository does not build or install the application automatically.
 
 Maintainer: [tiankongbushexian-crypto](https://github.com/tiankongbushexian-crypto).
 Organization: 量动科技. Website: <https://wanchuangsd.cn>.

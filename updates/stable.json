@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.5",
+  "version": "1.1.0",
   "notes": {
-    "en": "• Keep AI service model settings visible and scrollable in smaller windows.\n• Give Windows windows clearer rounded corners and a subtle border in light and dark themes.\n• Use WcSdAi for assistant identity while preserving actual model names and custom instructions.",
-    "zh-CN": "• 修复小窗口中编辑 AI 服务时模型设置列表被挤压、无法查看的问题。\n• 优化 Windows 窗口圆角，并为浅色和深色界面增加清晰的细边框。\n• 将助手产品身份统一为 WcSdAi，保留真实模型名称和自定义指令。"
+    "en": "• Sign in to api.90z.cn in your system browser and automatically sync the conversational models allowed for your WcSdAi account.\n• Recharge on the website, then refresh your account after the balance is credited; no API key or endpoint entry is needed for account models.\n• Manage desktop sessions while preserving your existing API providers, local conversations and permission settings.\n• Download and install this update manually; the app does not install updates automatically.",
+    "zh-CN": "• 在系统浏览器中登录 api.90z.cn 并授权，自动同步 WcSdAi 账号允许使用的对话模型。\n• 在网站充值，余额实际到账后刷新客户端账号即可使用，无需为账号模型填写 API Key 或接口地址。\n• 支持管理桌面登录会话，保留原有 API 服务商、本地对话与权限设置。\n• 点击更新提示进入下载页后手动安装，客户端不会自动安装更新。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.0.5"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.0"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.0.5"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.0"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.0.5"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.0"
     }
   }
 }

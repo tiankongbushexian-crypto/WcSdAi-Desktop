@@ -15,8 +15,10 @@ jobs:
       - name: Show the public release download entry
         shell: bash
         env:
-          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v1.0.5
+          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v1.1.0
         run: |
           printf '# WcSdAi downloads\n\n' >> "$GITHUB_STEP_SUMMARY"
-          printf '[Download WcSdAi 1.0.5 installers and corresponding source](%s)\n\n' "$RELEASE_URL" >> "$GITHUB_STEP_SUMMARY"
+          printf '[Download WcSdAi 1.1.0 installers and corresponding source](%s)\n\n' "$RELEASE_URL" >> "$GITHUB_STEP_SUMMARY"
+          printf 'WcSdAi 1.1.0 adds browser-based account sign-in at https://api.90z.cn. Existing API providers and local conversations are retained.\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf 'Updates require a manual download and installation; the app does not install updates automatically.\n\n' >> "$GITHUB_STEP_SUMMARY"
           printf 'This workflow provides download directions only. It does not build or publish an application.\n' >> "$GITHUB_STEP_SUMMARY"
