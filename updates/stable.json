@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "version": "1.1.1",
+  "version": "1.1.2",
   "notes": {
-    "en": "• Security update: repairs a reproduced Agent networking subprocess crash and updates Electron to 43.8.3 for TLS certificate-security fixes.\n• Account and update requests omit website-session cookies; Agent direct and proxy routes use patched networking. Existing account login, allowed chat models, credit refresh, API providers, conversations and permissions remain.\n• The full dependency audit still contains 68 records / 47 distinct advisories. Read the release verification and remaining conditions before installation.\n• Installation is manual: Download opens the public release page; the app does not install updates automatically.",
-    "zh-CN": "• 安全修复：修复已复现的 Agent 网络子进程崩溃问题，并升级 Electron 至 43.8.3，包含 TLS 证书安全修复。\n• 账号与更新请求不携带网站会话 Cookie；Agent 直连与代理使用修复后的网络实现。保留账号登录、允许的对话模型、充值到账刷新、原有 API 服务、会话和权限。\n• 完整依赖审计仍有 68 条记录、47 个独立安全公告；安装前请阅读发布验证报告及剩余适用条件。\n• 安装保持手动进行：下载按钮打开公开发布页，客户端不会自动安装更新。"
+    "en": "• The sidebar avatar now opens account information, balance, models, recharge, usage and Settings. Browser sign-in confirms success only after secure storage and model synchronization, then returns to the website dashboard.\n• Windows corners use smooth antialiased transparency. Project rows use the normal arrow cursor. The website offers a dedicated download page.\n• Existing API providers, local conversations and permission settings remain. The Electron/network security repairs from 1.1.1 are included; unresolved dependency advisories are not claimed fixed.\n• Download opens the public release page; installation remains manual.",
+    "zh-CN": "• 左下角头像可打开账号资料、余额、模型、充值、用量和设置。浏览器授权完成安全存储及模型同步后才提示登录成功，随后返回网站控制台。\n• Windows 窗口圆角改为平滑抗锯齿透明边缘；项目行悬停使用普通箭头；网站新增客户端下载页。\n• 保留原有 API 服务、本地会话和权限设置，继续包含 1.1.1 的 Electron 与网络安全修复；未宣称其他依赖安全公告已全部解决。\n• 下载按钮打开公开发布页，安装仍由你手动完成。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.1"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.2"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.1"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.2"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.1"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.2"
     }
   }
 }
