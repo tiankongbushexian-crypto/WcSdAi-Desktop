@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "version": "1.1.0",
   "notes": {
-    "en": "• Sign in to api.90z.cn in your system browser and automatically sync the conversational models allowed for your WcSdAi account.\n• Recharge on the website, then refresh your account after the balance is credited; no API key or endpoint entry is needed for account models.\n• Manage desktop sessions while preserving your existing API providers, local conversations and permission settings.\n• Download and install this update manually; the app does not install updates automatically.",
-    "zh-CN": "• 在系统浏览器中登录 api.90z.cn 并授权，自动同步 WcSdAi 账号允许使用的对话模型。\n• 在网站充值，余额实际到账后刷新客户端账号即可使用，无需为账号模型填写 API Key 或接口地址。\n• 支持管理桌面登录会话，保留原有 API 服务商、本地对话与权限设置。\n• 点击更新提示进入下载页后手动安装，客户端不会自动安装更新。"
+    "en": "• Security notice: pause installation of WcSdAi 1.1.0. Security patch 1.1.1 is being prepared and must pass validation before release.\n• A high-severity Undici failure has been reproduced and can terminate the Agent subprocess, interrupting tasks. No credential disclosure or code execution has been demonstrated.\n• Do not downgrade to 1.0.5 as a security workaround; it contains the same affected dependency.\n• The download link opens the release page with the current warning. Installation remains manual; the app does not automatically install updates.",
+    "zh-CN": "• 安全提示：请暂缓安装 WcSdAi 1.1.0。正在准备安全修复版 1.1.1，通过验证后再发布。\n• Undici 高危问题已复现，可导致 Agent 子进程退出、任务中断。目前未证实凭据泄露或代码执行。\n• 不建议通过降级至 1.0.5 规避风险，该版本包含同样受影响的依赖。\n• 下载按钮仍进入发布页，请先阅读安全提示。安装保持手动进行，客户端不会自动安装更新。"
   },
   "downloads": {
     "darwin-arm64": {

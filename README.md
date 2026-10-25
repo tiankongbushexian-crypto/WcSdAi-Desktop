@@ -1,5 +1,9 @@
 # WcSdAi downloads and updates
 
+> [!WARNING]
+> **Do not install WcSdAi 1.1.0. Security patch 1.1.1 is being prepared.**
+> A high-severity Undici failure in the Agent networking dependency has been reproduced: an affected response can terminate the subprocess and interrupt tasks. Do not downgrade to 1.0.5 as a security workaround; it contains the same affected dependency. No credential disclosure or code execution has been demonstrated. See the [updated security assessment](releases/1.1.0-verification.md#security-hold-and-dependency-assessment).
+
 This public repository provides WcSdAi installers, the stable update manifest,
 and the corresponding source and licenses for published builds. Active
 development and its history are maintained separately in the private
@@ -17,7 +21,7 @@ Payment receipt and credit fulfillment are separate: wait for the website to fin
 
 Existing API providers (BYOK), local conversations and permission settings are retained. Account sign-in is optional for existing providers. Signing out does not delete local conversations; desktop authorizations can be reviewed and revoked on the website.
 
-## Download 1.1.0
+## 1.1.0 artifacts — installation paused
 
 <!-- RELEASE-ASSETS:START -->
 | Platform | Installer | SHA-256 |
@@ -31,7 +35,7 @@ Existing API providers (BYOK), local conversations and permission settings are r
 
 See the [1.1.0 verification report](releases/1.1.0-verification.md) for the validation scope, results and remaining limitations.
 
-Choose the installer for your computer, quit WcSdAi, and install it over the existing copy while retaining your data and backups. These are **unsigned team builds**: they include no Apple notarization or Windows publisher signature. Respect your operating system and organization security policies.
+The 1.1.0 files remain available for integrity verification and corresponding-source access; installation is paused while 1.1.1 is prepared and validated. These are **unsigned team builds**: they include no Apple notarization or Windows publisher signature. Respect your operating system and organization security policies.
 
 ## Corresponding source and notices
 

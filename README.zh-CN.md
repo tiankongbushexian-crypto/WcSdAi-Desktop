@@ -1,5 +1,9 @@
 # WcSdAi 下载与更新
 
+> [!WARNING]
+> **Do not install WcSdAi 1.1.0. Security patch 1.1.1 is being prepared.**
+> A high-severity Undici failure in the Agent networking dependency has been reproduced: an affected response can terminate the subprocess and interrupt tasks. Do not downgrade to 1.0.5 as a security workaround; it contains the same affected dependency. No credential disclosure or code execution has been demonstrated. See the [updated security assessment](releases/1.1.0-verification.md#security-hold-and-dependency-assessment).
+
 本公开仓库提供 WcSdAi 安装包、稳定版更新文件，以及已发布版本的对应源码和许可证。
 开发仓库和开发历史保存在私有的 `WcSdAi-Desktop-Source` 中；已发布安装包的对应源码继续公开提供。
 
@@ -19,7 +23,7 @@ Payment receipt and credit fulfillment are separate: wait for the website to fin
 
 Existing API providers (BYOK), local conversations and permission settings are retained. Account sign-in is optional for existing providers. Signing out does not delete local conversations; desktop authorizations can be reviewed and revoked on the website.
 
-## Download 1.1.0
+## 1.1.0 artifacts — installation paused
 
 <!-- RELEASE-ASSETS:START -->
 | Platform | Installer | SHA-256 |
@@ -33,7 +37,7 @@ Existing API providers (BYOK), local conversations and permission settings are r
 
 See the [1.1.0 verification report](releases/1.1.0-verification.md) for the validation scope, results and remaining limitations.
 
-Choose the installer for your computer, quit WcSdAi, and install it over the existing copy while retaining your data and backups. These are **unsigned team builds**: they include no Apple notarization or Windows publisher signature. Respect your operating system and organization security policies.
+The 1.1.0 files remain available for integrity verification and corresponding-source access; installation is paused while 1.1.1 is prepared and validated. These are **unsigned team builds**: they include no Apple notarization or Windows publisher signature. Respect your operating system and organization security policies.
 
 ## Corresponding source and notices
 
