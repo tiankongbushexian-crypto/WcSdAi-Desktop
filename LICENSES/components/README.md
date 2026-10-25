@@ -12,7 +12,7 @@ licenses during repository-level license detection; all files are still shipped.
 | [OFL-1.1.txt](OFL-1.1.txt) | Canonical SIL OFL 1.1 text from <https://openfontlicense.org/documents/OFL.txt>. Its example copyright header is generic; actual KaTeX font copyright and reserved names are preserved in the collected original notices. |
 | [third-party-notices.txt](third-party-notices.txt) | Original license, notice, copyright and author files collected from installed npm packages, cached Cargo sources and the bundled file-manager plugin. Identical text is stored once with all component references. |
 
-Electron 43.6.0 supplies `electron/dist/LICENSES.chromium.html`. The packaging
+Electron 43.8.3 supplies `electron/dist/LICENSES.chromium.html`. The packaging
 configuration copies that original file to
 `licenses/Electron-LICENSES.chromium.html`; it is not duplicated as a 19 MB
 source-controlled file. Its audited SHA-256 and version are recorded in
