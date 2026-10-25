@@ -1,15 +1,33 @@
 # WcSdAi downloads and updates
 
-> [!WARNING]
-> **Do not install WcSdAi 1.1.0. Security patch 1.1.1 is being prepared.**
-> A high-severity Undici failure in the Agent networking dependency has been reproduced: an affected response can terminate the subprocess and interrupt tasks. Do not downgrade to 1.0.5 as a security workaround; it contains the same affected dependency. No credential disclosure or code execution has been demonstrated. See the [updated security assessment](releases/1.1.0-verification.md#security-hold-and-dependency-assessment).
+> [!NOTE]
+> **WcSdAi 1.1.1 was published on 2026-10-25T09:50:33Z.**
+> All three native CI builds passed. After the release owner's Mac rebooted, the verified packaged app passed encryption and second-process decryption using actual OS protected storage. The isolated account service flow also passed with real OS encryption. Earlier local authentication failures are retained in the verification report. The release assets are anonymously accessible; sizes, server digests and the downloaded checksum file match the verified files. The stable update manifest targets this verified 1.1.1 release. Do not install held version 1.1.0 or downgrade to 1.0.5 as a security workaround.
 
 This public repository provides WcSdAi installers, the stable update manifest,
 and the corresponding source and licenses for published builds. Active
 development and its history are maintained separately in the private
 `WcSdAi-Desktop-Source` repository. Published corresponding source remains public.
 
-[Release 1.1.0](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.0) · [简体中文](README.zh-CN.md)
+[Release 1.1.1](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.1) · [简体中文](README.zh-CN.md)
+
+## 1.1.1 security update
+
+This patch repairs the reproduced Agent networking subprocess crash with patched
+Undici transports and updates Electron to 43.8.3 for TLS certificate-security
+fixes. Account and update requests use Chromium networking without website
+session cookies. Existing account login, allowed conversational models, recharge
+and credit refresh, API providers, conversations and permission settings remain.
+
+All three CI installer lanes passed on source
+`9365d845a5d738d699e844b96f64aa8ffd9f1d08`. The
+[verification report](releases/1.1.1-verification.md) distinguishes those results
+from the local protected-storage checks that passed after reboot, and records
+the completed publication and anonymous-access checks. These tests did not use a
+real paid production account.
+The complete lockfile audit still contains **68 records / 47 distinct security
+advisories**; this patch is not an all-clear claim. See the
+[full audit snapshot](releases/1.1.1-dependencies.json).
 
 ## Sign in to your WcSdAi account
 
@@ -21,37 +39,37 @@ Payment receipt and credit fulfillment are separate: wait for the website to fin
 
 Existing API providers (BYOK), local conversations and permission settings are retained. Account sign-in is optional for existing providers. Signing out does not delete local conversations; desktop authorizations can be reviewed and revoked on the website.
 
-## 1.1.0 artifacts — installation paused
+## 1.1.1 downloads
 
 <!-- RELEASE-ASSETS:START -->
 | Platform | Installer | SHA-256 |
 | --- | --- | --- |
-| macOS Apple Silicon (arm64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-arm64-unsigned.dmg) | `ff497571cd95709f02516686bf643a762a6987cc93403cd81a3c3f12a780d1ec` |
-| macOS Intel (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-x64-unsigned.dmg) | `f3b59d81d9c372b34e0fa34ff74a162dbf391602228a99707161d47337d37c74` |
-| Windows (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-windows-x64-unsigned.exe) | `7b12e2b4789e24b459d37ae028f1ba1600f31eece9a242d0d4fba479088b15e6` |
+| macOS Apple Silicon (arm64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/WcSdAi-1.1.1-macos-arm64-unsigned.dmg) | `ef472d7e59761430cced747be0132e52c92a951562e25c9ddd6b9b3ea523fcf2` |
+| macOS Intel (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/WcSdAi-1.1.1-macos-x64-unsigned.dmg) | `5d1565cf524df7cb61ebe9f8fe4c4fe21c090d9156e4f8dcb6f431fef54f7129` |
+| Windows (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/WcSdAi-1.1.1-windows-x64-unsigned.exe) | `f5df7087649990488768c30675dfb29908cd657fb065d28192ae5b18bfedae13` |
 <!-- RELEASE-ASSETS:END -->
 
-[SHA256SUMS](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/SHA256SUMS) covers the installers and archives. Exact asset sizes, hashes and corresponding source commits are recorded in [release metadata](releases/1.1.0.json).
+[SHA256SUMS](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/SHA256SUMS) covers the installers and archives. Exact asset sizes, hashes and corresponding source commits are recorded in [release metadata](releases/1.1.1.json).
 
-See the [1.1.0 verification report](releases/1.1.0-verification.md) for the validation scope, results and remaining limitations.
+See the [1.1.1 verification report](releases/1.1.1-verification.md) for the validation scope, results and remaining limitations.
 
-The 1.1.0 files remain available for integrity verification and corresponding-source access; installation is paused while 1.1.1 is prepared and validated. These are **unsigned team builds**: they include no Apple notarization or Windows publisher signature. Respect your operating system and organization security policies.
+The 1.1.1 artifacts have passed CI integrity checks and local protected-storage qualification. All eight published assets, including SHA256SUMS, are anonymously accessible. Remote sizes and server digests match the verified local files, and the anonymously downloaded checksum file matches; the installers were not all downloaded in full again. These are **unsigned team builds**: they include no Apple notarization or Windows publisher signature. Respect your operating system and organization security policies.
 
 ## Corresponding source and notices
 
-All three 1.1.0 platform builds use the same application source commit. The release metadata records the exact installer-to-source mapping.
+All three 1.1.1 platform builds use the same application source commit. The release metadata records the exact installer-to-source mapping.
 
 <!-- RELEASE-SOURCES:START -->
 | Platforms | Corresponding source | Commit | SHA-256 |
 | --- | --- | --- | --- |
-| macOS arm64, macOS x64, Windows x64 | [Download source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-source-2bc2ebf1df14.tar.gz) | `2bc2ebf1df14149cdf1b8a9ace1ef575b18e15a7` | `62e3c341f954f48dcc3e9dfb36d9279b5d7e193dbb676331e892f11b43c1f5c7` |
+| macOS arm64, macOS x64, Windows x64 | [Download source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/WcSdAi-1.1.1-source-9365d845a5d7.tar.gz) | `9365d845a5d738d699e844b96f64aa8ffd9f1d08` | `49b02ea8795ab0ad068c2a47a2a3d49ac6bcdca1d77dbaf2aa5ff14998ac7f68` |
 <!-- RELEASE-SOURCES:END -->
 
 Each complete platform ZIP includes the installer, its matching application source, build information, checksums and license/notice files:
 
-- [macos-arm64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-arm64-unsigned.zip)
-- [macos-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-macos-x64-unsigned.zip)
-- [windows-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.0/WcSdAi-1.1.0-windows-x64-unsigned.zip)
+- [macos-arm64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/WcSdAi-1.1.1-macos-arm64-unsigned.zip)
+- [macos-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/WcSdAi-1.1.1-macos-x64-unsigned.zip)
+- [windows-x64 complete archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.1.1/WcSdAi-1.1.1-windows-x64-unsigned.zip)
 
 **GitHub's automatically generated “Source code (zip)” and “Source code (tar.gz)” links contain this distribution repository's metadata only. They are not the application source. Use the explicitly named corresponding-source archives above.**
 
@@ -65,6 +83,9 @@ resolved in the matching application source archive, not this small download
 repository. Private development does not remove recipients' license rights.
 
 ## Existing clients and updates
+
+The [held 1.1.0 report](releases/1.1.0-verification.md), corresponding source and historical checksums remain available. The stable manifest in this revision targets the verified public 1.1.1 release. Clients download and install it manually; the historical 1.1.0 installation hold remains in effect.
+
 
 The public repository name and `updates/stable.json` path remain unchanged. **Versions 1.0.2 and later** can check for updates while online, display the new version and release notes, and open the public release page when you select Download. **Installation is manual; the app does not automatically install updates.** Version 1.0.1 needs a manual upgrade to gain update checking.
 

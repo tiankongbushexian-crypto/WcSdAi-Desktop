@@ -1,0 +1,1879 @@
+{
+  "schema_version": 1,
+  "release": "1.1.1",
+  "audit_date_utc": "2026-10-25T08:26:54+00:00",
+  "source_command": "pnpm --config.verify-deps-before-run=false audit --json",
+  "source_sha256": "05dbd956febe3196ea8feb98805450ce9c6350fbcc105587d99552aa19002e6d",
+  "lockfile_sha256": "37b288f3f2b171d26e457d6daed2ddf6d3222de5302c138d1dcc4c5ffe915ea4",
+  "interpretation": "This is a registry audit snapshot, not a production reachability assessment. A record can contain multiple dependency findings. Graph dev/optional/bundled flags describe package-manager paths and do not determine whether code is shipped or reachable. Registry severity is preserved even where upstream maintainers assign a different severity. No clean-audit claim is made.",
+  "aggregate": {
+    "records": 68,
+    "unique_advisories": 47,
+    "record_severity": {
+      "critical": 3,
+      "high": 38,
+      "moderate": 19,
+      "low": 8,
+      "info": 0
+    },
+    "unique_advisory_severity": {
+      "critical": 3,
+      "high": 26,
+      "moderate": 11,
+      "low": 7,
+      "info": 0
+    },
+    "electron_records": 0,
+    "undici_records": 0
+  },
+  "records": [
+    {
+      "module": "@vitest/mocker",
+      "actual_versions": [
+        "3.2.7",
+        "4.1.10"
+      ],
+      "ghsa": "GHSA-82fw-gwwq-j7x9",
+      "registry_severity": "moderate",
+      "patched_range": ">=4.1.11",
+      "url": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+      "graph_scopes": [
+        {
+          "version": "3.2.7",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "packages__voice-runtime>vitest>@vitest/mocker"
+          ]
+        },
+        {
+          "version": "4.1.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__pi-host>vitest>@vitest/mocker",
+            "packages__agent-host>vitest>@vitest/mocker",
+            "packages__agent-runtime>vitest>@vitest/mocker",
+            "packages__host-runtime>vitest>@vitest/mocker",
+            "packages__i18n>vitest>@vitest/mocker",
+            "packages__plugin-devkit>vitest>@vitest/mocker",
+            "packages__plugin-sdk>vitest>@vitest/mocker",
+            "packages__racp>vitest>@vitest/mocker",
+            "packages__shared>vitest>@vitest/mocker"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@vitest/mocker",
+      "actual_versions": [
+        "3.2.7",
+        "4.1.10"
+      ],
+      "ghsa": "GHSA-qxg6-89mg-rqv8",
+      "registry_severity": "moderate",
+      "patched_range": ">=4.1.12",
+      "url": "https://github.com/advisories/GHSA-qxg6-89mg-rqv8",
+      "graph_scopes": [
+        {
+          "version": "3.2.7",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "packages__voice-runtime>vitest>@vitest/mocker"
+          ]
+        },
+        {
+          "version": "4.1.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__pi-host>vitest>@vitest/mocker",
+            "packages__agent-host>vitest>@vitest/mocker",
+            "packages__agent-runtime>vitest>@vitest/mocker",
+            "packages__host-runtime>vitest>@vitest/mocker",
+            "packages__i18n>vitest>@vitest/mocker",
+            "packages__plugin-devkit>vitest>@vitest/mocker",
+            "packages__plugin-sdk>vitest>@vitest/mocker",
+            "packages__racp>vitest>@vitest/mocker",
+            "packages__shared>vitest>@vitest/mocker"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@vue/server-renderer",
+      "actual_versions": [
+        "3.5.41"
+      ],
+      "ghsa": "GHSA-g2v6-rqmx-r4w6",
+      "registry_severity": "high",
+      "patched_range": ">=3.5.42",
+      "url": "https://github.com/advisories/GHSA-g2v6-rqmx-r4w6",
+      "graph_scopes": [
+        {
+          "version": "3.5.41",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/server-renderer",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/server-renderer",
+            "docs>vitepress>@vueuse/core>vue>@vue/server-renderer",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/server-renderer",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/server-renderer",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/server-renderer",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/server-renderer",
+            "docs>vitepress>vue>@vue/server-renderer"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-27p8-2357-5qqv",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-27p8-2357-5qqv",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-27p8-2357-5qqv",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-27p8-2357-5qqv",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-3px3-54cx-rmw9",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-3px3-54cx-rmw9",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-4w3w-2rp5-g8jm",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-4w3w-2rp5-g8jm",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-4w3w-2rp5-g8jm",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-4w3w-2rp5-g8jm",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-6gmq-8vp8-gcm6",
+      "registry_severity": "moderate",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-6gmq-8vp8-gcm6",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-6gmq-8vp8-gcm6",
+      "registry_severity": "moderate",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-6gmq-8vp8-gcm6",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-6h8r-xr42-gp59",
+      "registry_severity": "moderate",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-6h8r-xr42-gp59",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-6h8r-xr42-gp59",
+      "registry_severity": "moderate",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-6h8r-xr42-gp59",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-6mj3-qw4j-hgrw",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-6mj3-qw4j-hgrw",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-8344-3jmq-59r6",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-8344-3jmq-59r6",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-8344-3jmq-59r6",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-8344-3jmq-59r6",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-93r5-fhx6-vmg9",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-93r5-fhx6-vmg9",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-93r5-fhx6-vmg9",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-93r5-fhx6-vmg9",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-965w-775f-mr7g",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-965w-775f-mr7g",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-965w-775f-mr7g",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-965w-775f-mr7g",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-c7q8-3ch8-vqpv",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-c7q8-3ch8-vqpv",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-c7q8-3ch8-vqpv",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-c7q8-3ch8-vqpv",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-g53g-w8rj-fmg7",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-g53g-w8rj-fmg7",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-vr34-hp96-76pp",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-vr34-hp96-76pp",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-w2rr-34g9-rvrj",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-w2rr-34g9-rvrj",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.9.10"
+      ],
+      "ghsa": "GHSA-w2rr-34g9-rvrj",
+      "registry_severity": "high",
+      "patched_range": ">=0.9.12",
+      "url": "https://github.com/advisories/GHSA-w2rr-34g9-rvrj",
+      "graph_scopes": [
+        {
+          "version": "0.9.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/osx-sign>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "@xmldom/xmldom",
+      "actual_versions": [
+        "0.8.13"
+      ],
+      "ghsa": "GHSA-x4fp-j954-r2f4",
+      "registry_severity": "high",
+      "patched_range": ">=0.8.15",
+      "url": "https://github.com/advisories/GHSA-x4fp-j954-r2f4",
+      "graph_scopes": [
+        {
+          "version": "0.8.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>plist>@xmldom/xmldom",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>plist>@xmldom/xmldom"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "1.1.18"
+      ],
+      "ghsa": "GHSA-6j4f-fj2g-mc7p",
+      "registry_severity": "high",
+      "patched_range": ">=1.1.19",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+      "graph_scopes": [
+        {
+          "version": "1.1.18",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>dir-compare>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>temp>rimraf>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>dir-compare>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>temp>rimraf>glob>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "2.1.4"
+      ],
+      "ghsa": "GHSA-6j4f-fj2g-mc7p",
+      "registry_severity": "high",
+      "patched_range": ">=2.1.5",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+      "graph_scopes": [
+        {
+          "version": "2.1.4",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>ejs>jake>filelist>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ejs>jake>filelist>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "5.0.9"
+      ],
+      "ghsa": "GHSA-6j4f-fj2g-mc7p",
+      "registry_severity": "high",
+      "patched_range": ">=5.0.10",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+      "graph_scopes": [
+        {
+          "version": "5.0.9",
+          "dev": false,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>minimatch>brace-expansion",
+            "packages__agent-runtime>@earendil-works/pi-coding-agent>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "1.1.18"
+      ],
+      "ghsa": "GHSA-q2hr-2g5m-vwhr",
+      "registry_severity": "moderate",
+      "patched_range": ">=1.1.21",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+      "graph_scopes": [
+        {
+          "version": "1.1.18",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>dir-compare>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>temp>rimraf>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>dir-compare>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>temp>rimraf>glob>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "2.1.4"
+      ],
+      "ghsa": "GHSA-q2hr-2g5m-vwhr",
+      "registry_severity": "moderate",
+      "patched_range": ">=2.1.7",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+      "graph_scopes": [
+        {
+          "version": "2.1.4",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>ejs>jake>filelist>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ejs>jake>filelist>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "5.0.9"
+      ],
+      "ghsa": "GHSA-q2hr-2g5m-vwhr",
+      "registry_severity": "moderate",
+      "patched_range": ">=5.0.12",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+      "graph_scopes": [
+        {
+          "version": "5.0.9",
+          "dev": false,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>minimatch>brace-expansion",
+            "packages__agent-runtime>@earendil-works/pi-coding-agent>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "1.1.18"
+      ],
+      "ghsa": "GHSA-qhr7-859c-m2p7",
+      "registry_severity": "high",
+      "patched_range": ">=1.1.20",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+      "graph_scopes": [
+        {
+          "version": "1.1.18",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>dir-compare>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>temp>rimraf>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>dir-compare>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>glob>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>@electron/asar>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>electron-winstaller>temp>rimraf>glob>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "2.1.4"
+      ],
+      "ghsa": "GHSA-qhr7-859c-m2p7",
+      "registry_severity": "high",
+      "patched_range": ">=2.1.6",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+      "graph_scopes": [
+        {
+          "version": "2.1.4",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/universal>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>app-builder-lib>ejs>jake>filelist>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/universal>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ejs>jake>filelist>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "brace-expansion",
+      "actual_versions": [
+        "5.0.9"
+      ],
+      "ghsa": "GHSA-qhr7-859c-m2p7",
+      "registry_severity": "high",
+      "patched_range": ">=5.0.11",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+      "graph_scopes": [
+        {
+          "version": "5.0.9",
+          "dev": false,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>minimatch>brace-expansion",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>minimatch>brace-expansion",
+            "packages__agent-runtime>@earendil-works/pi-coding-agent>minimatch>brace-expansion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "dompurify",
+      "actual_versions": [
+        "3.4.13"
+      ],
+      "ghsa": "GHSA-6688-9rhm-gjv2",
+      "registry_severity": "low",
+      "patched_range": ">=3.4.16",
+      "url": "https://github.com/advisories/GHSA-6688-9rhm-gjv2",
+      "graph_scopes": [
+        {
+          "version": "3.4.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>dompurify",
+            "apps__desktop>mermaid>dompurify"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "dompurify",
+      "actual_versions": [
+        "3.4.13"
+      ],
+      "ghsa": "GHSA-c6gr-qvv4-5v3f",
+      "registry_severity": "low",
+      "patched_range": ">=3.4.17",
+      "url": "https://github.com/advisories/GHSA-c6gr-qvv4-5v3f",
+      "graph_scopes": [
+        {
+          "version": "3.4.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>dompurify",
+            "apps__desktop>mermaid>dompurify"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "dompurify",
+      "actual_versions": [
+        "3.4.13"
+      ],
+      "ghsa": "GHSA-cg2g-xh64-v4q7",
+      "registry_severity": "critical",
+      "patched_range": ">=3.4.17",
+      "url": "https://github.com/advisories/GHSA-cg2g-xh64-v4q7",
+      "graph_scopes": [
+        {
+          "version": "3.4.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>dompurify",
+            "apps__desktop>mermaid>dompurify"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "dompurify",
+      "actual_versions": [
+        "3.4.13"
+      ],
+      "ghsa": "GHSA-mrv2-3pqr-j5jr",
+      "registry_severity": "high",
+      "patched_range": ">=3.4.17",
+      "url": "https://github.com/advisories/GHSA-mrv2-3pqr-j5jr",
+      "graph_scopes": [
+        {
+          "version": "3.4.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>dompurify",
+            "apps__desktop>mermaid>dompurify"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "dompurify",
+      "actual_versions": [
+        "3.4.13"
+      ],
+      "ghsa": "GHSA-p98j-92pf-mc4p",
+      "registry_severity": "low",
+      "patched_range": ">=3.4.16",
+      "url": "https://github.com/advisories/GHSA-p98j-92pf-mc4p",
+      "graph_scopes": [
+        {
+          "version": "3.4.13",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>dompurify",
+            "apps__desktop>mermaid>dompurify"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-333x-w4r6-6crp",
+      "registry_severity": "low",
+      "patched_range": ">=3.1.9",
+      "url": "https://github.com/advisories/GHSA-333x-w4r6-6crp",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-5jgf-p345-68v8",
+      "registry_severity": "high",
+      "patched_range": ">=3.1.6",
+      "url": "https://github.com/advisories/GHSA-5jgf-p345-68v8",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-f65p-4m7j-42xc",
+      "registry_severity": "high",
+      "patched_range": ">=3.1.6",
+      "url": "https://github.com/advisories/GHSA-f65p-4m7j-42xc",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-fph4-wmhf-6fwf",
+      "registry_severity": "high",
+      "patched_range": ">=3.1.6",
+      "url": "https://github.com/advisories/GHSA-fph4-wmhf-6fwf",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-hrr3-gc8f-f4qj",
+      "registry_severity": "moderate",
+      "patched_range": ">=3.1.8",
+      "url": "https://github.com/advisories/GHSA-hrr3-gc8f-f4qj",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-jqff-g426-hqxp",
+      "registry_severity": "high",
+      "patched_range": ">=3.1.6",
+      "url": "https://github.com/advisories/GHSA-jqff-g426-hqxp",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-qw65-cvwx-89v3",
+      "registry_severity": "high",
+      "patched_range": ">=3.1.7",
+      "url": "https://github.com/advisories/GHSA-qw65-cvwx-89v3",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-w74x-v6f9-j3xg",
+      "registry_severity": "moderate",
+      "patched_range": ">=3.1.9",
+      "url": "https://github.com/advisories/GHSA-w74x-v6f9-j3xg",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-wjr9-j795-jxcr",
+      "registry_severity": "moderate",
+      "patched_range": ">=3.1.9",
+      "url": "https://github.com/advisories/GHSA-wjr9-j795-jxcr",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "fast-uri",
+      "actual_versions": [
+        "3.1.5"
+      ],
+      "ghsa": "GHSA-xhq7-xmqj-769h",
+      "registry_severity": "low",
+      "patched_range": ">=3.1.9",
+      "url": "https://github.com/advisories/GHSA-xhq7-xmqj-769h",
+      "graph_scopes": [
+        {
+          "version": "3.1.5",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>ajv>fast-uri",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>ajv>fast-uri"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "http-cache-semantics",
+      "actual_versions": [
+        "4.2.0"
+      ],
+      "ghsa": "GHSA-ch52-4w7c-c8xp",
+      "registry_severity": "high",
+      "patched_range": ">=4.3.0",
+      "url": "https://github.com/advisories/GHSA-ch52-4w7c-c8xp",
+      "graph_scopes": [
+        {
+          "version": "4.2.0",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>@electron/get>got>cacheable-request>http-cache-semantics",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>@electron/get>got>cacheable-request>http-cache-semantics"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "js-yaml",
+      "actual_versions": [
+        "4.3.1"
+      ],
+      "ghsa": "GHSA-2883-xcg3-v3hh",
+      "registry_severity": "high",
+      "patched_range": ">=4.3.2",
+      "url": "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+      "graph_scopes": [
+        {
+          "version": "4.3.1",
+          "dev": false,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>electron-builder>app-builder-lib>builder-util>js-yaml",
+            "apps__desktop>electron-builder>app-builder-lib>dmg-builder>builder-util>js-yaml",
+            "apps__desktop>electron-builder>app-builder-lib>dmg-builder>js-yaml",
+            "apps__desktop>electron-builder>app-builder-lib>electron-builder-squirrel-windows>builder-util>js-yaml",
+            "apps__desktop>electron-builder>app-builder-lib>electron-publish>builder-util>js-yaml",
+            "apps__desktop>electron-builder>app-builder-lib>js-yaml",
+            "apps__desktop>electron-builder>builder-util>js-yaml",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>builder-util>js-yaml",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-builder-squirrel-windows>builder-util>js-yaml",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>electron-publish>builder-util>js-yaml",
+            "apps__desktop>electron-builder>dmg-builder>app-builder-lib>js-yaml",
+            "apps__desktop>electron-builder>dmg-builder>builder-util>js-yaml",
+            "apps__desktop>electron-builder>dmg-builder>js-yaml",
+            "apps__desktop>electron-updater>js-yaml"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "katex",
+      "actual_versions": [
+        "0.16.47"
+      ],
+      "ghsa": "GHSA-238p-pmpm-9mq7",
+      "registry_severity": "low",
+      "patched_range": ">=0.18.2",
+      "url": "https://github.com/advisories/GHSA-238p-pmpm-9mq7",
+      "graph_scopes": [
+        {
+          "version": "0.16.47",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>katex",
+            "apps__desktop>mermaid>katex",
+            "apps__desktop>rehype-katex>katex",
+            "apps__desktop>remark-math>micromark-extension-math>katex"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "source-map-js",
+      "actual_versions": [
+        "1.2.1"
+      ],
+      "ghsa": "GHSA-68fv-2mgg-jv7q",
+      "registry_severity": "high",
+      "patched_range": ">=1.2.2",
+      "url": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q",
+      "graph_scopes": [
+        {
+          "version": "1.2.1",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>@tailwindcss/vite>@tailwindcss/node>source-map-js",
+            "apps__desktop>@tailwindcss/vite>vite>postcss>source-map-js",
+            "apps__desktop>@vitejs/plugin-react>vite>postcss>source-map-js",
+            "apps__desktop>electron-vite>vite>postcss>source-map-js",
+            "apps__desktop>vite>postcss>source-map-js",
+            "apps__pi-host>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "apps__pi-host>vitest>vite>postcss>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vite>postcss>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>@vitejs/plugin-vue>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>@vueuse/core>@vueuse/shared>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/core>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>@vueuse/core>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>@vueuse/core>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>@vueuse/shared>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/core>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>@vueuse/integrations>@vueuse/shared>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>@vueuse/integrations>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>postcss>source-map-js",
+            "docs>vitepress>vite>postcss>source-map-js",
+            "docs>vitepress>vue>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>vue>@vue/compiler-sfc>@vue/compiler-core>source-map-js",
+            "docs>vitepress>vue>@vue/compiler-sfc>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>vue>@vue/compiler-sfc>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "docs>vitepress>vue>@vue/compiler-sfc>postcss>source-map-js",
+            "docs>vitepress>vue>@vue/compiler-sfc>source-map-js",
+            "docs>vitepress>vue>@vue/server-renderer>@vue/compiler-ssr>@vue/compiler-dom>@vue/compiler-core>source-map-js",
+            "packages__agent-host>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__agent-host>vitest>vite>postcss>source-map-js",
+            "packages__agent-runtime>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__agent-runtime>vitest>vite>postcss>source-map-js",
+            "packages__host-runtime>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__host-runtime>vitest>vite>postcss>source-map-js",
+            "packages__i18n>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__i18n>vitest>vite>postcss>source-map-js",
+            "packages__plugin-devkit>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__plugin-devkit>vitest>vite>postcss>source-map-js",
+            "packages__plugin-sdk>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__plugin-sdk>vitest>vite>postcss>source-map-js",
+            "packages__racp>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__racp>vitest>vite>postcss>source-map-js",
+            "packages__shared>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__shared>vitest>vite>postcss>source-map-js",
+            "packages__voice-runtime>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "packages__voice-runtime>vitest>vite-node>vite>postcss>source-map-js",
+            "packages__voice-runtime>vitest>vite>postcss>source-map-js"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "tinypool",
+      "actual_versions": [
+        "1.1.1"
+      ],
+      "ghsa": "GHSA-5gmw-xhrv-c9v3",
+      "registry_severity": "critical",
+      "patched_range": ">=2.1.1",
+      "url": "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+      "graph_scopes": [
+        {
+          "version": "1.1.1",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "packages__voice-runtime>vitest>tinypool"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "tinypool",
+      "actual_versions": [
+        "1.1.1"
+      ],
+      "ghsa": "GHSA-85c8-ppgw-ccpr",
+      "registry_severity": "critical",
+      "patched_range": ">=2.1.2",
+      "url": "https://github.com/advisories/GHSA-85c8-ppgw-ccpr",
+      "graph_scopes": [
+        {
+          "version": "1.1.1",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "packages__voice-runtime>vitest>tinypool"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "6.4.3"
+      ],
+      "ghsa": "GHSA-587h-7wmj-h5pm",
+      "registry_severity": "high",
+      "patched_range": ">=6.4.4",
+      "url": "https://github.com/advisories/GHSA-587h-7wmj-h5pm",
+      "graph_scopes": [
+        {
+          "version": "6.4.3",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "docs>vitepress>@vitejs/plugin-vue>vite",
+            "docs>vitepress>vite",
+            "packages__voice-runtime>vitest>@vitest/mocker>vite",
+            "packages__voice-runtime>vitest>vite",
+            "packages__voice-runtime>vitest>vite-node>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "7.3.6"
+      ],
+      "ghsa": "GHSA-587h-7wmj-h5pm",
+      "registry_severity": "high",
+      "patched_range": ">=7.3.7",
+      "url": "https://github.com/advisories/GHSA-587h-7wmj-h5pm",
+      "graph_scopes": [
+        {
+          "version": "7.3.6",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>@tailwindcss/vite>vite",
+            "apps__desktop>@vitejs/plugin-react>vite",
+            "apps__desktop>electron-vite>vite",
+            "apps__desktop>vite",
+            "apps__pi-host>vitest>@vitest/mocker>vite",
+            "apps__pi-host>vitest>vite",
+            "packages__agent-host>vitest>@vitest/mocker>vite",
+            "packages__agent-host>vitest>vite",
+            "packages__agent-runtime>vitest>@vitest/mocker>vite",
+            "packages__agent-runtime>vitest>vite",
+            "packages__host-runtime>vitest>@vitest/mocker>vite",
+            "packages__host-runtime>vitest>vite",
+            "packages__i18n>vitest>@vitest/mocker>vite",
+            "packages__i18n>vitest>vite",
+            "packages__plugin-devkit>vitest>@vitest/mocker>vite",
+            "packages__plugin-devkit>vitest>vite",
+            "packages__plugin-sdk>vitest>@vitest/mocker>vite",
+            "packages__plugin-sdk>vitest>vite",
+            "packages__racp>vitest>@vitest/mocker>vite",
+            "packages__racp>vitest>vite",
+            "packages__shared>vitest>@vitest/mocker>vite",
+            "packages__shared>vitest>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "6.4.3"
+      ],
+      "ghsa": "GHSA-698v-4r3x-3vcv",
+      "registry_severity": "moderate",
+      "patched_range": ">=6.4.4",
+      "url": "https://github.com/advisories/GHSA-698v-4r3x-3vcv",
+      "graph_scopes": [
+        {
+          "version": "6.4.3",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "docs>vitepress>@vitejs/plugin-vue>vite",
+            "docs>vitepress>vite",
+            "packages__voice-runtime>vitest>@vitest/mocker>vite",
+            "packages__voice-runtime>vitest>vite",
+            "packages__voice-runtime>vitest>vite-node>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "7.3.6"
+      ],
+      "ghsa": "GHSA-698v-4r3x-3vcv",
+      "registry_severity": "moderate",
+      "patched_range": ">=7.3.7",
+      "url": "https://github.com/advisories/GHSA-698v-4r3x-3vcv",
+      "graph_scopes": [
+        {
+          "version": "7.3.6",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>@tailwindcss/vite>vite",
+            "apps__desktop>@vitejs/plugin-react>vite",
+            "apps__desktop>electron-vite>vite",
+            "apps__desktop>vite",
+            "apps__pi-host>vitest>@vitest/mocker>vite",
+            "apps__pi-host>vitest>vite",
+            "packages__agent-host>vitest>@vitest/mocker>vite",
+            "packages__agent-host>vitest>vite",
+            "packages__agent-runtime>vitest>@vitest/mocker>vite",
+            "packages__agent-runtime>vitest>vite",
+            "packages__host-runtime>vitest>@vitest/mocker>vite",
+            "packages__host-runtime>vitest>vite",
+            "packages__i18n>vitest>@vitest/mocker>vite",
+            "packages__i18n>vitest>vite",
+            "packages__plugin-devkit>vitest>@vitest/mocker>vite",
+            "packages__plugin-devkit>vitest>vite",
+            "packages__plugin-sdk>vitest>@vitest/mocker>vite",
+            "packages__plugin-sdk>vitest>vite",
+            "packages__racp>vitest>@vitest/mocker>vite",
+            "packages__racp>vitest>vite",
+            "packages__shared>vitest>@vitest/mocker>vite",
+            "packages__shared>vitest>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "6.4.3"
+      ],
+      "ghsa": "GHSA-9jrq-w75r-8gcw",
+      "registry_severity": "low",
+      "patched_range": ">=6.4.4",
+      "url": "https://github.com/advisories/GHSA-9jrq-w75r-8gcw",
+      "graph_scopes": [
+        {
+          "version": "6.4.3",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "docs>vitepress>@vitejs/plugin-vue>vite",
+            "docs>vitepress>vite",
+            "packages__voice-runtime>vitest>@vitest/mocker>vite",
+            "packages__voice-runtime>vitest>vite",
+            "packages__voice-runtime>vitest>vite-node>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "7.3.6"
+      ],
+      "ghsa": "GHSA-9jrq-w75r-8gcw",
+      "registry_severity": "low",
+      "patched_range": ">=7.3.7",
+      "url": "https://github.com/advisories/GHSA-9jrq-w75r-8gcw",
+      "graph_scopes": [
+        {
+          "version": "7.3.6",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>@tailwindcss/vite>vite",
+            "apps__desktop>@vitejs/plugin-react>vite",
+            "apps__desktop>electron-vite>vite",
+            "apps__desktop>vite",
+            "apps__pi-host>vitest>@vitest/mocker>vite",
+            "apps__pi-host>vitest>vite",
+            "packages__agent-host>vitest>@vitest/mocker>vite",
+            "packages__agent-host>vitest>vite",
+            "packages__agent-runtime>vitest>@vitest/mocker>vite",
+            "packages__agent-runtime>vitest>vite",
+            "packages__host-runtime>vitest>@vitest/mocker>vite",
+            "packages__host-runtime>vitest>vite",
+            "packages__i18n>vitest>@vitest/mocker>vite",
+            "packages__i18n>vitest>vite",
+            "packages__plugin-devkit>vitest>@vitest/mocker>vite",
+            "packages__plugin-devkit>vitest>vite",
+            "packages__plugin-sdk>vitest>@vitest/mocker>vite",
+            "packages__plugin-sdk>vitest>vite",
+            "packages__racp>vitest>@vitest/mocker>vite",
+            "packages__racp>vitest>vite",
+            "packages__shared>vitest>@vitest/mocker>vite",
+            "packages__shared>vitest>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "6.4.3"
+      ],
+      "ghsa": "GHSA-r825-w8mm-5pxw",
+      "registry_severity": "moderate",
+      "patched_range": ">=6.4.4",
+      "url": "https://github.com/advisories/GHSA-r825-w8mm-5pxw",
+      "graph_scopes": [
+        {
+          "version": "6.4.3",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "docs>vitepress>@vitejs/plugin-vue>vite",
+            "docs>vitepress>vite",
+            "packages__voice-runtime>vitest>@vitest/mocker>vite",
+            "packages__voice-runtime>vitest>vite",
+            "packages__voice-runtime>vitest>vite-node>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "7.3.6"
+      ],
+      "ghsa": "GHSA-r825-w8mm-5pxw",
+      "registry_severity": "moderate",
+      "patched_range": ">=7.3.7",
+      "url": "https://github.com/advisories/GHSA-r825-w8mm-5pxw",
+      "graph_scopes": [
+        {
+          "version": "7.3.6",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>@tailwindcss/vite>vite",
+            "apps__desktop>@vitejs/plugin-react>vite",
+            "apps__desktop>electron-vite>vite",
+            "apps__desktop>vite",
+            "apps__pi-host>vitest>@vitest/mocker>vite",
+            "apps__pi-host>vitest>vite",
+            "packages__agent-host>vitest>@vitest/mocker>vite",
+            "packages__agent-host>vitest>vite",
+            "packages__agent-runtime>vitest>@vitest/mocker>vite",
+            "packages__agent-runtime>vitest>vite",
+            "packages__host-runtime>vitest>@vitest/mocker>vite",
+            "packages__host-runtime>vitest>vite",
+            "packages__i18n>vitest>@vitest/mocker>vite",
+            "packages__i18n>vitest>vite",
+            "packages__plugin-devkit>vitest>@vitest/mocker>vite",
+            "packages__plugin-devkit>vitest>vite",
+            "packages__plugin-sdk>vitest>@vitest/mocker>vite",
+            "packages__plugin-sdk>vitest>vite",
+            "packages__racp>vitest>@vitest/mocker>vite",
+            "packages__racp>vitest>vite",
+            "packages__shared>vitest>@vitest/mocker>vite",
+            "packages__shared>vitest>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "6.4.3"
+      ],
+      "ghsa": "GHSA-rq7h-c2jc-7f22",
+      "registry_severity": "moderate",
+      "patched_range": ">=6.4.4",
+      "url": "https://github.com/advisories/GHSA-rq7h-c2jc-7f22",
+      "graph_scopes": [
+        {
+          "version": "6.4.3",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "docs>vitepress>@vitejs/plugin-vue>vite",
+            "docs>vitepress>vite",
+            "packages__voice-runtime>vitest>@vitest/mocker>vite",
+            "packages__voice-runtime>vitest>vite",
+            "packages__voice-runtime>vitest>vite-node>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vite",
+      "actual_versions": [
+        "7.3.6"
+      ],
+      "ghsa": "GHSA-rq7h-c2jc-7f22",
+      "registry_severity": "moderate",
+      "patched_range": ">=7.3.7",
+      "url": "https://github.com/advisories/GHSA-rq7h-c2jc-7f22",
+      "graph_scopes": [
+        {
+          "version": "7.3.6",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>@tailwindcss/vite>vite",
+            "apps__desktop>@vitejs/plugin-react>vite",
+            "apps__desktop>electron-vite>vite",
+            "apps__desktop>vite",
+            "apps__pi-host>vitest>@vitest/mocker>vite",
+            "apps__pi-host>vitest>vite",
+            "packages__agent-host>vitest>@vitest/mocker>vite",
+            "packages__agent-host>vitest>vite",
+            "packages__agent-runtime>vitest>@vitest/mocker>vite",
+            "packages__agent-runtime>vitest>vite",
+            "packages__host-runtime>vitest>@vitest/mocker>vite",
+            "packages__host-runtime>vitest>vite",
+            "packages__i18n>vitest>@vitest/mocker>vite",
+            "packages__i18n>vitest>vite",
+            "packages__plugin-devkit>vitest>@vitest/mocker>vite",
+            "packages__plugin-devkit>vitest>vite",
+            "packages__plugin-sdk>vitest>@vitest/mocker>vite",
+            "packages__plugin-sdk>vitest>vite",
+            "packages__racp>vitest>@vitest/mocker>vite",
+            "packages__racp>vitest>vite",
+            "packages__shared>vitest>@vitest/mocker>vite",
+            "packages__shared>vitest>vite"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "vitest",
+      "actual_versions": [
+        "3.2.7",
+        "4.1.10"
+      ],
+      "ghsa": "GHSA-82fw-gwwq-j7x9",
+      "registry_severity": "moderate",
+      "patched_range": ">=4.1.11",
+      "url": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+      "graph_scopes": [
+        {
+          "version": "3.2.7",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "packages__voice-runtime>vitest"
+          ]
+        },
+        {
+          "version": "4.1.10",
+          "dev": true,
+          "optional": false,
+          "bundled": false,
+          "paths": [
+            "apps__pi-host>vitest",
+            "packages__agent-host>vitest",
+            "packages__agent-runtime>vitest",
+            "packages__host-runtime>vitest",
+            "packages__i18n>vitest",
+            "packages__plugin-devkit>vitest",
+            "packages__plugin-sdk>vitest",
+            "packages__racp>vitest",
+            "packages__shared>vitest"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "zod",
+      "actual_versions": [
+        "4.4.3"
+      ],
+      "ghsa": "GHSA-mrhx-c7xc-m3w5",
+      "registry_severity": "high",
+      "patched_range": ">=4.6.6",
+      "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+      "graph_scopes": [
+        {
+          "version": "4.4.3",
+          "dev": false,
+          "optional": true,
+          "bundled": false,
+          "paths": [
+            "apps__desktop>@earendil-works/pi-ai>@anthropic-ai/sdk>zod",
+            "apps__desktop>@earendil-works/pi-ai>openai>zod",
+            "packages__agent-runtime>@earendil-works/pi-agent-core>@earendil-works/pi-ai>@anthropic-ai/sdk>zod",
+            "packages__agent-runtime>@earendil-works/pi-agent-core>@earendil-works/pi-ai>openai>zod",
+            "packages__agent-runtime>@earendil-works/pi-ai>@anthropic-ai/sdk>zod",
+            "packages__agent-runtime>@earendil-works/pi-ai>openai>zod",
+            "packages__agent-runtime>@earendil-works/pi-coding-agent>@earendil-works/pi-agent-core>@earendil-works/pi-ai>@anthropic-ai/sdk>zod",
+            "packages__agent-runtime>@earendil-works/pi-coding-agent>@earendil-works/pi-agent-core>@earendil-works/pi-ai>openai>zod",
+            "packages__agent-runtime>@earendil-works/pi-coding-agent>@earendil-works/pi-ai>@anthropic-ai/sdk>zod",
+            "packages__agent-runtime>@earendil-works/pi-coding-agent>@earendil-works/pi-ai>openai>zod"
+          ]
+        }
+      ]
+    }
+  ]
+}
