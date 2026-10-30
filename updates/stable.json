@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "version": "1.1.4",
+  "version": "1.2.0",
   "notes": {
-    "en": "• Prevent account profile sync from failing when credentials renew concurrently.\n• Keep Refresh available after an authorized sign-in encounters a sync failure, with more specific error guidance.\n• Preserve complete model IDs while safely handling long optional aliases. Existing API providers, local conversations, permissions and manual installation remain. This does not guarantee that sessions can never expire.",
-    "zh-CN": "• 修复账号资料同步与凭据续期并发时可能导致账号暂不可用的问题。\n• 授权后同步失败时保留刷新入口，并提供更具体的错误提示。\n• 保留完整模型 ID，安全处理过长别名，继续保留原有 API 配置、本地会话、权限设置和手动安装方式；并不代表账号永远不会过期。"
+    "en": "• Configure account model aliases, context/output limits and thinking settings; local overrides survive refresh and restart.\n• Use website-authorized image generation/edit models with operation-bound credentials. Server limits remain authoritative and paid requests are not automatically replayed.\n• Improve Windows composed rounded edges and avatar sizing. Existing API providers, conversations and manual installation remain.",
+    "zh-CN": "• 登录账号后可调整模型别名、上下文、输出长度和思考设置，刷新与重启保留本地设置。\n• 直接使用网站授权的生图与编辑模型；仍遵守网站权限和限额，不会自动重试付费图片请求。\n• 改善 Windows 圆角合成边缘与头像大小，保留原有 API 配置、会话和手动安装方式。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.4"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.2.0"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.4"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.2.0"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.1.4"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.2.0"
     }
   }
 }
