@@ -1,0 +1,62 @@
+{
+  "version": "1.3.1",
+  "releaseUrl": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.1",
+  "assets": [
+    {
+      "name": "WcSdAi-1.3.1-macos-arm64-unsigned.dmg",
+      "role": "macos-arm64",
+      "kind": "installer",
+      "sha256": "f85b39e240bf0b69033e6711f0c1f1205b20480e880997f40eca09e958823c56",
+      "size": 135503437,
+      "sourceCommit": "7c9f08fc93bd5aaa68733e827d8aab97cfeee07e"
+    },
+    {
+      "name": "WcSdAi-1.3.1-macos-arm64-unsigned.zip",
+      "role": "macos-arm64",
+      "kind": "complete-artifact",
+      "sha256": "58b057fa858392979358d5df0cc519f6f2527fdca20732f77642f12d20887e01",
+      "size": 159950081,
+      "sourceCommit": "7c9f08fc93bd5aaa68733e827d8aab97cfeee07e"
+    },
+    {
+      "name": "WcSdAi-1.3.1-macos-x64-unsigned.dmg",
+      "role": "macos-x64",
+      "kind": "installer",
+      "sha256": "cfde11f9cc8011a6917b41bbbb55f648e490c2c741f9d86b4a22094a0173b16b",
+      "size": 141678456,
+      "sourceCommit": "7c9f08fc93bd5aaa68733e827d8aab97cfeee07e"
+    },
+    {
+      "name": "WcSdAi-1.3.1-macos-x64-unsigned.zip",
+      "role": "macos-x64",
+      "kind": "complete-artifact",
+      "sha256": "90f58b44c7f4ea5ec6ae40f2bfe1cf918c9db8691e32c836515568228493508e",
+      "size": 166120069,
+      "sourceCommit": "7c9f08fc93bd5aaa68733e827d8aab97cfeee07e"
+    },
+    {
+      "name": "WcSdAi-1.3.1-source-7c9f08fc93bd.tar.gz",
+      "role": "source",
+      "kind": "corresponding-source",
+      "sha256": "c0578383e1dcef4d03ca865b89409ca267513da6fed93d495bc197da8cc9dcba",
+      "size": 24643262,
+      "sourceCommit": "7c9f08fc93bd5aaa68733e827d8aab97cfeee07e"
+    },
+    {
+      "name": "WcSdAi-1.3.1-windows-x64-unsigned.exe",
+      "role": "windows-x64",
+      "kind": "installer",
+      "sha256": "c9584ab51a6a91b4453e662bc636357c194059a8dd6b29669fb2dbff0b786eed",
+      "size": 118810412,
+      "sourceCommit": "7c9f08fc93bd5aaa68733e827d8aab97cfeee07e"
+    },
+    {
+      "name": "WcSdAi-1.3.1-windows-x64-unsigned.zip",
+      "role": "windows-x64",
+      "kind": "complete-artifact",
+      "sha256": "0979fb5f39e4e2c887f2f251f18224156767903136c9d8258b26da69afd1ec67",
+      "size": 143624665,
+      "sourceCommit": "7c9f08fc93bd5aaa68733e827d8aab97cfeee07e"
+    }
+  ]
+}

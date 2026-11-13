@@ -15,11 +15,11 @@ jobs:
       - name: Show the public release download entry
         shell: bash
         env:
-          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v1.3.0
+          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v1.3.1
         run: |
           printf '# WcSdAi downloads\n\n' >> "$GITHUB_STEP_SUMMARY"
-          printf '[Download WcSdAi 1.3.0 installers and corresponding source](%s)\n\n' "$RELEASE_URL" >> "$GITHUB_STEP_SUMMARY"
-          printf 'Main download page: https://api.90z.cn/download . WcSdAi 1.3.0 adds checkable task results, more reliable browser actions and optional independent Git workcopies with explicit merge confirmation. Existing API providers and conversations remain.\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf '[Download WcSdAi 1.3.1 installers and corresponding source](%s)\n\n' "$RELEASE_URL" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Main download page: https://api.90z.cn/download . WcSdAi 1.3.1 fixes authorized Grok routing, preserves models during temporary outages and keeps personalized aliases visible. Website administrator usage records distinguish users and devices. Existing accounts, billing, API providers, personal settings and conversations remain.\n\n' >> "$GITHUB_STEP_SUMMARY"
           printf 'Read the release verification and any hold notices before installation.\n\n' >> "$GITHUB_STEP_SUMMARY"
           printf 'Updates require a manual download and installation; the app does not install updates automatically.\n\n' >> "$GITHUB_STEP_SUMMARY"
           printf 'This workflow provides download directions only. It does not build or publish an application.\n' >> "$GITHUB_STEP_SUMMARY"
