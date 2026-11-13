@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "version": "1.3.0",
+  "version": "1.3.1",
   "notes": {
-    "en": "• Record task criteria and actual verification results; unrun, failed and changed-after-check states stay visible.\n• Improve browser input, click readiness and cancellation.\n• Opt into independent Git workcopies, review changes and explicitly confirm safe merges. Original accounts, APIs, conversations and permissions remain; updates are manual.",
-    "zh-CN": "• 展示任务验收条件和真实测试结果，区分未检查、失败以及检查后再次修改。\n• 改善浏览器输入、点击就绪检查与取消处理。\n• 可选择独立 Git 工作副本，预览后明确确认合并。保留原有账号、API、会话和权限；更新仍需手动安装。"
+    "en": "• Fix account-authorized Grok requests while preserving manually configured API providers.\n• Keep authorized models visible during temporary upstream outages and preserve personal parameters.\n• Group equivalent aliases while retaining saved IDs and independently customized models.\n• Show the owning user and desktop device in administrator usage records. Accounts, billing and conversations remain; updates are installed manually.",
+    "zh-CN": "• 修复账号授权的 Grok 调用，保留手动配置 API 的原有行为。\n• 上游暂时不可用时保留已授权模型和个人参数，明确显示状态。\n• 合并展示等效别名，保留原有模型 ID 和独立调参的模型。\n• 管理员使用记录可区分用户和客户端设备。保留账号、计费和会话；更新仍需手动安装。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.0"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.1"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.0"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.1"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.0"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.1"
     }
   }
 }
