@@ -1,31 +1,24 @@
 # WcSdAi downloads and updates
 
 > [!NOTE]
-> **WcSdAi 1.3.2 was published on 2026-11-20T04:38:02Z.**
-> All three native platforms and all 30 required package/evidence artifacts passed qualification. GitHub's eight public assets passed size/digest-metadata checks, anonymous HTTP availability checks and exact checksum-file comparison. Website mirror verification and stable-feed activation are recorded separately in the [verification report](releases/1.3.2-verification.md). Do not install held version 1.1.0 or downgrade as a security workaround.
+> **WcSdAi 1.4.0 was published on GitHub at 2026-11-20T07:51:22Z.**
+> The eight uploaded files match the qualified local release receipt in size and GitHub digest metadata, checked at 2026-11-20T07:51:23.177627+00:00. This is not a claim of anonymous full-file downloads or website/feed activation; their actual status is recorded separately in the [verification report](releases/1.4.0-verification.md). Held version 1.1.0 remains unavailable; do not downgrade as a security workaround.
 
 This public repository provides installers, stable update metadata, corresponding application source and licenses. Active development and its history live in the private `WcSdAi-Desktop-Source` repository. Published application source remains public.
 
-[Website downloads](https://api.90z.cn/download) · [GitHub release 1.3.2](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.2) · [简体中文](README.zh-CN.md)
+[Website downloads](https://api.90z.cn/download) · [GitHub release 1.4.0](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.4.0) · [简体中文](README.zh-CN.md)
 
-## 1.3.2 output files and Windows settings
+## 1.4.0 in-app updates
 
-- Reveal local transcript outputs in their containing system folder. Repair Windows paths, file/sandbox links, special filenames and session workcopy references. Explicit image preview remains available; missing or restricted paths report a clear error.
-- Keep the Windows interface-format picker above the settings dialog so its supported options can be selected, saved and reopened. Website-managed models retain their website-issued protocol.
-- Keep Recharge, Refresh and Sign out on one aligned line, moving the complete group below the description in narrow layouts.
+- View a newer version and its release notes, then select **Download update** in the client. Packages come from the official WcSdAi website.
+- After verification, select **Install and restart** when you are ready. Save or clear unsent drafts, let tasks finish, and close editors or active plugin/remote sessions first. If safe preparation cannot complete, installation is blocked and the client explains the next step.
+- Downloading alone does not authorize installation. Closing the window or quitting normally while a package is only cached does not install it.
 
-Existing accounts, billing, API configurations, personal model parameters and sessions remain. The account-model reliability improvements from 1.3.1 and agent/workcopy features from 1.3.0 remain included. This release does not redeploy the API backend.
+Existing accounts, billing, API configurations, personal model parameters and conversations remain. The fixes and agent/workcopy features in earlier releases remain included. This update does not require deleting the application-data directory or re-entering API credentials.
 
-All three installers correspond to source `ed3cd0b02e37bae66b6e921e903b9384b937d4d1`. See the
-[1.3.2 verification report](releases/1.3.2-verification.md) for actual native
-results and remaining limits. Existing API providers, conversations, account
-access and permission settings are preserved. Installation remains manual.
+All three installers correspond to source `6dfae19f0b5d12d96de4c810fa77a2175628eb4c`. See the [1.4.0 verification report](releases/1.4.0-verification.md) for the actual native qualification and publication evidence, including website and update-feed status. GitHub release metadata alone does not establish website availability.
 
-The Electron 43.8.3 and network security repairs from 1.1.1 remain included.
-This release does not claim that all dependency advisories are resolved. The
-[1.1.1 verification](releases/1.1.1-verification.md) and
-[historical dependency audit](releases/1.1.1-dependencies.json) remain available;
-that audit is historical evidence, not a new 1.3.2 audit run.
+The Electron 43.8.3 and network security repairs from 1.1.1 remain included. This release does not claim that all dependency advisories are resolved. The [1.1.1 verification](releases/1.1.1-verification.md) and [historical dependency audit](releases/1.1.1-dependencies.json) remain available; that audit is not a new 1.4.0 audit run.
 
 ## Sign in to your WcSdAi account
 
@@ -39,7 +32,7 @@ Account settings cover supported conversational models and website-authorized im
 Existing API providers (BYOK) still work independently. Signing out does not delete
 local conversations; website settings can review and revoke desktop authorizations.
 
-## 1.3.2 downloads
+## 1.4.0 downloads
 
 Use the [website download page](https://api.90z.cn/download) as the main entry.
 The direct GitHub mirror links below remain available for existing clients and
@@ -48,12 +41,12 @@ for users who prefer GitHub.
 <!-- RELEASE-ASSETS:START -->
 | Platform | Installer | SHA-256 |
 | --- | --- | --- |
-| macOS Apple Silicon (arm64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/WcSdAi-1.3.2-macos-arm64-unsigned.dmg) | `600bdc66b27292e9386cc60a801e2de4c0a862e85da9e696696d9fa00d4e8ef4` |
-| macOS Intel (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/WcSdAi-1.3.2-macos-x64-unsigned.dmg) | `5491101bf8e0207291b1cfedbe83d6b93bab3d2be3680b221ba7ff799a1caf4a` |
-| Windows (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/WcSdAi-1.3.2-windows-x64-unsigned.exe) | `85f9888a3a8206c3c9edc7d9650aef33aefbbba97d352e9d0a23f0d86b61bc68` |
+| macOS Apple Silicon (arm64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/WcSdAi-1.4.0-macos-arm64-unsigned.dmg) | `69e3497131a77f529ca4bcc174acc5e9a4a9f1c2b21f55d5350123cf5976bdb4` |
+| macOS Intel (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/WcSdAi-1.4.0-macos-x64-unsigned.dmg) | `976d59d436d19a28a836a51e55712b08d71a4da9ab38fd84c1d3335c94fd903f` |
+| Windows (x64) | [Download](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/WcSdAi-1.4.0-windows-x64-unsigned.exe) | `be2062cea8c7f3e9055dc993e118954f358f6ac317ad090a82c94746173c55ab` |
 <!-- RELEASE-ASSETS:END -->
 
-[SHA256SUMS](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/SHA256SUMS) covers all installers and archives. Exact sizes, hashes and source commits are recorded in [release metadata](releases/1.3.2.json).
+[SHA256SUMS](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/SHA256SUMS) covers all installers and archives. Exact sizes, hashes and source commits are recorded in [release metadata](releases/1.4.0.json).
 
 These are **unsigned team builds**. macOS ad-hoc integrity seals are not Apple
 Developer ID signatures or notarization; Windows installers have no publisher
@@ -67,15 +60,15 @@ archive independently of the private development repository.
 <!-- RELEASE-SOURCES:START -->
 | Platforms | Corresponding source | Commit | SHA-256 |
 | --- | --- | --- | --- |
-| macOS arm64, macOS x64, Windows x64 | [Application source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/WcSdAi-1.3.2-source-ed3cd0b02e37.tar.gz) | `ed3cd0b02e37bae66b6e921e903b9384b937d4d1` | `489a39658c3584bcfbebd5e997a45aa19b392b09e1f0aaab7970518bc0932f74` |
+| macOS arm64, macOS x64, Windows x64 | [Application source](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/WcSdAi-1.4.0-source-6dfae19f0b5d.tar.gz) | `6dfae19f0b5d12d96de4c810fa77a2175628eb4c` | `16433774b76d7269127ed363b5939cd5a25440800e6fe7655c39b45e840182da` |
 <!-- RELEASE-SOURCES:END -->
 
 Each full platform ZIP contains its installer, matching source, build information,
 checksums and license/notice files. These ZIPs are not portable applications.
 
-- [macos-arm64 full release archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/WcSdAi-1.3.2-macos-arm64-unsigned.zip)
-- [macos-x64 full release archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/WcSdAi-1.3.2-macos-x64-unsigned.zip)
-- [windows-x64 full release archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.3.2/WcSdAi-1.3.2-windows-x64-unsigned.zip)
+- [macos-arm64 full release archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/WcSdAi-1.4.0-macos-arm64-unsigned.zip)
+- [macos-x64 full release archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/WcSdAi-1.4.0-macos-x64-unsigned.zip)
+- [windows-x64 full release archive](https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/download/v1.4.0/WcSdAi-1.4.0-windows-x64-unsigned.zip)
 
 **GitHub's automatic “Source code (zip)” and “Source code (tar.gz)” downloads contain this public distribution repository's metadata only. Use the explicitly named application source archive above.**
 
@@ -83,21 +76,23 @@ WcSdAi is based on [PI-Desktop](https://github.com/vastsa/PI-Desktop). Its upstr
 
 ## Existing clients and updates
 
-The public repository name and `updates/stable.json` path are unchanged. The
-1.3.2 feed retains the **GitHub release page** as its destination for older
-clients. Publication and mirror verification receipts, including the stable-feed
-activation time, are recorded in the [verification report](releases/1.3.2-verification.md).
+**Coming from 1.3.2 or earlier? Install 1.4.0 manually once from the [official download page](https://api.90z.cn/download).** An older installed client cannot gain the new installer through update metadata alone. After this first installation, later supported releases can be downloaded and installed inside the client with your confirmation.
 
-Applications 1.1.3 and later map the validated update action to the fixed official
-website entry. Already installed 1.1.2 and earlier clients keep opening their
-GitHub manifest destination until manually upgraded; new metadata does not alter
-installed code. Downloads require no account or private repository access.
+| Your installation | In-app installation |
+| --- | --- |
+| Mac Apple Silicon (arm64) or Intel (x64) | A normally installed app in a location writable by your account. Do not run it directly from the mounted DMG. |
+| Windows x64, installed for the current user | Supported when Windows registration matches the running copy, including a supported custom installation folder. |
+| Windows installed for all users, portable, or unrecognized installation | Use the official download page and install manually. |
 
-Versions **1.0.2 and later** can check online, display the version and release
-notes, and open the download page. **Updates are installed manually; the client
-does not silently replace the installed application.** Version 1.0.1 needs a
-manual upgrade to gain update checking. Keep the existing data directory.
+The client validates signed update information and package integrity before installation. This release signing is **not Apple Developer ID notarization or a Windows publisher certificate**; existing operating-system security checks still apply.
 
+Once you select **Install and restart**, let the process finish. If the client says native cancellation is unconfirmed, do not force quit; contact [support](mailto:2222223323@qq.com). On Mac, after explicit installation has been authorized and the native installer is ready, a crash or forced process termination may finish that already authorized installation. The app cannot intercept operating-system force termination.
+
+Keep the existing application-data directory. The website remains available for the first upgrade, unsupported installations and recovery. Downloads require no account or access to the private development repository.
+
+The public repository name and legacy `updates/stable.json` path remain unchanged. Versions 1.1.3 through 1.3.2 continue opening the official download page; versions 1.0.2 through 1.1.2 keep opening their GitHub update destination until manually upgraded. Version 1.0.1 needs a manual upgrade. The new signed website feed is separate and does not replace the legacy feed's format.
+
+[1.3.2 verification](releases/1.3.2-verification.md),
 [1.3.1 verification](releases/1.3.1-verification.md),
 [1.3.0 verification](releases/1.3.0-verification.md),
 [1.2.0 verification](releases/1.2.0-verification.md),

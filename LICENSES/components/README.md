@@ -37,3 +37,9 @@ The generator reads only manifests, lockfiles and named notice files. It perform
 no network access, dependency installation, publishing, or license inference for
 missing metadata. Re-run it after lockfile changes or when qualifying a new
 platform and review the resulting diff before distribution.
+
+The macOS in-app updater packages Sparkle 2.10.1 from its pinned official
+distribution. Its complete original `LICENSE` (including bundled component
+notices) is copied to `Contents/Resources/licenses/Sparkle-LICENSE` before
+signing. The native build receipt records archive, addon and license hashes.
+See [the native build contract](../../apps/desktop/native/macos-updater/README.md).
