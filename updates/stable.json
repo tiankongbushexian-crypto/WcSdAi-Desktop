@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "version": "1.3.1",
+  "version": "1.3.2",
   "notes": {
-    "en": "• Fix account-authorized Grok requests while preserving manually configured API providers.\n• Keep authorized models visible during temporary upstream outages and preserve personal parameters.\n• Group equivalent aliases while retaining saved IDs and independently customized models.\n• Show the owning user and desktop device in administrator usage records. Accounts, billing and conversations remain; updates are installed manually.",
-    "zh-CN": "• 修复账号授权的 Grok 调用，保留手动配置 API 的原有行为。\n• 上游暂时不可用时保留已授权模型和个人参数，明确显示状态。\n• 合并展示等效别名，保留原有模型 ID 和独立调参的模型。\n• 管理员使用记录可区分用户和客户端设备。保留账号、计费和会话；更新仍需手动安装。"
+    "en": "• Reveal local output files in their containing folder. Repair Windows paths, special filenames and session workcopy references; missing or restricted paths show an explicit error.\n• Keep Windows interface-format menus above the provider dialog. Website-managed models retain their authorized protocol.\n• Keep Recharge, Refresh and Sign out on one aligned row, moving the complete group below the description in narrow layouts.\n• Preserve accounts, billing, API configurations, personal model parameters and sessions. Installation remains manual; the API backend is unchanged.",
+    "zh-CN": "• 点击对话中的本地输出文件，默认在文件所在文件夹中定位；修复 Windows 路径、中文和特殊文件名、独立工作副本下的链接。文件不存在或超出允许目录时显示明确提示。\n• 修复 Windows 自行添加的 AI 服务中，接口格式菜单被弹窗遮挡的问题。网站管理的模型继续使用网站授权的接口协议。\n• “充值、刷新账号、退出登录”保持一行；窄布局下整组移到说明文字下方。\n• 保留原有账号、计费、API 配置、个人模型参数和会话。更新仍需手动安装，本次不更换 API 网站后端。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.1"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.2"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.1"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.2"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.1"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.2"
     }
   }
 }
