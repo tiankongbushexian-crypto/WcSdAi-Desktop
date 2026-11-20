@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "version": "1.3.2",
+  "version": "1.4.0",
   "notes": {
-    "en": "• Reveal local output files in their containing folder. Repair Windows paths, special filenames and session workcopy references; missing or restricted paths show an explicit error.\n• Keep Windows interface-format menus above the provider dialog. Website-managed models retain their authorized protocol.\n• Keep Recharge, Refresh and Sign out on one aligned row, moving the complete group below the description in narrow layouts.\n• Preserve accounts, billing, API configurations, personal model parameters and sessions. Installation remains manual; the API backend is unchanged.",
-    "zh-CN": "• 点击对话中的本地输出文件，默认在文件所在文件夹中定位；修复 Windows 路径、中文和特殊文件名、独立工作副本下的链接。文件不存在或超出允许目录时显示明确提示。\n• 修复 Windows 自行添加的 AI 服务中，接口格式菜单被弹窗遮挡的问题。网站管理的模型继续使用网站授权的接口协议。\n• “充值、刷新账号、退出登录”保持一行；窄布局下整组移到说明文字下方。\n• 保留原有账号、计费、API 配置、个人模型参数和会话。更新仍需手动安装，本次不更换 API 网站后端。"
+    "en": "• Download verified updates inside WcSdAi and explicitly install and restart when your work is saved.\n• Keep running tasks, pending approvals, drafts and plugin saves protected before installation.\n• Preserve accounts, API configuration, personal model parameters and conversations.\n• macOS arm64/x64 and registered current-user Windows x64 installations are supported. Older clients require one manual installation of 1.4.0; unsupported installations retain the website download route.",
+    "zh-CN": "• 新增内置更新：在客户端查看更新内容、下载安装包，保存工作后点击“安装并重启”。\n• 安装前检查运行中的任务、待确认操作、未发送草稿和插件保存状态；普通退出不会自动安装已下载的更新。\n• 保留账号、API 配置、个人模型参数和全部会话。\n• 支持 Mac Apple 芯片、Mac Intel 和 Windows x64 的当前用户安装。旧版需要手动安装一次 1.4.0；不支持内置安装的环境继续提供官网下载入口。"
   },
   "downloads": {
     "darwin-arm64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.2"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.4.0"
     },
     "darwin-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.2"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.4.0"
     },
     "win32-x64": {
-      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.3.2"
+      "url": "https://github.com/tiankongbushexian-crypto/WcSdAi-Desktop/releases/tag/v1.4.0"
     }
   }
 }
